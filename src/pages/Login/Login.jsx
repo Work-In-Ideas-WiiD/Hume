@@ -200,7 +200,6 @@ const Login = () => {
 									}
 									placeholder="Email"
 									size="small"
-									type="email"
 									id="email"
 									name="email"
 									autoComplete="email"

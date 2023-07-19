@@ -18,11 +18,11 @@ const StyledTableCell = withStyles((theme) => ({
 		fontSize: 17,
 		fontFamily: 'Montserrat-Regular',
 		backgroundColor: APP_CONFIG.mainCollors.backgrounds,
-		color: APP_CONFIG.mainCollors.primary,
+		color: APP_CONFIG.mainCollors.primaryVariant,
 		[theme.breakpoints.down('sm')]: {},
 	},
 	body: {
-		color: APP_CONFIG.mainCollors.primary,
+		color: APP_CONFIG.mainCollors.primaryVariant,
 		fontFamily: 'Montserrat-Regular',
 		fontSize: 15,
 
@@ -63,7 +63,7 @@ const CustomTable = ({
 
 	return (
 		<>
-			<TableContainer className={classes.tableContainer} component={Paper}>
+			<TableContainer className={classes.tableContainer}>
 				<Table
 					className={classes.table}
 					aria-label="customized table"
@@ -75,7 +75,9 @@ const CustomTable = ({
 								<StyledTableCell
 									key={column.headerText}
 									align="center"
-									style={{ color: APP_CONFIG.mainCollors.primary }}
+									style={{
+										color: APP_CONFIG.mainCollors.primaryVariant,
+									}}
 								>
 									{column.headerText}
 								</StyledTableCell>

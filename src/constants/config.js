@@ -16,9 +16,9 @@ export const APP_CONFIG = {
 
 		mainCollors: {
 			primary: '#003DFF',
-			primaryVariant: '#7776BC',
+			primaryVariant: '#1B1464',
 			secondary: '#9D9DC6',
-			backgrounds: '#ECECF4',
+			backgrounds: '#F7F7F7',
 			disabledTextfields: '#E0DFF8',
 			extratoHome: '#302F60',
 			primaryGradient:
@@ -39,7 +39,6 @@ export const APP_CONFIG = {
 		theme: {
 			typography: {
 				fontFamily: 'Montserrat-Regular',
-				color: 'green',
 				/* fontWeight: 'bold', */
 
 				h1: {
@@ -84,7 +83,7 @@ export const APP_CONFIG = {
 						color: '#4C4B97',
 					},
 					label: {
-						color: 'white',
+						color: 'black',
 					},
 					placeholder: {
 						color: 'white',
@@ -121,9 +120,9 @@ export const APP_CONFIG = {
 							'-webkit-padding-end': '15px',
 							'-webkit-padding-start': '15px',
 							'-webkit-background-clip': 'text',
-							'-webkit-color': 'white',
+							'-webkit-color': 'black',
 
-							'-webkit-text-fill-color': 'white !important',
+							'-webkit-text-fill-color': 'black !important',
 						},
 
 						'& $notchedOutline': {
@@ -156,7 +155,7 @@ export const APP_CONFIG = {
 
 						borderRadius: '27px',
 						height: '10px',
-						color: '#4C4B97',
+						color: 'black',
 						fontFamily: 'Montserrat-Thin',
 						fontWeight: 'bold',
 					},

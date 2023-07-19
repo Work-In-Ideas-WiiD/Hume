@@ -156,6 +156,7 @@ import {
 	GET_PLANO_VENDAS_ID,
 	GET_ASSINATURA_PLANO_VENDAS,
 	GET_MEUS_ECS,
+	SET_SIDE_BAR,
 } from '../constants/actionsStrings';
 import { applyMiddleware, compose, createStore } from 'redux';
 
@@ -392,6 +393,7 @@ const INITIAL_STATE = {
 	planoVendasID: {},
 	assinaturaPlanoVendas: {},
 	meusEcs: {},
+	sideBar: {},
 };
 
 const enhancer = compose(applyMiddleware(thunk));
@@ -912,6 +914,9 @@ const state = (state = INITIAL_STATE, action) => {
 
 		case GET_MEUS_ECS:
 			return { ...state, meusEcs: action.payload };
+
+		case SET_SIDE_BAR:
+			return { ...state, sideBar: action.payload };
 
 		default:
 			return { ...state };

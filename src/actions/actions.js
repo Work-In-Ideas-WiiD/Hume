@@ -229,6 +229,7 @@ import {
 	SET_REDIRECIONAR_TRANSFERENCIA,
 	SET_REDIRECIONAR_VALOR_RETIRADA,
 	SET_REDIRECIONAR_VALOR_TRANSFERENCIA,
+	SET_SIDE_BAR,
 	SET_STATE,
 	SET_UPDATE_VIEW,
 	SHOW_QR_CODE,
@@ -5105,5 +5106,12 @@ export const loadPagadorIdClear = () => (dispatch) => {
 	dispatch({
 		type: LOAD_PAGADOR_ID,
 		payload: {},
+	});
+};
+
+export const setSideBar = (index) => (dispatch) => {
+	dispatch({
+		type: SET_SIDE_BAR,
+		payload: index,
 	});
 };

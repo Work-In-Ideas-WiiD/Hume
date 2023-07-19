@@ -8,6 +8,7 @@ import { APP_CONFIG } from '../constants/config';
 
 import CustomSideBar from '../components/CustomSideBar/CustomSideBar';
 import Dashboard from '../pages/Dashboard/Dashboard';
+import ListaCandidatos from '../pages/ListaCandidatos/ListaCandidatos';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -78,6 +79,10 @@ const SwitchContents = () => {
 	switch (section) {
 		case 'home':
 			content = <Dashboard />;
+			break;
+
+		case 'candidatos':
+			content = <ListaCandidatos />;
 			break;
 
 		default:
