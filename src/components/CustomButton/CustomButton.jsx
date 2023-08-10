@@ -1,6 +1,4 @@
-import '../../fonts/Montserrat-SemiBold.otf';
-
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { APP_CONFIG } from '../../constants/config';
@@ -13,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: '150px',
 		height: '38px',
 		/* boxShadow: '0px 0px 5px 0.7px grey', */
-		fontFamily: 'Montserrat-SemiBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 	},
 }));
 
@@ -67,7 +65,7 @@ const CustomButton = (props) => {
 					  })
 			}
 		>
-			{props.children}
+			<Typography style={{ fontSize: '16px' }}>{props.children}</Typography>
 		</Button>
 	);
 };

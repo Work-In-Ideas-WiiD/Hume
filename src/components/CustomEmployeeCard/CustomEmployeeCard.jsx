@@ -74,7 +74,7 @@ const CustomEmployeeCard = ({ icon, title, cardStyle, ...rest }) => {
 			) : null}
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-ExtraBold',
+					fontFamily: 'BwGradualDEMO-Bold',
 					fontSize: '13px',
 					color: cardStyle ? 'white' : APP_CONFIG.mainCollors.primary,
 					marginTop: '10px',

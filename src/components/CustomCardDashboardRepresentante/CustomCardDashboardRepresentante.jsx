@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 	textImageContainer: {
 		width: '100%',
 
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		color: APP_CONFIG.mainCollors.primary,
 		fontSize: '0.7rem',
 		fontWeight: '400',
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		color: APP_CONFIG.mainCollors.primary,
 		fontSize: '0.7rem',
 		fontWeight: '400',

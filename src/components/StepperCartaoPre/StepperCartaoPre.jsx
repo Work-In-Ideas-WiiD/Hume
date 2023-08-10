@@ -117,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
 	textobotaoNovoCartao: {
 		fontSize: 10,
 		color: 'white',
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		textTransform: 'uppercase',
 	},
 	botaoConfirmarCartao: {
@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
 	labelStepper: {
 		color: '#4b4b96',
 		fontSize: 14,
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		marginTop: 10,
 	},
 	root: {

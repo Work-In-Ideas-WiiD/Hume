@@ -1,4 +1,7 @@
 import loginSvg from '../assets/humeAssets/hume-logo-sem-tagline-branca.svg';
+import logoHumeColorida from '../assets/humeAssets/hume-logo-sem-tagline.svg';
+import logoHumeBranca from '../assets/humeAssets/hume-logo-simbolo-branca.svg';
+import imgHumano from '../assets/humeAssets/humaaans-standing-4.svg';
 
 //vbank
 
@@ -38,23 +41,23 @@ export const APP_CONFIG = {
 		},
 		theme: {
 			typography: {
-				fontFamily: 'Montserrat-Regular',
+				fontFamily: 'BwGradualDEMO-Regular',
 				/* fontWeight: 'bold', */
 
 				h1: {
-					fontFamily: 'Montserrat-SemiBold',
+					fontFamily: 'BwGradualDEMO-Regular',
 					fontSize: '16px',
 				},
 				subtitle1: {
-					fontFamily: 'Montserrat-Regular',
+					fontFamily: 'BwGradualDEMO-Regular',
 					fontSize: '16px',
 				},
 				subtitle2: {
-					fontFamily: 'Montserrat-Regular',
+					fontFamily: 'BwGradualDEMO-Regular',
 					fontSize: '16px',
 				},
 				h4: {
-					fontFamily: 'Montserrat-SemiBold',
+					fontFamily: 'BwGradualDEMO-Regular',
 				},
 			},
 			palette: {
@@ -78,7 +81,7 @@ export const APP_CONFIG = {
 			overrides: {
 				MuiInputBase: {
 					input: {
-						fontFamily: 'Montserrat-Regular',
+						fontFamily: 'BwGradualDEMO-Regular',
 						/* fontWeight: 'bold', */
 						color: '#4C4B97',
 					},
@@ -146,7 +149,7 @@ export const APP_CONFIG = {
 					},
 					input: {
 						'&::placeholder': {
-							fontFamily: 'Montserrat-SemiBold',
+							fontFamily: 'BwGradualDEMO-Regular',
 							textOverflow: 'ellipsis !important',
 							color: 'black',
 							/* fontWeight: '600', */
@@ -156,7 +159,7 @@ export const APP_CONFIG = {
 						borderRadius: '27px',
 						height: '10px',
 						color: 'black',
-						fontFamily: 'Montserrat-Thin',
+						fontFamily: 'BwGradualDEMO-Regular',
 						fontWeight: 'bold',
 					},
 				},
@@ -172,9 +175,9 @@ export const APP_CONFIG = {
 						'&$shrink': {
 							transform: 'translate(14px, -20px) scale(0.8)',
 							color: '#4C4B97',
-							fontFamily: 'Montserrat-SemiBold',
+							fontFamily: 'BwGradualDEMO-Regular',
 						},
-						fontFamily: 'Montserrat-Thin',
+						fontFamily: 'BwGradualDEMO-Regular',
 						fontWeight: 'bold',
 						color: '#4C4B97',
 					},
@@ -183,34 +186,35 @@ export const APP_CONFIG = {
 						'&$shrink': {
 							transform: 'translate(10px, -2px) scale(0.8)',
 							color: '#4C4B97',
-							fontFamily: 'Montserrat-SemiBold',
+							fontFamily: 'BwGradualDEMO-Regular',
 						},
-						fontFamily: 'Montserrat-Thin',
+						fontFamily: 'BwGradualDEMO-Regular',
 						fontWeight: 'bold',
 						color: '#4C4B97',
 					},
 				},
 				MuiButton: {
 					contained: {
-						fontFamily: 'Montserrat-Thin',
+						fontFamily: 'BwGradualDEMO-Regular',
 						/* fontSize: '0.9rem', */
 						textTransform: 'none',
 						boxShadow: '0px 0px 0px 0px',
 					},
 
-					fontFamily: 'Montserrat-Thin',
+					fontFamily: 'BwGradualDEMO-Regular',
 					fontWeight: 'bold',
 				},
 				MuiStepIcon: {
 					color: 'red',
 					fill: 'red',
 					active: {
-						color: 'red',
-						fill: 'red',
+						color: 'black',
+						fill: 'white',
+						fontSize: '35px',
 					},
 					completed: {
-						color: 'red',
-						fill: 'red',
+						color: 'white',
+						fill: 'white',
 					},
 				},
 			},
@@ -223,6 +227,9 @@ export const APP_CONFIG = {
 		},
 		assets: {
 			loginSvg: loginSvg,
+			logoCadastro1: logoHumeColorida,
+			logoCadastro2: logoHumeBranca,
+			imgCadastro: imgHumano,
 		},
 	},
 }[process.env.REACT_APP_FRONT_APP || 'hume'];

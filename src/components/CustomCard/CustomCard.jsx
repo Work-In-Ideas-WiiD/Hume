@@ -86,7 +86,7 @@ const CustomCard = ({ icon, title, ...rest }) => {
 			) : null}
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-ExtraBold',
+					fontFamily: 'BwGradualDEMO-Bold',
 					fontSize: '13px',
 					color: 'white',
 					marginTop: '10px',

@@ -105,13 +105,13 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 	},
 	inputLabel: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		fontSize: '14px',
 		color: APP_CONFIG.mainCollors.primary,
 		marginTop: '10px',
 	},
 	btnText: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		fontSize: '14px',
 		color: 'white',
 	},
@@ -130,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 	},
 	tituloModal: {
-		fontFamily: 'Montserrat-ExtraBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 		fontSize: '16px',
 		color: APP_CONFIG.mainCollors.primary,
 	},

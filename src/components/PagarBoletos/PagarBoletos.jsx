@@ -203,7 +203,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 			<LoadingScreen isLoading={loading} />
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-ExtraBold',
+					fontFamily: 'BwGradualDEMO-Bold',
 					fontSize: '16px',
 					color: APP_CONFIG.mainCollors.primary,
 					marginTop: '30px',
@@ -240,7 +240,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 						<>
 							<Typography
 								style={{
-									fontFamily: 'Montserrat-Regular',
+									fontFamily: 'BwGradualDEMO-Regular',
 									fontSize: '17px',
 									color: APP_CONFIG.mainCollors.primary,
 								}}
@@ -271,7 +271,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 							>
 								<Typography
 									style={{
-										fontFamily: 'Montserrat-ExtraBold',
+										fontFamily: 'BwGradualDEMO-Bold',
 										fontSize: '13px',
 										color: 'white',
 										marginTop: '10px',
@@ -312,7 +312,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 														border: 'none',
 														color: '#fff',
 														backgroundColor: 'transparent',
-														fontFamily: 'Montserrat-Regular',
+														fontFamily: 'BwGradualDEMO-Regular',
 													}}
 													decimalSeparator=","
 													thousandSeparator="."
@@ -348,7 +348,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 														border: 'none',
 														color: '#fff',
 														backgroundColor: 'transparent',
-														fontFamily: 'Montserrat-Regular',
+														fontFamily: 'BwGradualDEMO-Regular',
 													}}
 													decimalSeparator=","
 													thousandSeparator="."
@@ -378,7 +378,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 													width: '300px',
 													fontSize: 14,
 													textAlign: 'center',
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 													color: 'red',
 												}}
 											>
@@ -449,7 +449,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 					>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '14px',
 								color: 'white',
 								opacity: !docValido ? 0.3 : 1,
@@ -472,7 +472,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 						>
 							<Typography
 								style={{
-									fontFamily: 'Montserrat-ExtraBold',
+									fontFamily: 'BwGradualDEMO-Bold',
 									fontSize: '16px',
 									color: APP_CONFIG.mainCollors.primary,
 									fontWeight: 'bold',
@@ -506,7 +506,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 									style={{
 										fontSize: 14,
 										textAlign: 'center',
-										fontFamily: 'Montserrat-ExtraBold',
+										fontFamily: 'BwGradualDEMO-Bold',
 										color: 'red',
 									}}
 								>
@@ -518,7 +518,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 									style={{
 										fontSize: 14,
 										textAlign: 'center',
-										fontFamily: 'Montserrat-ExtraBold',
+										fontFamily: 'BwGradualDEMO-Bold',
 										color: 'red',
 									}}
 								>
@@ -542,7 +542,7 @@ const PagarBoletos = ({ title, changePath, ...rest }) => {
 									>
 										<Typography
 											style={{
-												fontFamily: 'Montserrat-Regular',
+												fontFamily: 'BwGradualDEMO-Regular',
 												fontSize: '14px',
 												color: 'white',
 											}}

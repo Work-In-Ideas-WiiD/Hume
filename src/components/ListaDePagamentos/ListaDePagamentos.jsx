@@ -102,7 +102,7 @@ const ListaDePagamentos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '13px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -144,7 +144,7 @@ const ListaDePagamentos = ({ title, changePath, ...rest }) => {
 							variant="outlined"
 							color="primary"
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '10px',
 								color: APP_CONFIG.mainCollors.primary,
 								borderRadius: 20,
@@ -167,7 +167,7 @@ const ListaDePagamentos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -186,7 +186,7 @@ const ListaDePagamentos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -205,7 +205,7 @@ const ListaDePagamentos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -224,7 +224,7 @@ const ListaDePagamentos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -247,7 +247,7 @@ const ListaDePagamentos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -270,7 +270,7 @@ const ListaDePagamentos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -295,7 +295,7 @@ const ListaDePagamentos = ({ title, changePath, ...rest }) => {
 		<>
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-ExtraBold',
+					fontFamily: 'BwGradualDEMO-Bold',
 					fontSize: '16px',
 					color: APP_CONFIG.mainCollors.primary,
 					marginTop: '30px',
@@ -458,7 +458,7 @@ export default ListaDePagamentos;
 // 				<>
 // 					<Typography
 // 						style={{
-// 							fontFamily: 'Montserrat-Regular',
+// 							fontFamily: 'BwGradualDEMO-Regular',
 // 							fontSize: '13px',
 // 							color: APP_CONFIG.mainCollors.primary,
 // 						}}
@@ -491,7 +491,7 @@ export default ListaDePagamentos;
 // 				<>
 // 					<Typography
 // 						style={{
-// 							fontFamily: 'Montserrat-Regular',
+// 							fontFamily: 'BwGradualDEMO-Regular',
 // 							fontSize: '15px',
 // 							color: APP_CONFIG.mainCollors.primary,
 // 						}}
@@ -510,7 +510,7 @@ export default ListaDePagamentos;
 // 				<>
 // 					<Typography
 // 						style={{
-// 							fontFamily: 'Montserrat-Regular',
+// 							fontFamily: 'BwGradualDEMO-Regular',
 // 							fontSize: '15px',
 // 							color: APP_CONFIG.mainCollors.primary,
 // 						}}
@@ -531,7 +531,7 @@ export default ListaDePagamentos;
 // 				<>
 // 					<Typography
 // 						style={{
-// 							fontFamily: 'Montserrat-Regular',
+// 							fontFamily: 'BwGradualDEMO-Regular',
 // 							fontSize: '15px',
 // 							color: APP_CONFIG.mainCollors.primary,
 // 						}}
@@ -550,7 +550,7 @@ export default ListaDePagamentos;
 // 				<>
 // 					<Typography
 // 						style={{
-// 							fontFamily: 'Montserrat-Regular',
+// 							fontFamily: 'BwGradualDEMO-Regular',
 // 							fontSize: '15px',
 // 							color: APP_CONFIG.mainCollors.primary,
 // 						}}
@@ -571,7 +571,7 @@ export default ListaDePagamentos;
 // 			return <>
 // 			<Typography
 // 				style={{
-// 					fontFamily: 'Montserrat-Regular',
+// 					fontFamily: 'BwGradualDEMO-Regular',
 // 					fontSize: '15px',
 // 					color: APP_CONFIG.mainCollors.primary,
 // 				}}
@@ -588,7 +588,7 @@ export default ListaDePagamentos;
 // 			return <>
 // 			<Typography
 // 				style={{
-// 					fontFamily: 'Montserrat-Regular',
+// 					fontFamily: 'BwGradualDEMO-Regular',
 // 					fontSize: '15px',
 // 					color: APP_CONFIG.mainCollors.primary,
 // 				}}
@@ -605,7 +605,7 @@ export default ListaDePagamentos;
 // 			return <>
 // 			<Typography
 // 				style={{
-// 					fontFamily: 'Montserrat-Regular',
+// 					fontFamily: 'BwGradualDEMO-Regular',
 // 					fontSize: '15px',
 // 					color: APP_CONFIG.mainCollors.primary,
 // 				}}
@@ -622,7 +622,7 @@ export default ListaDePagamentos;
 // 			return <>
 // 			<Typography
 // 				style={{
-// 					fontFamily: 'Montserrat-Regular',
+// 					fontFamily: 'BwGradualDEMO-Regular',
 // 					fontSize: '15px',
 // 					color: APP_CONFIG.mainCollors.primary,
 // 				}}

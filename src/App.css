@@ -22,6 +22,37 @@ input:focus {
 }
 
 @font-face {
+	font-family: 'BwGradualDEMO-Black';
+	src: local('Humanist'),
+		url(./fonts/BwGradualDEMO-Black.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'BwGradualDEMO-Bold';
+	src: local('Humanist'),
+		url(./fonts/BwGradualDEMO-Bold.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'BwGradualDEMO-ExtraBold';
+	src: local('Humanist'),
+		url(./fonts/BwGradualDEMO-ExtraBold.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'BwGradualDEMO-Light';
+	src: local('Humanist'),
+		url(./fonts/BwGradualDEMO-Light.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'BwGradualDEMO-Regular';
+	src: local('Humanist'),
+		url(./fonts/BwGradualDEMO-Regular.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'BwGradualDEMO-Thin';
+	src: local('Humanist'),
+		url(./fonts/BwGradualDEMO-Thin.ttf) format('truetype');
+}
+
+/* @font-face {
 	font-family: 'arial';
 	src: local('arial'), url(./fonts/arial.ttf) format('truetype');
 }
@@ -68,9 +99,9 @@ input:focus {
 }
 
 @font-face {
-	font-family: 'Montserrat-ExtraBold';
+	font-family: 'BwGradualDEMO-ExtraBold';
 	src: local('Humanist'),
-		url(./fonts/Montserrat-ExtraBold.ttf) format('truetype');
+		url(./fonts/BwGradualDEMO-Bold.ttf) format('truetype');
 }
 
 @font-face {
@@ -100,4 +131,4 @@ input:focus {
 @font-face {
 	font-family: 'Montserrat-Thin';
 	src: local('Humanist'), url(./fonts/Montserrat-Thin.ttf) format('truetype');
-}
+} */

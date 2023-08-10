@@ -26,7 +26,7 @@ import { APP_CONFIG } from '../../constants/config';
 const StyledTableCell = withStyles((theme) => ({
 	head: {
 		fontSize: 17,
-		fontFamily: 'Montserrat-SemiBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 		backgroundColor: APP_CONFIG.mainCollors.backgrounds,
 		color: APP_CONFIG.mainCollors.primary,
 		[theme.breakpoints.down('sm')]: {},
@@ -37,7 +37,7 @@ const StyledTableCell = withStyles((theme) => ({
 
 		fontSize: 16,
 		color: APP_CONFIG.mainCollors.primary,
-		fontFamily: 'Montserrat-SemiBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 	},
 }))(TableCell);
 

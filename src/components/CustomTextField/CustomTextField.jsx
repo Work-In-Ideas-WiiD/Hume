@@ -88,7 +88,7 @@ const CustomTextField = (rest) => {
 					<InputAdornment position="start">
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '20px',
 								color: 'white',
 							}}

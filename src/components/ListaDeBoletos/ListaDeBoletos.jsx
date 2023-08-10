@@ -105,7 +105,7 @@ const ListaDeBoletos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '13px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -146,7 +146,7 @@ const ListaDeBoletos = ({ title, changePath, ...rest }) => {
 							variant="outlined"
 							color="primary"
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '10px',
 								color: APP_CONFIG.mainCollors.primary,
 								borderRadius: 20,
@@ -169,7 +169,7 @@ const ListaDeBoletos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -188,7 +188,7 @@ const ListaDeBoletos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -207,7 +207,7 @@ const ListaDeBoletos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -226,7 +226,7 @@ const ListaDeBoletos = ({ title, changePath, ...rest }) => {
 					<Box display={'flex'} alignItems="center">
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -258,7 +258,7 @@ const ListaDeBoletos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -282,7 +282,7 @@ const ListaDeBoletos = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 								fontWeight: 'bold',
@@ -308,7 +308,7 @@ const ListaDeBoletos = ({ title, changePath, ...rest }) => {
 		<>
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-ExtraBold',
+					fontFamily: 'BwGradualDEMO-Bold',
 					fontSize: '16px',
 					color: APP_CONFIG.mainCollors.primary,
 					marginTop: '30px',

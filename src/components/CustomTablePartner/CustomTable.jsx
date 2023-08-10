@@ -15,13 +15,13 @@ const StyledTableCell = withStyles((theme) => ({
 	head: {
 		boxSizing: '',
 		fontSize: 17,
-		fontFamily: 'Montserrat-SemiBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 		backgroundColor: '#f4f4f4',
 		color: 'black',
 		[theme.breakpoints.down('sm')]: {},
 	},
 	body: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		fontSize: 15,
 
 		[theme.breakpoints.down('sm')]: {},

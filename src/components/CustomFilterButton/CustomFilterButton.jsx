@@ -39,7 +39,7 @@ const CustomFilterButton = ({ title, ...rest }) => {
 		<Box className={classes.root}>
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-Regular',
+					fontFamily: 'BwGradualDEMO-Regular',
 					fontSize: '13px',
 					color: 'white',
 				}}

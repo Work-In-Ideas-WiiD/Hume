@@ -16,14 +16,14 @@ const StyledTableCell = withStyles((theme) => ({
 	head: {
 		boxSizing: '',
 		fontSize: 17,
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		backgroundColor: APP_CONFIG.mainCollors.backgrounds,
 		color: APP_CONFIG.mainCollors.primaryVariant,
 		[theme.breakpoints.down('sm')]: {},
 	},
 	body: {
 		color: APP_CONFIG.mainCollors.primaryVariant,
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		fontSize: 15,
 
 		[theme.breakpoints.down('sm')]: {},

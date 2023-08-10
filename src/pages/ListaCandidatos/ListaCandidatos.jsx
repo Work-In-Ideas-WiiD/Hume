@@ -1,5 +1,3 @@
-import '../../fonts/Montserrat-SemiBold.otf';
-
 import {
 	Box,
 	Button,
@@ -24,12 +22,14 @@ import {
 	delDocumento,
 	getAllContasAction,
 	getAprovarContaAction,
+	getCandidatoAction,
 	getContasAction,
 	getContasExportAction,
 	getListaAdministradorAction,
 	getReenviarTokenUsuarioAction,
 	loadDocumentos,
 	postCriarAdminAction,
+	postStatusAction,
 } from '../../actions/actions';
 import { generatePath, useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,6 +47,11 @@ import useAuth from '../../hooks/useAuth';
 import useDebounce from '../../hooks/useDebounce';
 import { APP_CONFIG } from '../../constants/config';
 import InputMask from 'react-input-mask';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DoorBackIcon from '@mui/icons-material/DoorBack';
+import CancelIcon from '@mui/icons-material/Cancel';
+import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -62,41 +67,17 @@ const useStyles = makeStyles((theme) => ({
 	tableContainer: { marginTop: '1px' },
 	pageTitle: {
 		color: APP_CONFIG.mainCollors.black,
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 	},
 }));
 
 const columns = [
-	{ headerText: 'E-mail', key: 'email' },
-
-	{
-		headerText: 'Criado em',
-		key: 'created_at',
-		CustomValue: (data) => {
-			const date = new Date(data);
-			const option = {
-				year: 'numeric',
-				month: 'numeric',
-				day: 'numeric',
-				hour: 'numeric',
-				minute: 'numeric',
-			};
-			const [dia] = date.toLocaleDateString('pt-br', option).split(' ');
-			return <Typography align="center">{dia}</Typography>;
-		},
-	},
-
+	{ headerText: 'Nome do candidato', key: 'name' },
+	{ headerText: 'Status - Candidato', key: 'type' },
 	{ headerText: '', key: 'menu' },
 ];
 
 const ListaCandidatos = () => {
-	const [dadosAdministrador, setDadosAdministrador] = useState({
-		email: '',
-		nome: '',
-		documento: '',
-		celular: '',
-	});
-	const [open, setOpen] = useState(false);
 	const [filters, setFilters] = useState({
 		like: '',
 		order: '',
@@ -107,55 +88,20 @@ const ListaCandidatos = () => {
 	const token = useAuth();
 	const classes = useStyles();
 	const [page, setPage] = useState(1);
-	const history = useHistory();
-	const [errors, setErrors] = useState({});
+
 	const dispatch = useDispatch();
+	const candidato = useSelector((state) => state.candidato);
 	useEffect(() => {
 		dispatch(
-			getListaAdministradorAction(
+			getCandidatoAction(
 				token,
 				page,
-
 				debouncedLike,
 				filters.order,
 				filters.mostrar
 			)
 		);
 	}, [page, debouncedLike, filters.order, filters.mostrar]);
-
-	const listaAdministrador = useSelector((state) => state.listaAdministrador);
-
-	const criarAdmin = async (e) => {
-		setOpen(true);
-		setLoading(true);
-		e.preventDefault();
-		if (
-			dadosAdministrador.email === '' ||
-			dadosAdministrador.nome === '' ||
-			dadosAdministrador.documento === '' ||
-			dadosAdministrador.celular === ''
-		) {
-			setLoading(false);
-			toast.warning('Preencha todos os campos');
-		} else {
-			const resCriarAdmin = await dispatch(
-				postCriarAdminAction(
-					token,
-					dadosAdministrador.email,
-					dadosAdministrador.nome,
-					dadosAdministrador.documento,
-					dadosAdministrador.celular
-				)
-			);
-			if (resCriarAdmin) {
-				setErrors(resCriarAdmin);
-				toast.error('Erro');
-			} else {
-				toast.success('Token enviado com sucesso!');
-				setOpen(false);
-			}
-		}
-	};
 
 	const handleChangePage = (e, value) => {
 		setPage(value);
@@ -172,33 +118,9 @@ const ListaCandidatos = () => {
 			setAnchorEl(null);
 		};
 
-		const handleExcluirAdmin = async (item) => {
-			await dispatch(delAdmin(token, row.row.id));
-		};
-
-		const handlePermissions = () => {
-			const path = generatePath(
-				'/dashboard/lista-de-administradores/:id/permissoes',
-				{
-					id: row.row.id,
-				}
-			);
-			history.push(path);
-		};
-
-		const handleReenviarTokenUsuario = async (row) => {
+		const handleIniciarSelecao = async () => {
 			setLoading(true);
-			const resReenviarToken = await dispatch(
-				getReenviarTokenUsuarioAction(token, row.row.id)
-			);
-			if (resReenviarToken === false) {
-				setDisabled(true);
-				toast.success('Reenviado com sucesso');
-				setLoading(false);
-			} else {
-				toast.error('Falha ao reenviar');
-				setLoading(false);
-			}
+			const resIniciarSelecao = await dispatch(postStatusAction(token));
 		};
 
 		return (
@@ -209,14 +131,7 @@ const ListaCandidatos = () => {
 					aria-haspopup="true"
 					onClick={handleClick}
 				>
-					<SettingsIcon
-						style={{
-							borderRadius: 33,
-							fontSize: '35px',
-							backgroundColor: APP_CONFIG.mainCollors.primaryVariant,
-							color: 'white',
-						}}
-					/>
+					<MoreHorizIcon style={{}} />
 				</IconButton>
 				<Menu
 					id="simple-menu"
@@ -226,23 +141,25 @@ const ListaCandidatos = () => {
 					onClose={handleClose}
 				>
 					<MenuItem
-						onClick={() => handlePermissions(row)}
-						style={{ color: APP_CONFIG.mainCollors.secondary }}
+						onClick={() => handleIniciarSelecao(row)}
+						style={{ color: APP_CONFIG.mainCollors.black }}
 					>
-						Permissões
+						<CheckCircleIcon style={{ marginRight: '5px' }} />
+						Iniciar Seleção
 					</MenuItem>
 					<MenuItem
-						onClick={() => handleExcluirAdmin(row)}
-						style={{ color: APP_CONFIG.mainCollors.secondary }}
+						/* onClick={() => handlePermissions(row)} */
+						style={{ color: APP_CONFIG.mainCollors.black }}
 					>
-						Excluir
+						<DoorBackIcon style={{ marginRight: '5px' }} />
+						Encerrar
 					</MenuItem>
-
 					<MenuItem
-						onClick={() => handleReenviarTokenUsuario(row)}
-						style={{ color: APP_CONFIG.mainCollors.secondary }}
+						/* onClick={() => handlePermissions(row)} */
+						style={{ color: APP_CONFIG.mainCollors.black }}
 					>
-						Reenviar Token de Confirmação
+						<CancelIcon style={{ marginRight: '5px' }} />
+						Cancelar
 					</MenuItem>
 				</Menu>
 			</Box>
@@ -251,6 +168,7 @@ const ListaCandidatos = () => {
 
 	return (
 		<Box className={classes.root}>
+			<LoadingScreen isLoading={loading} />
 			<Box className={classes.headerContainer}>
 				<Box
 					style={{
@@ -321,142 +239,15 @@ const ListaCandidatos = () => {
 								</Box>
 							</CustomButton> */}
 						</Box>
-
-						<Dialog
-							open={open}
-							onClose={() => {
-								setOpen(false);
-							}}
-							aria-labelledby="form-dialog-title"
-						>
-							<DialogTitle id="form-dialog-title">
-								Criar Administrador
-							</DialogTitle>
-							<form onSubmit={(e) => criarAdmin(e)}>
-								<DialogContent>
-									<DialogContentText>
-										Para criar um administrador preencha os campos
-										abaixo. Enviaremos um token logo em seguida.
-									</DialogContentText>
-
-									<TextField
-										InputLabelProps={{ shrink: true }}
-										value={dadosAdministrador.email}
-										onChange={(e) =>
-											setDadosAdministrador({
-												...dadosAdministrador,
-												email: e.target.value,
-											})
-										}
-										error={errors.email ? errors.email : null}
-										helperText={
-											errors.email ? errors.email.join(' ') : null
-										}
-										autoFocus
-										margin="dense"
-										label="E-mail"
-										fullWidth
-									/>
-
-									<TextField
-										InputLabelProps={{ shrink: true }}
-										value={dadosAdministrador.nome}
-										onChange={(e) =>
-											setDadosAdministrador({
-												...dadosAdministrador,
-												nome: e.target.value,
-											})
-										}
-										autoFocus
-										margin="dense"
-										label="Nome"
-										fullWidth
-									/>
-									<InputMask
-										maskChar=""
-										mask={'999.999.999-99'}
-										value={dadosAdministrador.documento}
-										onChange={(e) =>
-											setDadosAdministrador({
-												...dadosAdministrador,
-												documento: e.target.value,
-											})
-										}
-									>
-										{() => (
-											<TextField
-												InputLabelProps={{ shrink: true }}
-												inputProps={{ backgroundColor: 'black' }}
-												error={
-													errors.documento
-														? errors.documento
-														: null
-												}
-												helperText={
-													errors.documento
-														? errors.documento.join(' ')
-														: null
-												}
-												autoFocus
-												label="Documento"
-												fullWidth
-											/>
-										)}
-									</InputMask>
-									<InputMask
-										maskChar=""
-										mask="(99) 99999-9999"
-										value={dadosAdministrador.celular}
-										onChange={(e) =>
-											setDadosAdministrador({
-												...dadosAdministrador,
-												celular: e.target.value,
-											})
-										}
-									>
-										{() => (
-											<TextField
-												InputLabelProps={{ shrink: true }}
-												inputProps={{ backgroundColor: 'black' }}
-												error={
-													errors.celular ? errors.celular : null
-												}
-												helperText={
-													errors.celular
-														? errors.celular.join(' ')
-														: null
-												}
-												autoFocus
-												label="Celular"
-												fullWidth
-											/>
-										)}
-									</InputMask>
-								</DialogContent>
-								<DialogActions>
-									<Button
-										onClick={() => {
-											setOpen(false);
-										}}
-										color="primary"
-									>
-										Cancel
-									</Button>
-									<Button color="primary" type="submit">
-										Enviar
-									</Button>
-								</DialogActions>
-							</form>
-						</Dialog>
 					</Box>
 				</Box>
 			</Box>
 
 			<Box className={classes.tableContainer}>
-				{listaAdministrador.data && listaAdministrador.per_page ? (
+				{candidato.data && candidato.per_page ? (
 					<CustomTable
 						columns={columns}
-						data={listaAdministrador.data}
+						data={candidato.data}
 						Editar={Editar}
 					/>
 				) : (
@@ -474,7 +265,7 @@ const ListaCandidatos = () => {
 						variant="outlined"
 						color="primary"
 						size="large"
-						count={listaAdministrador.last_page}
+						count={candidato.last_page}
 						onChange={handleChangePage}
 						page={page}
 					/>

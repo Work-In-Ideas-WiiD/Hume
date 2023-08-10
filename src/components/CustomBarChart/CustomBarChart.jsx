@@ -40,7 +40,7 @@ const CustomBarChart = () => {
 				<Box style={{ padding: '20px' }}>
 					<Typography
 						style={{
-							fontFamily: 'Montserrat-SemiBold',
+							fontFamily: 'BwGradualDEMO-Bold',
 							marginTop: '3px',
 						}}
 					>

@@ -21,13 +21,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomButton from '../CustomButton/CustomButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import AddIcon from '@mui/icons-material/Add';
-import {
+/* import {
 	postAuthMeAction,
 	setAutorizarPagamentoModal,
 	setAutorizarTodos,
 	setCadastrarLoteModal,
 	setHeaderLike,
-} from '../../actions/actions';
+} from '../../actions/actions'; */
 import useDebounce from '../../hooks/useDebounce';
 import { APP_CONFIG } from '../../constants/config';
 import useAuth from '../../hooks/useAuth';
@@ -79,7 +79,7 @@ const CustomHeader = ({
 	const [buscarHeader, setBuscarHeader] = useState('');
 	const debouncedLike = useDebounce(buscarHeader, 500);
 
-	useEffect(() => {
+	/* useEffect(() => {
 		dispatch(postAuthMeAction(token));
 	}, []);
 
@@ -89,7 +89,7 @@ const CustomHeader = ({
 
 	useEffect(() => {
 		dispatch(setCadastrarLoteModal(openCadastrarLoteModal));
-	}, [openCadastrarLoteModal]);
+	}, [openCadastrarLoteModal]); */
 
 	const handleRedirectArquivosLote = () => {
 		const path = generatePath(
@@ -105,9 +105,9 @@ const CustomHeader = ({
 		history.push(path);
 	};
 
-	useEffect(() => {
+	/* 	useEffect(() => {
 		dispatch(setHeaderLike(debouncedLike));
-	}, [debouncedLike]);
+	}, [debouncedLike]); */
 
 	return (
 		<Box className={classes.header}>
@@ -175,7 +175,7 @@ const CustomHeader = ({
 
 								<Typography
 									style={{
-										fontFamily: 'Montserrat-Regular',
+										fontFamily: 'BwGradualDEMO-Regular',
 										fontSize: '14px',
 										color: filterStyle
 											? 'white'
@@ -199,7 +199,7 @@ const CustomHeader = ({
 										<CustomButton color="purple">
 											<Typography
 												style={{
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 													fontSize: '14px',
 													color: 'white',
 												}}
@@ -222,7 +222,7 @@ const CustomHeader = ({
 										/>
 										<Typography
 											style={{
-												fontFamily: 'Montserrat-Regular',
+												fontFamily: 'BwGradualDEMO-Regular',
 												fontSize: '14px',
 												color: 'white',
 											}}
@@ -241,7 +241,7 @@ const CustomHeader = ({
 									<CustomButton color="purple">
 										<Typography
 											style={{
-												fontFamily: 'Montserrat-Regular',
+												fontFamily: 'BwGradualDEMO-Regular',
 												fontSize: '12px',
 												color: 'white',
 											}}
@@ -257,7 +257,7 @@ const CustomHeader = ({
 									<CustomButton color="horizontalGradient">
 										<Typography
 											style={{
-												fontFamily: 'Montserrat-Regular',
+												fontFamily: 'BwGradualDEMO-Regular',
 												fontSize: '14px',
 												color: 'white',
 											}}
@@ -280,7 +280,7 @@ const CustomHeader = ({
 									>
 										<Typography
 											style={{
-												fontFamily: 'Montserrat-Regular',
+												fontFamily: 'BwGradualDEMO-Regular',
 												fontSize: '12px',
 												color: 'white',
 											}}
@@ -308,7 +308,7 @@ const CustomHeader = ({
 										/>
 										<Typography
 											style={{
-												fontFamily: 'Montserrat-Regular',
+												fontFamily: 'BwGradualDEMO-Regular',
 												fontSize: '14px',
 												color: 'white',
 											}}

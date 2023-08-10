@@ -8,10 +8,10 @@ import {
 	ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
 import { Box, Typography } from '@material-ui/core';
-import {
+/* import {
 	getGraficoContaBarDashboardAction,
 	getGraficoContaLineDashboardAction,
-} from '../../actions/actions';
+} from '../../actions/actions'; */
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Palette } from '@devexpress/dx-react-chart';
@@ -46,9 +46,9 @@ const CustomLineChart = () => {
 	const dispatch = useDispatch();
 	const graficoLinha = useSelector((state) => state.graficoLinha);
 
-	useEffect(() => {
+	/* 	useEffect(() => {
 		dispatch(getGraficoContaLineDashboardAction(token));
-	}, []);
+	}, []); */
 
 	return (
 		<Paper
@@ -65,7 +65,7 @@ const CustomLineChart = () => {
 					<Typography
 						style={{
 							color: 'white',
-							fontFamily: 'Montserrat-SemiBold',
+							fontFamily: 'BwGradualDEMO-Bold',
 							marginTop: '3px',
 						}}
 					>

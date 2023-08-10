@@ -47,14 +47,14 @@ import CustomLineChart from '../../components/CustomLineChart/CustomLineChart';
 import CustomCard from '../../components/CustomCard/CustomCard';
 import AddIcon from '@mui/icons-material/Add';
 import ArticleIcon from '@mui/icons-material/Article';
-import {
+/* import {
 	loadExtratoFilter,
 	loadUserData,
 	getListaBannerAction,
 	setRedirecionarTransferencia,
 	setRedirecionarValorTransferencia,
 	getTransacaoMesAction,
-} from '../../actions/actions';
+} from '../../actions/actions'; */
 import useAuth from '../../hooks/useAuth';
 import CustomTable from '../../components/CustomTable/CustomTable';
 import PersonIcon from '@material-ui/icons/Person';
@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
 	contadorStyle: {
 		display: 'flex',
 		fontSize: '30px',
-		fontFamily: 'Montserrat-SemiBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 	},
 	currencyInput: {
 		marginBottom: '6px',
@@ -121,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
 		border: 'none',
 		color: APP_CONFIG.mainCollors.primary,
 		backgroundColor: 'transparent',
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 	},
 	textClick: {
 		fontSize: 12,
@@ -160,53 +160,6 @@ export default function Dashboard({
 
 	var firstBanner = banner[0];
 
-	const handleContinuar = () => {
-		if (tipoTransferencia !== null && valorRetirada !== null) {
-			dispatch(setRedirecionarTransferencia(true));
-			dispatch(setRedirecionarValorTransferencia(valorRetirada));
-			if (tipoTransferencia === 'Pix') {
-				const path = generatePath('/dashboard/pix');
-				history.push(path);
-			}
-			if (tipoTransferencia === 'TED') {
-				const path = generatePath('/dashboard/extratoTED');
-				history.push(path);
-			}
-			if (tipoTransferencia === 'P2P') {
-				const path = generatePath('/dashboard/extratoP2P');
-				history.push(path);
-			}
-		} else {
-			toast.error('Preencha todos os campos');
-		}
-	};
-
-	useEffect(() => {
-		dispatch(getTransacaoMesAction(token));
-	}, [token]);
-
-	useEffect(() => {
-		dispatch(loadUserData(token));
-	}, [token]);
-
-	/* 	useEffect(() => {
-		dispatch(loadExtratoFilter(token, '', '', '', '', '', '', ''));
-	}, [token]);
-
-	useEffect(() => {
-		dispatch(getListaBannerAction(token, '', ''));
-	}, [token]); */
-
-	/* 	useEffect(() => {
-		if (listaBanner && listaBanner.data) {
-			setBanner(
-				listaBanner.data.map((item, index) => {
-					return item;
-				})
-			);
-		}
-	}, [listaBanner]); */
-
 	moment.locale();
 
 	return (
@@ -244,7 +197,7 @@ export default function Dashboard({
 							>
 								<Typography
 									style={{
-										fontFamily: 'Montserrat-Regular',
+										fontFamily: 'BwGradualDEMO-Regular',
 										fontSize: '16px',
 										color: APP_CONFIG.mainCollors.primary,
 									}}
@@ -271,7 +224,7 @@ export default function Dashboard({
 										border: 'none',
 										color: APP_CONFIG.mainCollors.primary,
 										backgroundColor: 'transparent',
-										fontFamily: 'Montserrat-Regular',
+										fontFamily: 'BwGradualDEMO-Regular',
 									}}
 									decimalSeparator=","
 									thousandSeparator="."
@@ -298,7 +251,7 @@ export default function Dashboard({
 							>
 								<Typography
 									style={{
-										fontFamily: 'Montserrat-Regular',
+										fontFamily: 'BwGradualDEMO-Regular',
 										fontSize: '16px',
 										color: APP_CONFIG.mainCollors.primary,
 									}}
@@ -330,7 +283,7 @@ export default function Dashboard({
 							>
 								<Typography
 									style={{
-										fontFamily: 'Montserrat-Regular',
+										fontFamily: 'BwGradualDEMO-Regular',
 										fontSize: '16px',
 										color: APP_CONFIG.mainCollors.primary,
 									}}
@@ -362,7 +315,7 @@ export default function Dashboard({
 							>
 								<Typography
 									style={{
-										fontFamily: 'Montserrat-Regular',
+										fontFamily: 'BwGradualDEMO-Regular',
 										fontSize: '16px',
 										color: APP_CONFIG.mainCollors.primary,
 									}}
@@ -776,7 +729,7 @@ export default function Dashboard({
 								>
 									<Typography
 										style={{
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											fontSize: '16px',
 											color: APP_CONFIG.mainCollors.primary,
 											marginTop: '30px',
@@ -797,7 +750,7 @@ export default function Dashboard({
 										userData.saldo.valor && (
 											<Typography
 												style={{
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 													fontSize: '20px',
 													color: APP_CONFIG.mainCollors.primary,
 													marginTop: '35px',
@@ -842,7 +795,7 @@ export default function Dashboard({
 								>
 									<Typography
 										style={{
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											fontSize: '16px',
 											color: APP_CONFIG.mainCollors.primary,
 											marginTop: '30px',
@@ -863,7 +816,7 @@ export default function Dashboard({
 										userData.saldo.valor && (
 											<Typography
 												style={{
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 													fontSize: '20px',
 													color: APP_CONFIG.mainCollors.primary,
 													marginTop: '35px',

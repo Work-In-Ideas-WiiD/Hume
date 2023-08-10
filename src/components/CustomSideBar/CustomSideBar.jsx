@@ -86,9 +86,9 @@ function CustomSideBar(props) {
 	const [isSaldoVisible, setIsSaldoVisible] = useState(true);
 	const [permissoes, setPermissoes] = useState([]);
 
-	useEffect(() => {
+	/* useEffect(() => {
 		dispatch(loadUserData(token));
-	}, [token]);
+	}, [token]); */
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
@@ -207,12 +207,12 @@ function CustomSideBar(props) {
 								sideBar === 0
 									? {
 											fontWeight: 'bold',
-											fontFamily: 'Montserrat-SemiBold',
+											fontFamily: 'BwGradualDEMO-Bold',
 											fontSize: '14px',
 											color: APP_CONFIG.mainCollors.primary,
 									  }
 									: {
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											fontSize: '14px',
 											color: 'white',
 									  }
@@ -259,12 +259,12 @@ function CustomSideBar(props) {
 								sideBar === 1
 									? {
 											fontWeight: 'bold',
-											fontFamily: 'Montserrat-SemiBold',
+											fontFamily: 'BwGradualDEMO-Bold',
 											fontSize: '14px',
 											color: APP_CONFIG.mainCollors.primary,
 									  }
 									: {
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											fontSize: '14px',
 											color: 'white',
 									  }
@@ -311,12 +311,12 @@ function CustomSideBar(props) {
 								sideBar === 2
 									? {
 											fontWeight: 'bold',
-											fontFamily: 'Montserrat-SemiBold',
+											fontFamily: 'BwGradualDEMO-Bold',
 											fontSize: '14px',
 											color: APP_CONFIG.mainCollors.primary,
 									  }
 									: {
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											fontSize: '14px',
 											color: 'white',
 									  }
@@ -363,12 +363,12 @@ function CustomSideBar(props) {
 								sideBar === 3
 									? {
 											fontWeight: 'bold',
-											fontFamily: 'Montserrat-SemiBold',
+											fontFamily: 'BwGradualDEMO-Bold',
 											fontSize: '14px',
 											color: APP_CONFIG.mainCollors.primary,
 									  }
 									: {
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											fontSize: '14px',
 											color: 'white',
 									  }
@@ -415,12 +415,12 @@ function CustomSideBar(props) {
 								sideBar === 4
 									? {
 											fontWeight: 'bold',
-											fontFamily: 'Montserrat-SemiBold',
+											fontFamily: 'BwGradualDEMO-Bold',
 											fontSize: '14px',
 											color: APP_CONFIG.mainCollors.primary,
 									  }
 									: {
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											fontSize: '14px',
 											color: 'white',
 									  }
@@ -467,12 +467,12 @@ function CustomSideBar(props) {
 								sideBar === 5
 									? {
 											fontWeight: 'bold',
-											fontFamily: 'Montserrat-SemiBold',
+											fontFamily: 'BwGradualDEMO-Bold',
 											fontSize: '14px',
 											color: APP_CONFIG.mainCollors.primary,
 									  }
 									: {
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											fontSize: '14px',
 											color: 'white',
 									  }
@@ -495,7 +495,7 @@ function CustomSideBar(props) {
 				>
 					<Typography
 						style={{
-							fontFamily: 'Montserrat-Regular',
+							fontFamily: 'BwGradualDEMO-Regular',
 							fontSize: '20px',
 							color: 'white',
 							marginTop: '30px',
@@ -507,7 +507,7 @@ function CustomSideBar(props) {
 						<>
 							<Typography
 								style={{
-									fontFamily: 'Montserrat-Regular',
+									fontFamily: 'BwGradualDEMO-Regular',
 									fontSize: '25px',
 									color: 'white',
 									marginTop: '10px',
@@ -526,7 +526,7 @@ function CustomSideBar(props) {
 					) : (
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '25px',
 								color: 'white',
 								marginTop: '10px',
@@ -620,7 +620,7 @@ function CustomSideBar(props) {
 						style={{
 							width: '0.9rem',
 							color: 'gray',
-							fontFamily: 'Montserrat-ExtraBold',
+							fontFamily: 'BwGradualDEMO-Bold',
 							marginBottom: '10px',
 						}}
 						variant="contained"

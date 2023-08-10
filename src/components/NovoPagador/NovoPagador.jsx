@@ -51,13 +51,13 @@ const useStyles = makeStyles((theme) => ({
 		boxShadow: 24,
 	},
 	title: {
-		fontFamily: 'Montserrat-ExtraBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 		fontSize: '20px',
 		color: APP_CONFIG.mainCollors.primary,
 		fontWeight: 'bold',
 	},
 	text: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		fontSize: '16px',
 		color: APP_CONFIG.mainCollors.primary,
 		fontWeight: 'normal',
@@ -297,7 +297,7 @@ const NovoPagador = ({
 			<LoadingScreen isLoading={loading} />
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-ExtraBold',
+					fontFamily: 'BwGradualDEMO-Bold',
 					fontSize: '16px',
 					color: APP_CONFIG.mainCollors.primary,
 					marginTop: '30px',
@@ -444,7 +444,7 @@ const NovoPagador = ({
 									style={{
 										fontSize: 14,
 										textAlign: 'center',
-										fontFamily: 'Montserrat-ExtraBold',
+										fontFamily: 'BwGradualDEMO-Bold',
 										color: 'red',
 									}}
 								>
@@ -755,7 +755,7 @@ const NovoPagador = ({
 						<CustomButton color="purple" onClick={() => handleModal()}>
 							<Typography
 								style={{
-									fontFamily: 'Montserrat-Regular',
+									fontFamily: 'BwGradualDEMO-Regular',
 									fontSize: '14px',
 									color: 'white',
 								}}
@@ -961,7 +961,7 @@ const NovoPagador = ({
 									>
 										<Typography
 											style={{
-												fontFamily: 'Montserrat-Regular',
+												fontFamily: 'BwGradualDEMO-Regular',
 												fontSize: '14px',
 												color: 'white',
 											}}

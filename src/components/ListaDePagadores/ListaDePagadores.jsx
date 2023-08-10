@@ -103,7 +103,7 @@ const ListaDePagadores = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '13px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -132,7 +132,7 @@ const ListaDePagadores = ({ title, changePath, ...rest }) => {
 							variant="outlined"
 							color="primary"
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '12px',
 								color: APP_CONFIG.mainCollors.primary,
 								borderRadius: 20,
@@ -155,7 +155,7 @@ const ListaDePagadores = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -174,7 +174,7 @@ const ListaDePagadores = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -193,7 +193,7 @@ const ListaDePagadores = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -212,7 +212,7 @@ const ListaDePagadores = ({ title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -232,7 +232,7 @@ const ListaDePagadores = ({ title, changePath, ...rest }) => {
 						{endereco && (
 							<Typography
 								style={{
-									fontFamily: 'Montserrat-Regular',
+									fontFamily: 'BwGradualDEMO-Regular',
 									fontSize: '15px',
 									color: APP_CONFIG.mainCollors.primary,
 								}}
@@ -265,7 +265,7 @@ const ListaDePagadores = ({ title, changePath, ...rest }) => {
 		<>
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-ExtraBold',
+					fontFamily: 'BwGradualDEMO-Bold',
 					fontSize: '16px',
 					color: APP_CONFIG.mainCollors.primary,
 					marginTop: '30px',

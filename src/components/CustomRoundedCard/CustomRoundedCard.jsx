@@ -82,7 +82,7 @@ const CustomRoundedCard = ({ icon, title, ...rest }) => {
 			</Box>
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-ExtraBold',
+					fontFamily: 'BwGradualDEMO-Bold',
 					fontSize: '13px',
 					color: APP_CONFIG.mainCollors.primary,
 					marginTop: '10px',

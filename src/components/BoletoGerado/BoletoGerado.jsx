@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 		/* p: 5, */
 	},
 	boxTitle: {
-		fontFamily: 'Montserrat-ExtraBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 		fontSize: '16px',
 		color: APP_CONFIG.mainCollors.primary,
 		marginTop: '30px',
@@ -64,13 +64,13 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: APP_CONFIG.mainCollors.primary,
 	},
 	title: {
-		fontFamily: 'Montserrat-ExtraBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 		fontSize: '20px',
 		color: APP_CONFIG.mainCollors.primary,
 		fontWeight: 'bold',
 	},
 	text: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		fontSize: '16px',
 		color: APP_CONFIG.mainCollors.primary,
 		fontWeight: 'normal',
@@ -325,7 +325,7 @@ const BoletoGerado = ({ title, changePath, ...rest }) => {
 							>
 								<Typography
 									style={{
-										fontFamily: 'Montserrat-Regular',
+										fontFamily: 'BwGradualDEMO-Regular',
 										fontSize: '14px',
 										color: 'white',
 									}}

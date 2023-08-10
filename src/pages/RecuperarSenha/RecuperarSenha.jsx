@@ -208,7 +208,7 @@ const Cadastro = () => {
 								style={{
 									borderRadius: '27px',
 									backgroundColor: APP_CONFIG.mainCollors.primary,
-									fontFamily: 'Montserrat-Regular',
+									fontFamily: 'BwGradualDEMO-Regular',
 									/* background: theme.gradient.main, */
 								}}
 								onClick={onRecuperar}

@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
 		/* p: 5, */
 	},
 	currencyField: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		/* fontWeight: 'bold', */
 		color: 'white',
 	},
@@ -544,7 +544,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '13px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -611,7 +611,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 							variant="outlined"
 							color="primary"
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '10px',
 								color: APP_CONFIG.mainCollors.primary,
 								borderRadius: 20,
@@ -634,7 +634,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -653,7 +653,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -804,7 +804,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 							variant="outlined"
 							color="primary"
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '10px',
 								color: APP_CONFIG.mainCollors.primary,
 								borderRadius: 20,
@@ -827,7 +827,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -847,7 +847,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -866,7 +866,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -885,7 +885,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -904,7 +904,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1073,7 +1073,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1098,7 +1098,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1251,7 +1251,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1270,7 +1270,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1289,7 +1289,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1308,7 +1308,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1331,7 +1331,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1354,7 +1354,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1452,7 +1452,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '13px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1496,7 +1496,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1515,7 +1515,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1534,7 +1534,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1553,7 +1553,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1572,7 +1572,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 					<>
 						<Typography
 							style={{
-								fontFamily: 'Montserrat-Regular',
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: '15px',
 								color: APP_CONFIG.mainCollors.primary,
 							}}
@@ -1598,7 +1598,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 			<LoadingScreen isLoading={loading} />
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-ExtraBold',
+					fontFamily: 'BwGradualDEMO-Bold',
 					fontSize: '16px',
 					color: APP_CONFIG.mainCollors.primary,
 					marginTop: '30px',
@@ -1971,7 +1971,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 						>
 							<Typography
 								style={{
-									fontFamily: 'Montserrat-ExtraBold',
+									fontFamily: 'BwGradualDEMO-Bold',
 									fontSize: '16px',
 									color: APP_CONFIG.mainCollors.primary,
 									fontWeight: 'bold',
@@ -2005,7 +2005,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 									style={{
 										fontSize: 14,
 										textAlign: 'center',
-										fontFamily: 'Montserrat-ExtraBold',
+										fontFamily: 'BwGradualDEMO-Bold',
 										color: 'red',
 									}}
 								>
@@ -2035,7 +2035,7 @@ const AprovacoesContainer = ({ tipoAprovacao, title, changePath, ...rest }) => {
 									>
 										<Typography
 											style={{
-												fontFamily: 'Montserrat-Regular',
+												fontFamily: 'BwGradualDEMO-Regular',
 												fontSize: '14px',
 												color: 'white',
 											}}

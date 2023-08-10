@@ -1,5 +1,3 @@
-import '../../fonts/Montserrat-SemiBold.otf';
-
 import { Button } from '@material-ui/core';
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
@@ -14,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 		width: '40px',
 		height: '60px',
 		boxShadow: '0px 0px 5px 0.7px grey',
-		fontFamily: 'Montserrat-SemiBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 	},
 }));
 

@@ -1,6 +1,6 @@
 import { Box, Typography, makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { loadPermissao, postAuthMeAction } from '../actions/actions';
+
 import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../hooks/useAuth';
 import { useParams } from 'react-router';
@@ -59,20 +59,6 @@ const SwitchContents = () => {
 			d.getElementsByTagName('head')[0].appendChild(s);
 		})();
 	}
-	useEffect(() => {
-		dispatch(postAuthMeAction(token));
-	}, []);
-
-	useEffect(() => {
-		const { permissao } = userPermissao;
-		setPermissoes(permissao.map((item) => item.tipo));
-	}, [userPermissao]);
-
-	useEffect(() => {
-		if (me.id !== undefined) {
-			dispatch(loadPermissao(token, me.id));
-		}
-	}, [me.id]);
 
 	let content = null;
 

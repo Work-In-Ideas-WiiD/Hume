@@ -58,13 +58,13 @@ const useStyles = makeStyles((theme) => ({
 		/* p: 5, */
 	},
 	title: {
-		fontFamily: 'Montserrat-ExtraBold',
+		fontFamily: 'BwGradualDEMO-Bold',
 		fontSize: '20px',
 		color: APP_CONFIG.mainCollors.primary,
 		fontWeight: 'bold',
 	},
 	text: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		fontSize: '16px',
 		color: APP_CONFIG.mainCollors.primary,
 		fontWeight: 'normal',
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
 		border: 'solid',
 		color: APP_CONFIG.mainCollors.primary,
 		backgroundColor: 'transparent',
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 	},
 }));
 const options = {
@@ -237,7 +237,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 			<LoadingScreen isLoading={loading} />
 			<Typography
 				style={{
-					fontFamily: 'Montserrat-ExtraBold',
+					fontFamily: 'BwGradualDEMO-Bold',
 					fontSize: '16px',
 					color: APP_CONFIG.mainCollors.primary,
 					marginTop: '30px',
@@ -456,7 +456,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 								<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 									<Typography
 										style={{
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											color: APP_CONFIG.mainCollors.primary,
 										}}
 									>
@@ -489,7 +489,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 												label="Fixo"
 												style={{
 													color: 'black',
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 												}}
 											/>
 											<FormControlLabel
@@ -503,7 +503,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 												label="Percentual"
 												style={{
 													color: 'black',
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 												}}
 											/>
 										</RadioGroup>
@@ -578,7 +578,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 								<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 									<Typography
 										style={{
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											color: APP_CONFIG.mainCollors.primary,
 										}}
 									>
@@ -611,7 +611,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 												label="Valor diário"
 												style={{
 													color: 'black',
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 												}}
 											/>
 											<FormControlLabel
@@ -625,7 +625,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 												label="Percentual diário"
 												style={{
 													color: 'black',
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 												}}
 											/>
 											<FormControlLabel
@@ -639,7 +639,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 												label="Percentual mensal"
 												style={{
 													color: 'black',
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 												}}
 											/>
 										</RadioGroup>
@@ -715,7 +715,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 								<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 									<Typography
 										style={{
-											fontFamily: 'Montserrat-Regular',
+											fontFamily: 'BwGradualDEMO-Regular',
 											color: APP_CONFIG.mainCollors.primary,
 										}}
 									>
@@ -748,7 +748,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 												label="Fixo"
 												style={{
 													color: 'black',
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 												}}
 											/>
 											<FormControlLabel
@@ -762,7 +762,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 												label="Percentual"
 												style={{
 													color: 'black',
-													fontFamily: 'Montserrat-Regular',
+													fontFamily: 'BwGradualDEMO-Regular',
 												}}
 											/>
 										</RadioGroup>
@@ -887,7 +887,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 							<CustomButton color="purple" type="submit">
 								<Typography
 									style={{
-										fontFamily: 'Montserrat-Regular',
+										fontFamily: 'BwGradualDEMO-Regular',
 										fontSize: '14px',
 										color: 'white',
 										//opacity: !docValido ? 0.3 : 1
@@ -1073,7 +1073,7 @@ const GerarBoleto = ({ title, changePath, ...rest }) => {
 									>
 										<Typography
 											style={{
-												fontFamily: 'Montserrat-Regular',
+												fontFamily: 'BwGradualDEMO-Regular',
 												fontSize: '14px',
 												color: 'white',
 											}}

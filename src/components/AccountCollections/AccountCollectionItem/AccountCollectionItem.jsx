@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 
 		justifyContent: 'space-between',
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		marginTop: '3px',
 		fontSize: '0.7rem',
 		fontWeight: '400',
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 	textContainer: {
 		display: 'flex',
 
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 
 		marginLeft: '30px',
 		fontSize: '0.7rem',

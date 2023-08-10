@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme) => ({
 		fontFamily: 'microgramma-d-bold-extended',
 	},
 	subtitle: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 	},
 	forgotPassword: {
-		fontFamily: 'Montserrat-Regular',
+		fontFamily: 'BwGradualDEMO-Regular',
 		color: APP_CONFIG.mainCollors.forgotPasswordLogin,
 	},
 }));
@@ -132,12 +132,14 @@ const Login = () => {
 					>
 						<Typography
 							style={{
+								fontFamily: 'BwGradualDEMO-Regular',
 								fontSize: 20,
 								color: APP_CONFIG.mainCollors.black,
 							}}
 						>
 							Entre no seu perfil
 						</Typography>
+
 						<Typography
 							style={{
 								marginTop: '10px',
@@ -155,7 +157,7 @@ const Login = () => {
 							alignItems: 'center',
 							height: '100%',
 							width: '100%',
-							marginBottom: '30%',
+
 							zIndex: 10,
 						}}
 					>
@@ -180,6 +182,7 @@ const Login = () => {
 							>
 								<Typography
 									style={{
+										fontFamily: 'BwGradualDEMO-Bold',
 										fontSize: 14,
 										color: APP_CONFIG.mainCollors.black,
 										marginLeft: '13px',
@@ -217,6 +220,7 @@ const Login = () => {
 							>
 								<Typography
 									style={{
+										fontFamily: 'BwGradualDEMO-Bold',
 										fontSize: 13,
 										marginLeft: '13px',
 										color: APP_CONFIG.mainCollors.black,
@@ -256,7 +260,6 @@ const Login = () => {
 								flexDirection="column"
 								/* alignItems="center" */
 								marginTop="10px"
-								marginBottom="30px"
 								style={{ width: '100%' }}
 							>
 								{/* <Button
@@ -277,7 +280,7 @@ const Login = () => {
 											display: 'flex',
 											justifyContent: 'end',
 											marginBottom: '30px',
-											fontSize: '10px',
+											fontSize: '15px',
 										}}
 									>
 										Esqueci minha senha
