@@ -15,12 +15,14 @@ import {
 	Typography,
 	makeStyles,
 	Paper,
+	Grid,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import {
 	delAdmin,
-	delCandidatoAction,
 	delDocumento,
+	getAdministradorDiretoriaAction,
+	getAdministradorEmpresaAction,
 	getAllContasAction,
 	getAprovarContaAction,
 	getCandidatoAction,
@@ -29,6 +31,7 @@ import {
 	getListaAdministradorAction,
 	getReenviarTokenUsuarioAction,
 	loadDocumentos,
+	postAdministradorDiretoriaAction,
 	postCriarAdminAction,
 	postStatusAction,
 } from '../../actions/actions';
@@ -47,13 +50,14 @@ import { toast } from 'react-toastify';
 import useAuth from '../../hooks/useAuth';
 import useDebounce from '../../hooks/useDebounce';
 import { APP_CONFIG } from '../../constants/config';
-import InputMask from 'react-input-mask';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DoorBackIcon from '@mui/icons-material/DoorBack';
 import CancelIcon from '@mui/icons-material/Cancel';
 import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
-import { toPairs } from 'lodash';
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import ReactInputMask from 'react-input-mask';
+import { DropzoneAreaBase } from 'material-ui-dropzone';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -71,15 +75,34 @@ const useStyles = makeStyles((theme) => ({
 		color: APP_CONFIG.mainCollors.black,
 		fontFamily: 'BwGradualDEMO-Regular',
 	},
+	dropzoneAreaBaseClasses: {
+		width: '70%',
+		height: '150px',
+		backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+	},
+	dropzoneContainer: {
+		margin: '6px',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		padding: '12px',
+		minHeight: '422px',
+		fontSize: '12px',
+	},
+	textoDropzone: {
+		fontSize: '1.2rem',
+		color: APP_CONFIG.mainCollors.primary,
+	},
 }));
 
 const columns = [
-	{ headerText: 'Nome do candidato', key: 'name' },
-	{ headerText: 'Status - Candidato', key: 'type' },
+	{ headerText: 'Nome', key: 'name' },
+	{ headerText: 'E-mail', key: 'email' },
+
 	{ headerText: '', key: 'menu' },
 ];
 
-const ListaCandidatos = () => {
+const ListaAdministradoresDiretoria = () => {
 	const [filters, setFilters] = useState({
 		like: '',
 		order: '',
@@ -90,12 +113,17 @@ const ListaCandidatos = () => {
 	const token = useAuth();
 	const classes = useStyles();
 	const [page, setPage] = useState(1);
-
+	const [criarAdminModal, setCriarAdminModal] = useState(false);
+	const [errors, setErrors] = useState({});
 	const dispatch = useDispatch();
-	const candidato = useSelector((state) => state.candidato);
+	const [cadastroAdm, setCadastroAdm] = useState({
+		name: '',
+		email: '',
+	});
+	const admDiretoria = useSelector((state) => state.admDiretoria);
 	useEffect(() => {
 		dispatch(
-			getCandidatoAction(
+			getAdministradorDiretoriaAction(
 				token,
 				page,
 				debouncedLike,
@@ -109,6 +137,36 @@ const ListaCandidatos = () => {
 		setPage(value);
 	};
 
+	const handleCriarAdmin = async () => {
+		setLoading(true);
+		const resCriarAdmin = await dispatch(
+			postAdministradorDiretoriaAction(
+				token,
+				cadastroAdm.name,
+				cadastroAdm.email
+			)
+		);
+		if (resCriarAdmin) {
+			toast.error('Erro ao criar administrador');
+			setLoading(false);
+			setCriarAdminModal(false);
+			setErrors(resCriarAdmin);
+		} else {
+			toast.success('Administrador criado com sucesso!');
+			setLoading(false);
+			setCriarAdminModal(false);
+			await dispatch(
+				getAdministradorDiretoriaAction(
+					token,
+					page,
+					debouncedLike,
+					filters.order,
+					filters.mostrar
+				)
+			);
+		}
+	};
+
 	const Editar = (row) => {
 		const [anchorEl, setAnchorEl] = useState(null);
 		const [disabled, setDisabled] = useState(false);
@@ -120,32 +178,9 @@ const ListaCandidatos = () => {
 			setAnchorEl(null);
 		};
 
-		const handleExcluirCandidato = async (row) => {
-			setLoading(true);
-			const resDelCandidato = await dispatch(
-				delCandidatoAction(token, row.row.id)
-			);
-			if (resDelCandidato) {
-				setLoading(false);
-				toast.error('Erro ao deletar candidato');
-			} else {
-				setLoading(false);
-				toast.success('Candidato deletado com sucesso!');
-				await dispatch(
-					getCandidatoAction(
-						token,
-						page,
-						debouncedLike,
-						filters.order,
-						filters.mostrar
-					)
-				);
-			}
-		};
-
 		return (
 			<Box>
-				<IconButton
+				{/* <IconButton
 					style={{ height: '15px', width: '10px' }}
 					aria-controls="simple-menu"
 					aria-haspopup="true"
@@ -161,13 +196,14 @@ const ListaCandidatos = () => {
 					onClose={handleClose}
 				>
 					<MenuItem
-						onClick={() => handleExcluirCandidato(row)}
+						onClick={() => handleIniciarSelecao(row)}
 						style={{ color: APP_CONFIG.mainCollors.black }}
 					>
-						<CancelIcon style={{ marginRight: '5px' }} />
-						Excluir
+						<CheckCircleIcon style={{ marginRight: '5px' }} />
+						Iniciar Seleção
 					</MenuItem>
-				</Menu>
+					
+				</Menu> */}
 			</Box>
 		);
 	};
@@ -184,7 +220,9 @@ const ListaCandidatos = () => {
 						alignItems: 'center',
 					}}
 				>
-					<Typography className={classes.pageTitle}>CANDIDATOS</Typography>
+					<Typography className={classes.pageTitle}>
+						ADMINISTRADORES DIRETORIA
+					</Typography>
 					<Box style={{ alignSelf: 'flex-end' }}>
 						<IconButton
 							style={{
@@ -213,7 +251,8 @@ const ListaCandidatos = () => {
 						<TextField
 							placeholder="Pesquisar por nome, documento, email..."
 							size="small"
-							variant="outlined"
+							variant="filled"
+							InputProps={{ disableUnderline: true }}
 							style={{
 								backgroundColor: APP_CONFIG.mainCollors.backgrounds,
 								width: '400px',
@@ -232,28 +271,31 @@ const ListaCandidatos = () => {
 									like: e.target.value,
 								});
 							}}
-						></TextField>
-
-						<Box>
-							{/* <CustomButton
-								onClick={() => {
-									setOpen(true);
+						/>
+						<CustomButton
+							color="colorPrimary"
+							onClick={() => setCriarAdminModal(true)}
+						>
+							<Box
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
 								}}
 							>
-								<Box display="flex" alignItems="center">
-									Criar Administrador
-								</Box>
-							</CustomButton> */}
-						</Box>
+								<CreateNewFolderIcon style={{ marginRight: '5px' }} />
+								<Typography> Cadastrar Admin</Typography>
+							</Box>
+						</CustomButton>
 					</Box>
 				</Box>
 			</Box>
 
 			<Box className={classes.tableContainer}>
-				{candidato.data && candidato.per_page ? (
+				{admDiretoria.data && admDiretoria.per_page ? (
 					<CustomTable
 						columns={columns}
-						data={candidato.data}
+						data={admDiretoria.data}
 						Editar={Editar}
 					/>
 				) : (
@@ -271,14 +313,104 @@ const ListaCandidatos = () => {
 						variant="outlined"
 						color="primary"
 						size="large"
-						count={candidato.last_page}
+						count={admDiretoria.last_page}
 						onChange={handleChangePage}
 						page={page}
 					/>
 				</Box>
 			</Box>
+			<Dialog
+				open={criarAdminModal}
+				onClose={() => setCriarAdminModal(false)}
+			>
+				<Box
+					style={{
+						backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+						width: '500px',
+						padding: '50px',
+					}}
+				>
+					<Typography
+						style={{
+							fontFamily: 'BwGradualDEMO-Bold',
+							color: APP_CONFIG.mainCollors.primaryVariant,
+						}}
+					>
+						Dados pessoais
+					</Typography>
+					<Box style={{ marginTop: '30px' }}>
+						<Grid container spacing={3}>
+							<Grid item sm={6} xs={12}>
+								<Typography
+									style={{
+										fontFamily: 'BwGradualDEMO-Regular',
+										color: APP_CONFIG.mainCollors.primaryVariant,
+										fontSize: 13,
+									}}
+								>
+									Nome
+								</Typography>
+								<TextField
+									InputProps={{ disableUnderline: true }}
+									variant="filled"
+									value={cadastroAdm.name}
+									onChange={(e) =>
+										setCadastroAdm({
+											...cadastroAdm,
+											name: e.target.value,
+										})
+									}
+									autoFocus
+									required
+									fullWidth
+								/>
+							</Grid>
+							<Grid item sm={6} xs={12}>
+								<Typography
+									style={{
+										fontFamily: 'BwGradualDEMO-Regular',
+										color: APP_CONFIG.mainCollors.primaryVariant,
+										fontSize: 13,
+									}}
+								>
+									E-mail
+								</Typography>
+								<TextField
+									InputProps={{ disableUnderline: true }}
+									variant="filled"
+									value={cadastroAdm.email}
+									onChange={(e) =>
+										setCadastroAdm({
+											...cadastroAdm,
+											email: e.target.value,
+										})
+									}
+									autoFocus
+									required
+									fullWidth
+								/>
+							</Grid>
+						</Grid>
+						<Box
+							style={{
+								display: 'flex',
+								marginTop: '30px',
+								alignSelf: 'center',
+								justifyContent: 'center',
+							}}
+						>
+							<CustomButton
+								color="colorPrimary"
+								onClick={() => handleCriarAdmin()}
+							>
+								<Typography>Salvar</Typography>
+							</CustomButton>
+						</Box>
+					</Box>
+				</Box>
+			</Dialog>
 		</Box>
 	);
 };
 
-export default ListaCandidatos;
+export default ListaAdministradoresDiretoria;

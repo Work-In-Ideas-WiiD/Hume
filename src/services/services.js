@@ -68,10 +68,79 @@ export const getUserData = (token) => {
 };
 
 export const getCandidato = (token, page, like, order, mostrar) => {
-	const url = `${process.env.REACT_APP_API_URL}/candidato`;
+	const url = `${process.env.REACT_APP_API_URL}/candidato?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}`;
 
 	return axios({
 		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const postCandidato = (
+	name,
+	email,
+	cpf,
+	telefone,
+	arquivo,
+	cep,
+	rua,
+	numero,
+	bairro,
+	complemento,
+	cidade,
+	estado,
+	rg,
+	conselho_regulador,
+	data_nascimento,
+	especialidade,
+	estado_civil,
+	grupo_atuante,
+	nacionalidade,
+	sexo,
+	password,
+	password_confirmation
+) => {
+	const url = `${process.env.REACT_APP_API_URL}/empresa-administrador`;
+
+	var bodyFormData = new FormData();
+	bodyFormData.append('name', name);
+	bodyFormData.append('email', email);
+	bodyFormData.append('cpf', cpf);
+	bodyFormData.append('telefone', telefone);
+	bodyFormData.append('arquivo', arquivo);
+	bodyFormData.append('endereco[cep]', cep);
+	bodyFormData.append('endereco[rua]', rua);
+	bodyFormData.append('endereco[numero]', numero);
+	bodyFormData.append('endereco[bairro]', bairro);
+	bodyFormData.append('endereco[complemento]', complemento);
+	bodyFormData.append('endereco[cidade]', cidade);
+	bodyFormData.append('endereco[estado]', estado);
+	bodyFormData.append('endereco[estado]', estado);
+	bodyFormData.append('rg', rg);
+	bodyFormData.append('conselho_regulador', conselho_regulador);
+	bodyFormData.append('data_nascimento', data_nascimento);
+	bodyFormData.append('especialidade', especialidade);
+	bodyFormData.append('estado_civil', estado_civil);
+	bodyFormData.append('grupo_atuante', grupo_atuante);
+	bodyFormData.append('nacionalidade', nacionalidade);
+	bodyFormData.append('sexo', sexo);
+	bodyFormData.append('password', password);
+	bodyFormData.append('password_confirmation', password_confirmation);
+	return axios({
+		method: 'post',
+		url,
+
+		data: bodyFormData,
+	});
+};
+
+export const delCandidato = (token, id) => {
+	const url = `${process.env.REACT_APP_API_URL}/candidato/${id}`;
+	return axios({
+		method: 'delete',
 		url,
 		headers: {
 			Authorization: `Bearer ${token}`,
@@ -90,5 +159,90 @@ export const postStatus = (token, status, id) => {
 		data: {
 			status: status,
 		},
+	});
+};
+
+export const getAdministradorDiretoria = (
+	token,
+	page,
+	like,
+	order,
+	mostrar
+) => {
+	const url = `${process.env.REACT_APP_API_URL}/administrador?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const getAdministradorEmpresa = (token, page, like, order, mostrar) => {
+	const url = `${process.env.REACT_APP_API_URL}/empresa-administrador?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const postAdministradorDiretoria = (token, name, email) => {
+	const url = `${process.env.REACT_APP_API_URL}/administrador`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			name: name,
+			email: email,
+		},
+	});
+};
+
+export const postAdministradorEmpresa = (
+	token,
+	name,
+	email,
+	cnpj,
+	telefone,
+	imagem,
+	cep,
+	rua,
+	numero,
+	bairro,
+	complemento,
+	cidade,
+	estado
+) => {
+	const url = `${process.env.REACT_APP_API_URL}/empresa-administrador`;
+
+	var bodyFormData = new FormData();
+	bodyFormData.append('name', name);
+	bodyFormData.append('email', email);
+	bodyFormData.append('cnpj', cnpj);
+	bodyFormData.append('telefone', telefone);
+	bodyFormData.append('imagem', imagem);
+	bodyFormData.append('endereco[cep]', cep);
+	bodyFormData.append('endereco[rua]', rua);
+	bodyFormData.append('endereco[numero]', numero);
+	bodyFormData.append('endereco[bairro]', bairro);
+	bodyFormData.append('endereco[complemento]', complemento);
+	bodyFormData.append('endereco[cidade]', cidade);
+	bodyFormData.append('endereco[estado]', estado);
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: bodyFormData,
 	});
 };

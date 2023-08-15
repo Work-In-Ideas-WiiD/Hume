@@ -5,6 +5,8 @@ import {
 	SET_STATE,
 	SET_SIDE_BAR,
 	GET_CANDIDATO,
+	GET_ADM_EMPRESA,
+	GET_ADM_DIRETORIA,
 } from '../constants/actionsStrings';
 import { applyMiddleware, compose, createStore } from 'redux';
 
@@ -19,6 +21,8 @@ const INITIAL_STATE = {
 	},
 	sideBar: {},
 	candidato: {},
+	admEmpresa: {},
+	admDiretoria: {},
 };
 
 const enhancer = compose(applyMiddleware(thunk));
@@ -41,6 +45,12 @@ const state = (state = INITIAL_STATE, action) => {
 
 		case GET_CANDIDATO:
 			return { ...state, candidato: action.payload };
+
+		case GET_ADM_EMPRESA:
+			return { ...state, admEmpresa: action.payload };
+
+		case GET_ADM_DIRETORIA:
+			return { ...state, admDiretoria: action.payload };
 
 		default:
 			return { ...state };

@@ -13,6 +13,7 @@ import {
 	DELETE_PERFIL_TAXA,
 	DEL_ASSINATURA,
 	DEL_ASSINATURA_PLANO_VENDAS,
+	DEL_CANDIDATO,
 	DEL_CHAVE,
 	DEL_CONTA_BANCARIA,
 	DEL_FOLHA_DE_PAGAMENTO_FUNCIONARIO,
@@ -29,6 +30,8 @@ import {
 	DEL_USER_REPRESENTANTE,
 	GERAR_QR_CODE_IMAGEM,
 	GET_ACESSO_WEB,
+	GET_ADM_DIRETORIA,
+	GET_ADM_EMPRESA,
 	GET_APROVAR_CONTA,
 	GET_ARQUIVO_LOTE,
 	GET_ARQUIVO_LOTE_COMPROVANTE,
@@ -138,6 +141,8 @@ import {
 	LOAD_TRANSFERENCIA_ID,
 	LOAD_USER_DATA,
 	POST_ACESSAR_WEB,
+	POST_ADM_DIRETORIA,
+	POST_ADM_EMPRESA,
 	POST_ASSINATURA,
 	POST_ASSINATURA_PLAN,
 	POST_ASSINATURA_PLANO_VENDAS,
@@ -147,6 +152,7 @@ import {
 	POST_BLOQUEAR_DEVICE,
 	POST_BUSCAR_CONTA_CNPJ,
 	POST_BUSCAR_CONTA_CPF,
+	POST_CANDIDATO,
 	POST_CAPTURA,
 	POST_CARTAO_PAGADOR,
 	POST_COBRANCA_CARTAO,
@@ -458,6 +464,12 @@ import {
 	getMeusEcs,
 	putFees,
 	getCandidato,
+	getAdministradorEmpresa,
+	getAdministradorDiretoria,
+	postAdministradorDiretoria,
+	postAdministradorEmpresa,
+	postCandidato,
+	delCandidato,
 } from '../services/services';
 
 import { toast } from 'react-toastify';
@@ -555,6 +567,93 @@ export const getCandidatoAction =
 		}
 	};
 
+export const postCandidatoAction =
+	(
+		name,
+		email,
+		cpf,
+		telefone,
+		arquivo,
+		cep,
+		rua,
+		numero,
+		bairro,
+		complemento,
+		cidade,
+		estado,
+		rg,
+		conselho_regulador,
+		data_nascimento,
+		especialidade,
+		estado_civil,
+		grupo_atuante,
+		nacionalidade,
+		sexo,
+		password,
+		password_confirmation
+	) =>
+	async (dispatch) => {
+		const arquivoObjeto = { ...arquivo };
+
+		try {
+			const res = await postCandidato(
+				name,
+				email,
+				cpf,
+				telefone,
+				arquivoObjeto[0].file,
+				cep,
+				rua,
+				numero,
+				bairro,
+				complemento,
+				cidade,
+				estado,
+				rg,
+				conselho_regulador,
+				data_nascimento,
+				especialidade,
+				estado_civil,
+				grupo_atuante,
+				nacionalidade,
+				sexo,
+				password,
+				password_confirmation
+			);
+			dispatch({
+				type: POST_CANDIDATO,
+				payload: res.data,
+			});
+			return false;
+		} catch (err) {
+			console.log(err);
+			if (err.response && err.response.status === 422) {
+				return err.response.data.errors;
+			} else {
+				return err;
+			}
+		}
+	};
+
+export const delCandidatoAction = (token, id) => async (dispatch) => {
+	try {
+		const res = await delCandidato(token, id);
+		dispatch({
+			type: DEL_CANDIDATO,
+			payload: res.data,
+		});
+		return false;
+	} catch (err) {
+		console.log(err);
+		if (err.response.status === 422) {
+			return err.response.data.errors;
+		} else {
+			toast.error('Erro');
+			return err;
+		}
+	}
+};
+
 export const postStatusAction = (token, status, id) => async (dispatch) => {
 	try {
 		const res = await postAuthMe(token, status, id);
@@ -566,3 +665,113 @@ export const postStatusAction = (token, status, id) => async (dispatch) => {
 		console.log(err);
 	}
 };
+
+export const getAdministradorEmpresaAction =
+	(token, page, like, order, mostrar) => async (dispatch) => {
+		try {
+			const res = await getAdministradorEmpresa(
+				token,
+				page,
+				like,
+				order,
+				mostrar
+			);
+			dispatch({
+				type: GET_ADM_EMPRESA,
+				payload: res.data,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+export const getAdministradorDiretoriaAction =
+	(token, page, like, order, mostrar) => async (dispatch) => {
+		try {
+			const res = await getAdministradorDiretoria(
+				token,
+				page,
+				like,
+				order,
+				mostrar
+			);
+			dispatch({
+				type: GET_ADM_DIRETORIA,
+				payload: res.data,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+export const postAdministradorDiretoriaAction =
+	(token, name, email) => async (dispatch) => {
+		try {
+			const res = await postAdministradorDiretoria(token, name, email);
+			dispatch({
+				type: POST_ADM_DIRETORIA,
+				payload: res.data,
+			});
+			return false;
+		} catch (err) {
+			console.log(err);
+			if (err.response && err.response.status === 422) {
+				return err.response.data.errors;
+			} else {
+				if (err.response.data.result) {
+					toast.error(err.response.data.result.Message);
+				}
+				return err;
+			}
+		}
+	};
+
+export const postAdministradorEmpresaAction =
+	(
+		token,
+		name,
+		email,
+		cnpj,
+		telefone,
+		imagem,
+		cep,
+		rua,
+		numero,
+		bairro,
+		complemento,
+		cidade,
+		estado
+	) =>
+	async (dispatch) => {
+		const imagemObjeto = { ...imagem };
+
+		try {
+			const res = await postAdministradorEmpresa(
+				token,
+				name,
+				email,
+				cnpj,
+				telefone,
+				imagemObjeto[0],
+				cep,
+				rua,
+				numero,
+				bairro,
+				complemento,
+				cidade,
+				estado
+			);
+			dispatch({
+				type: POST_ADM_EMPRESA,
+				payload: res.data,
+			});
+			return false;
+		} catch (err) {
+			console.log(err);
+			if (err.response && err.response.status === 422) {
+				return err.response.data.errors;
+			} else {
+				return err;
+			}
+		}
+	};

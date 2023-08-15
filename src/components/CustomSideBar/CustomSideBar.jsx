@@ -30,6 +30,7 @@ import BusinessIcon from '@material-ui/icons/Business';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import CreateIcon from '@material-ui/icons/Create';
 import PersonIcon from '@material-ui/icons/Person';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
 const drawerWidth = 300;
 
@@ -85,6 +86,8 @@ function CustomSideBar(props) {
 	const history = useHistory();
 	const [isSaldoVisible, setIsSaldoVisible] = useState(true);
 	const [permissoes, setPermissoes] = useState([]);
+	const [collapseAdministradores, setCollapseAdministradores] =
+		useState(false);
 
 	/* useEffect(() => {
 		dispatch(loadUserData(token));
@@ -482,6 +485,146 @@ function CustomSideBar(props) {
 						</Typography>
 					</ListItemText>
 				</ListItem>
+				<ListItem
+					disabled={props.cadastro ? true : false}
+					component={Link}
+					button
+					selected={sideBar === 6}
+					onClick={(event) => {
+						dispatch(setSideBar(6));
+						setCollapseAdministradores(!collapseAdministradores);
+					}}
+					style={
+						sideBar === 6
+							? {
+									backgroundColor: 'white',
+									borderTopLeftRadius: 32,
+									borderBottomLeftRadius: 32,
+							  }
+							: { borderTopLeftRadius: 32, borderBottomLeftRadius: 32 }
+					}
+				>
+					<ListItemIcon style={{ width: '60px' }}>
+						<SupervisorAccountIcon
+							fontSize="50px"
+							style={{
+								backgroundColor: getSideBarItemBackgroundColor(6),
+								color: getSideBarItemColor(6),
+								width: '48px',
+								marginRight: '10px',
+								fontSize: '48px',
+								borderRadius: '33px',
+								padding: '5px',
+							}}
+						/>
+					</ListItemIcon>
+					<ListItemText>
+						<Typography
+							style={
+								sideBar === 6
+									? {
+											fontWeight: 'bold',
+											fontFamily: 'BwGradualDEMO-Bold',
+											fontSize: '14px',
+											color: APP_CONFIG.mainCollors.primary,
+									  }
+									: {
+											fontFamily: 'BwGradualDEMO-Regular',
+											fontSize: '14px',
+											color: 'white',
+									  }
+							}
+						>
+							Admnistradores
+						</Typography>
+					</ListItemText>
+				</ListItem>
+				{collapseAdministradores ? (
+					<>
+						<ListItem
+							disabled={props.cadastro ? true : false}
+							component={Link}
+							button
+							selected={sideBar === 6.1}
+							onClick={(event) => dispatch(setSideBar(6.1))}
+							to="/dashboard/administradores-empresa"
+							style={
+								sideBar === 6.1
+									? {
+											backgroundColor: 'white',
+											borderTopLeftRadius: 32,
+											borderBottomLeftRadius: 32,
+									  }
+									: {
+											borderTopLeftRadius: 32,
+											borderBottomLeftRadius: 32,
+									  }
+							}
+						>
+							<ListItemText>
+								<Typography
+									style={
+										sideBar === 6.1
+											? {
+													fontWeight: 'bold',
+													fontFamily: 'BwGradualDEMO-Bold',
+													fontSize: '14px',
+													color: APP_CONFIG.mainCollors.primary,
+											  }
+											: {
+													fontFamily: 'BwGradualDEMO-Regular',
+													fontSize: '14px',
+													color: 'white',
+											  }
+									}
+								>
+									Empresas
+								</Typography>
+							</ListItemText>
+						</ListItem>
+						<ListItem
+							disabled={props.cadastro ? true : false}
+							component={Link}
+							button
+							selected={sideBar === 6.2}
+							onClick={(event) => dispatch(setSideBar(6.2))}
+							to="/dashboard/administradores-diretoria"
+							style={
+								sideBar === 6.2
+									? {
+											backgroundColor: 'white',
+											borderTopLeftRadius: 32,
+											borderBottomLeftRadius: 32,
+									  }
+									: {
+											borderTopLeftRadius: 32,
+											borderBottomLeftRadius: 32,
+									  }
+							}
+						>
+							<ListItemText>
+								<Typography
+									style={
+										sideBar === 6.2
+											? {
+													fontWeight: 'bold',
+													fontFamily: 'BwGradualDEMO-Bold',
+													fontSize: '14px',
+													color: APP_CONFIG.mainCollors.primary,
+											  }
+											: {
+													fontFamily: 'BwGradualDEMO-Regular',
+													fontSize: '14px',
+													color: 'white',
+											  }
+									}
+								>
+									Diretoria
+								</Typography>
+							</ListItemText>
+						</ListItem>
+					</>
+				) : null}
 			</List>
 
 			{/* {userData && userData.saldo && userData.saldo.valor && (

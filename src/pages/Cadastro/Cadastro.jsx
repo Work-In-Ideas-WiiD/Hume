@@ -11,6 +11,10 @@ import {
 	MenuItem,
 	Select,
 	IconButton,
+	FormHelperText,
+	Card,
+	CardActionArea,
+	CardMedia,
 } from '@material-ui/core';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
@@ -32,6 +36,9 @@ import { DropzoneAreaBase } from 'material-ui-dropzone';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { getCep } from '../../services/services';
 import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
+import { postCandidatoAction } from '../../actions/actions';
+import ClearIcon from '@material-ui/icons/Clear';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -140,6 +147,8 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const [activeStep, setActiveStep] = useState(0);
+	const [errors, setErrors] = useState({});
+	const [filePreview, setFilePreview] = useState('');
 	const [cadastro, setCadastro] = useState({
 		name: '',
 		email: '',
@@ -190,10 +199,49 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 		}
 	};
 
-	const onDropCurriculo = async (picture) => {
+	const handleCriarCandidato = async () => {
 		setLoading(true);
+		const resCriarCandidato = await dispatch(
+			postCandidatoAction(
+				cadastro.name,
+				cadastro.email,
+				cadastro.cpf,
+				cadastro.telefone,
+				cadastro.arquivo,
+				cadastro.endereco.cep,
+				cadastro.endereco.rua,
+				cadastro.endereco.numero,
+				cadastro.endereco.bairro,
+				cadastro.endereco.complemento,
+				cadastro.endereco.cidade,
+				cadastro.endereco.estado,
+				cadastro.rg,
+				cadastro.conselho_regulador,
+				cadastro.data_nascimento,
+				cadastro.especialidade,
+				cadastro.estado_civil,
+				cadastro.grupo_atuante,
+				cadastro.nacionalidade,
+				cadastro.sexo,
+				cadastro.password,
+				cadastro.password_confirmation
+			)
+		);
+		if (resCriarCandidato) {
+			toast.error('Erro ao cadastrar');
+			setLoading(false);
 
-		console.log(picture);
+			setErrors(resCriarCandidato);
+		} else {
+			toast.success('Cadastro criado com sucesso!');
+			setLoading(false);
+		}
+	};
+
+	const handleDrop = (picture) => {
+		setLoading(true);
+		setCadastro({ ...cadastro, arquivo: picture });
+
 		setLoading(false);
 	};
 
@@ -208,6 +256,9 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 		}
 		if (activeStep === 2) {
 			setActiveStep(3);
+		}
+		if (activeStep === 3) {
+			handleCriarCandidato();
 		}
 	};
 
@@ -382,6 +433,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													name: e.target.value,
 												})
 											}
+											error={errors?.name}
+											helperText={
+												errors?.name
+													? errors?.name?.join(' ')
+													: null
+											}
 											placeholder="Digite aqui..."
 											autoFocus
 											required
@@ -407,6 +464,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													...cadastro,
 													email: e.target.value,
 												})
+											}
+											error={errors?.email}
+											helperText={
+												errors?.email
+													? errors?.email?.join(' ')
+													: null
 											}
 											placeholder="Digite aqui..."
 											autoFocus
@@ -437,6 +500,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													...cadastro,
 													sexo: e.target.value,
 												})
+											}
+											error={errors?.sexo}
+											helperText={
+												errors?.sexo
+													? errors?.sexo?.join(' ')
+													: null
 											}
 										>
 											<MenuItem
@@ -501,12 +570,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													fullWidth
 													required
 													placeholder="Digite aqui..."
-													/* error={errorsEtapa1.documento_socio}
-											helperText={
-												errorsEtapa1.documento_socio
-													? errorsEtapa1.documento_socio.join(' ')
-													: null
-											} */
+													error={errors?.cpf}
+													helperText={
+														errors?.cpf
+															? errors?.cpf?.join(' ')
+															: null
+													}
 												/>
 											)}
 										</ReactInputMask>
@@ -530,6 +599,10 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													...cadastro,
 													rg: e.target.value,
 												})
+											}
+											error={errors?.rg}
+											helperText={
+												errors?.rg ? errors?.rg?.join(' ') : null
 											}
 											placeholder="Digite aqui..."
 											autoFocus
@@ -567,12 +640,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													required
 													placeholder="Digite aqui..."
 													type="tel"
-													/* error={errorsEtapa1.celular_socio}
-											helperText={
-												errorsEtapa1.celular_socio
-													? errorsEtapa1.celular_socio.join(' ')
-													: null
-											} */
+													error={errors?.telefone}
+													helperText={
+														errors?.telefone
+															? errors?.telefone?.join(' ')
+															: null
+													}
 												/>
 											)}
 										</ReactInputMask>
@@ -622,6 +695,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													data_nascimento: e.target.value,
 												})
 											}
+											error={errors?.data_nascimento}
+											helperText={
+												errors?.data_nascimento
+													? errors?.data_nascimento?.join(' ')
+													: null
+											}
 										/>
 									</Grid>
 									<Grid item sm={6} xs={12}>
@@ -643,6 +722,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													...cadastro,
 													conselho_regulador: e.target.value,
 												})
+											}
+											error={errors?.conselho_regulador}
+											helperText={
+												errors?.conselho_regulador
+													? errors?.conselho_regulador?.join(' ')
+													: null
 											}
 											placeholder="Digite aqui..."
 											autoFocus
@@ -670,6 +755,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													especialidade: e.target.value,
 												})
 											}
+											error={errors?.especialidade}
+											helperText={
+												errors?.especialidade
+													? errors?.especialidade?.join(' ')
+													: null
+											}
 											placeholder="Digite aqui..."
 											autoFocus
 											required
@@ -695,6 +786,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													...cadastro,
 													grupo_atuante: e.target.value,
 												})
+											}
+											error={errors?.grupo_atuante}
+											helperText={
+												errors?.grupo_atuante
+													? errors?.grupo_atuante?.join(' ')
+													: null
 											}
 											placeholder="Digite aqui..."
 											autoFocus
@@ -722,6 +819,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													nacionalidade: e.target.value,
 												})
 											}
+											error={errors?.nacionalidade}
+											helperText={
+												errors?.nacionalidade
+													? errors?.nacionalidade?.join(' ')
+													: null
+											}
 											placeholder="Digite aqui..."
 											autoFocus
 											required
@@ -747,6 +850,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													...cadastro,
 													estado_civil: e.target.value,
 												})
+											}
+											error={errors?.estado_civil}
+											helperText={
+												errors?.estado_civil
+													? errors?.estado_civil?.join(' ')
+													: null
 											}
 											placeholder="Digite aqui..."
 											autoFocus
@@ -785,12 +894,55 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 										}}
 										acceptedFiles={['image/*', 'application/pdf']}
 										dropzoneClass={classes.dropzoneAreaBaseClasses}
-										onAdd={onDropCurriculo}
+										onAdd={handleDrop}
 										filesLimit={1}
 										dropzoneText="Arraste e solte o arquivo aqui ou clique para escolher"
 										showPreviews={false}
 										showPreviewsInDropzone={false}
 									/>
+									{errors.arquivo ? (
+										<FormHelperText
+											style={{
+												fontSize: 14,
+												textAlign: 'center',
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: 'red',
+											}}
+										>
+											{errors.arquivo.join(' ')}
+										</FormHelperText>
+									) : null}
+									<Grid item xs={6}>
+										<Card className={classes.card}>
+											<CardActionArea>
+												<Box position="absolute">
+													<IconButton
+														onClick={() =>
+															setCadastro({
+																...cadastro,
+																arquivo: '',
+															})
+														}
+														size="small"
+														style={{
+															color: 'white',
+															backgroundColor: 'red',
+														}}
+													>
+														<ClearIcon />
+													</IconButton>
+												</Box>
+												{cadastro.arquivo ? (
+													<PictureAsPdfIcon
+														style={{
+															color: 'black',
+															fontSize: '70px',
+														}}
+													/>
+												) : null}
+											</CardActionArea>
+										</Card>
+									</Grid>
 								</Box>
 							</>
 						) : activeStep === 2 ? (
@@ -832,6 +984,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													},
 												})
 											}
+											error={errors?.endereco?.cep}
+											helperText={
+												errors?.endereco?.cep
+													? errors?.endereco?.cep?.join(' ')
+													: null
+											}
 											onBlur={handleCep}
 											placeholder="Digite aqui..."
 											autoFocus
@@ -862,6 +1020,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													},
 												})
 											}
+											error={errors?.endereco?.rua}
+											helperText={
+												errors?.endereco?.rua
+													? errors?.endereco?.rua?.join(' ')
+													: null
+											}
 											placeholder="Digite aqui..."
 											autoFocus
 											required
@@ -890,6 +1054,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 														numero: e.target.value,
 													},
 												})
+											}
+											error={errors?.endereco?.numero}
+											helperText={
+												errors?.endereco?.numero
+													? errors?.endereco?.numero?.join(' ')
+													: null
 											}
 											placeholder="Digite aqui..."
 											autoFocus
@@ -920,6 +1090,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													},
 												})
 											}
+											error={errors?.endereco?.bairro}
+											helperText={
+												errors?.endereco?.bairro
+													? errors?.endereco?.bairro?.join(' ')
+													: null
+											}
 											placeholder="Digite aqui..."
 											autoFocus
 											required
@@ -948,6 +1124,14 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 														complemento: e.target.value,
 													},
 												})
+											}
+											error={errors?.endereco?.complemento}
+											helperText={
+												errors?.endereco?.complemento
+													? errors?.endereco?.complemento?.join(
+															' '
+													  )
+													: null
 											}
 											placeholder="Digite aqui..."
 											autoFocus
@@ -978,6 +1162,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													},
 												})
 											}
+											error={errors?.endereco?.cidade}
+											helperText={
+												errors?.endereco?.cidade
+													? errors?.endereco?.cidade?.join(' ')
+													: null
+											}
 											placeholder="Digite aqui..."
 											autoFocus
 											required
@@ -1006,6 +1196,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 														estado: e.target.value,
 													},
 												})
+											}
+											error={errors?.endereco?.estado}
+											helperText={
+												errors?.endereco?.estado
+													? errors?.endereco?.estado?.join(' ')
+													: null
 											}
 											placeholder="Digite aqui..."
 											autoFocus
@@ -1043,6 +1239,7 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 											Senha
 										</Typography>
 										<TextField
+											type="password"
 											variant="outlined"
 											value={cadastro.password}
 											onChange={(e) =>
@@ -1050,6 +1247,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													...cadastro,
 													password: e.target.value,
 												})
+											}
+											error={errors?.endereco?.password}
+											helperText={
+												errors?.endereco?.password
+													? errors?.endereco?.password?.join(' ')
+													: null
 											}
 											placeholder="Digite aqui..."
 											autoFocus
@@ -1069,6 +1272,7 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 											Confirmar senha
 										</Typography>
 										<TextField
+											type="password"
 											variant="outlined"
 											value={cadastro.password_confirmation}
 											onChange={(e) =>
@@ -1076,6 +1280,14 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													...cadastro,
 													password_confirmation: e.target.value,
 												})
+											}
+											error={errors?.endereco?.password_confirmation}
+											helperText={
+												errors?.endereco?.password_confirmation
+													? errors?.endereco?.password_confirmation?.join(
+															' '
+													  )
+													: null
 											}
 											placeholder="Digite aqui..."
 											autoFocus

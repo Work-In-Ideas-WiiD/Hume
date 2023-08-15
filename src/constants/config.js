@@ -83,7 +83,7 @@ export const APP_CONFIG = {
 					input: {
 						fontFamily: 'BwGradualDEMO-Regular',
 						/* fontWeight: 'bold', */
-						color: '#4C4B97',
+						color: '#1B1464',
 					},
 					label: {
 						color: 'black',
@@ -98,6 +98,75 @@ export const APP_CONFIG = {
 						overflowX: 'unset',
 					},
 				},
+				MuiFilledInput: {
+					root: {
+						height: '45px',
+						borderColor: '#4E4E4E',
+						borderRadius: 0,
+						borderTopLeftRadius: 0,
+						borderTopRightRadius: 0,
+						backgroundColor: '#fff',
+						border: '1px solid #4E4E4E',
+						'&$cssFocused $notchedOutline': {
+							borderWidth: 1,
+						},
+						'&:not($error) $notchedOutline': {
+							borderColor: '#4E4E4E',
+
+							// Reset on touch devices, it doesn't add specificity
+							'@media (hover: none)': {
+								borderColor: '#4E4E4E',
+							},
+						},
+
+						borderWidth: '1px',
+						'& :-webkit-autofill': {
+							'-webkit-padding-after': '15px',
+							'-webkit-padding-before': '18px',
+							'-webkit-padding-end': '15px',
+							'-webkit-padding-start': '15px',
+							'-webkit-background-clip': 'text',
+							'-webkit-color': 'black',
+
+							'-webkit-text-fill-color': '#4E4E4E !important',
+						},
+
+						'& $notchedOutline': {
+							borderColor: 'white',
+							borderWidth: 1,
+						},
+						'&:hover $notchedOutline': {
+							borderColor: 'white',
+							borderWidth: 1,
+						},
+						'&$focused $notchedOutline': {
+							borderColor: 'white',
+							borderWidth: 1,
+						},
+					},
+					focused: {
+						borderWidth: '1px',
+						backgroundColor: '#fff',
+					},
+					notchedOutline: {
+						borderWidth: '1px',
+					},
+					input: {
+						'&::placeholder': {
+							fontFamily: 'BwGradualDEMO-Regular',
+							textOverflow: 'ellipsis !important',
+
+							color: 'black',
+							/* fontWeight: '600', */
+							fontSize: '15px',
+						},
+
+						borderRadius: '27px',
+						height: '10px',
+						color: 'black',
+						fontFamily: 'BwGradualDEMO-Regular',
+					},
+				},
 
 				MuiOutlinedInput: {
 					root: {
@@ -108,7 +177,7 @@ export const APP_CONFIG = {
 							borderWidth: 1,
 						},
 						'&:not($error) $notchedOutline': {
-							borderColor: '#4C4B97',
+							borderColor: '#1B1464',
 
 							// Reset on touch devices, it doesn't add specificity
 							'@media (hover: none)': {
@@ -160,7 +229,6 @@ export const APP_CONFIG = {
 						height: '10px',
 						color: 'black',
 						fontFamily: 'BwGradualDEMO-Regular',
-						fontWeight: 'bold',
 					},
 				},
 
@@ -174,23 +242,23 @@ export const APP_CONFIG = {
 						transform: 'translate(14px, 15px) scale(1)',
 						'&$shrink': {
 							transform: 'translate(14px, -20px) scale(0.8)',
-							color: '#4C4B97',
+							color: '#1B1464',
 							fontFamily: 'BwGradualDEMO-Regular',
 						},
 						fontFamily: 'BwGradualDEMO-Regular',
 						fontWeight: 'bold',
-						color: '#4C4B97',
+						color: '#1B1464',
 					},
 					root: {
 						transform: 'translate(10px, 12px) scale(1)',
 						'&$shrink': {
 							transform: 'translate(10px, -2px) scale(0.8)',
-							color: '#4C4B97',
+							color: '#1B1464',
 							fontFamily: 'BwGradualDEMO-Regular',
 						},
 						fontFamily: 'BwGradualDEMO-Regular',
 						fontWeight: 'bold',
-						color: '#4C4B97',
+						color: '#1B1464',
 					},
 				},
 				MuiButton: {

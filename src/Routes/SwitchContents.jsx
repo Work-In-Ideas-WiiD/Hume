@@ -9,6 +9,8 @@ import { APP_CONFIG } from '../constants/config';
 import CustomSideBar from '../components/CustomSideBar/CustomSideBar';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import ListaCandidatos from '../pages/ListaCandidatos/ListaCandidatos';
+import ListaAdministradoresEmpresa from '../pages/ListaAdministradoresEmpresa/ListaAdministradoresEmpresa';
+import ListaAdministradoresDiretoria from '../pages/ListaAdministradoresDiretoria/ListaAdministradoresDiretoria';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -69,6 +71,14 @@ const SwitchContents = () => {
 
 		case 'candidatos':
 			content = <ListaCandidatos />;
+			break;
+
+		case 'administradores-empresa':
+			content = <ListaAdministradoresEmpresa />;
+			break;
+
+		case 'administradores-diretoria':
+			content = <ListaAdministradoresDiretoria />;
 			break;
 
 		default:
