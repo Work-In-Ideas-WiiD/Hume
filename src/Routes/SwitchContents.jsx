@@ -11,6 +11,7 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import ListaCandidatos from '../pages/ListaCandidatos/ListaCandidatos';
 import ListaAdministradoresEmpresa from '../pages/ListaAdministradoresEmpresa/ListaAdministradoresEmpresa';
 import ListaAdministradoresDiretoria from '../pages/ListaAdministradoresDiretoria/ListaAdministradoresDiretoria';
+import ListaVagas from '../pages/ListaVagas/ListaVagas';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -71,6 +72,10 @@ const SwitchContents = () => {
 
 		case 'candidatos':
 			content = <ListaCandidatos />;
+			break;
+
+		case 'vagas':
+			content = <ListaVagas />;
 			break;
 
 		case 'administradores-empresa':

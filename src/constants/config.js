@@ -24,15 +24,12 @@ export const APP_CONFIG = {
 			backgrounds: '#F7F7F7',
 			disabledTextfields: '#E0DFF8',
 			extratoHome: '#302F60',
-			primaryGradient:
-				'linear-gradient(135deg, rgba(2,149,59,1) 15%, rgba(75,75,150,1) 100%)',
-			secondaryGradient:
-				'linear-gradient(360deg, rgba(2,149,59,1) 0%, rgba(75,75,150,1) 100%)',
-			buttonGradient:
-				'linear-gradient(135deg, rgba(2,149,59,1) 10%, rgba(75,75,150,1) 100%)',
+			primaryGradient: 'linear-gradient(135deg, #1B1464 15%, #302F60 100%)',
+			secondaryGradient: 'linear-gradient(360deg, #1B1464 0%, #302F60 100%)',
+			buttonGradient: 'linear-gradient(135deg, #1B1464 15%, #302F60 100%)',
 			buttonGradientVariant:
-				'linear-gradient(180deg, rgba(2,149,59,1) 15%, rgba(75,75,150,1) 100%)',
-			drawerSideBar: '#02953b',
+				'linear-gradient(180deg, #1B1464 15%, #302F60 100%)',
+			drawerSideBar: '#003DFF',
 
 			buttonPrimary: '#7732F5',
 			buttonSecondary: '#003DFF',
@@ -66,7 +63,7 @@ export const APP_CONFIG = {
 					paper: '#FFF',
 				},
 				primary: {
-					main: '#4C4B97',
+					main: '#1B1464',
 					light: '#EDEDF4',
 				},
 				secondary: {
@@ -82,7 +79,7 @@ export const APP_CONFIG = {
 				MuiInputBase: {
 					input: {
 						fontFamily: 'BwGradualDEMO-Regular',
-						/* fontWeight: 'bold', */
+
 						color: '#1B1464',
 					},
 					label: {
@@ -100,24 +97,25 @@ export const APP_CONFIG = {
 				},
 				MuiFilledInput: {
 					root: {
-						height: '45px',
+						height: '32px',
 						borderColor: '#4E4E4E',
+						padding: '0px 0px 10px 0px !important',
 						borderRadius: 0,
 						borderTopLeftRadius: 0,
 						borderTopRightRadius: 0,
 						backgroundColor: '#fff',
 						border: '1px solid #4E4E4E',
-						'&$cssFocused $notchedOutline': {
+						/* '&$cssFocused $notchedOutline': {
 							borderWidth: 1,
 						},
 						'&:not($error) $notchedOutline': {
 							borderColor: '#4E4E4E',
 
-							// Reset on touch devices, it doesn't add specificity
+							
 							'@media (hover: none)': {
 								borderColor: '#4E4E4E',
 							},
-						},
+						}, */
 
 						borderWidth: '1px',
 						'& :-webkit-autofill': {
@@ -131,7 +129,7 @@ export const APP_CONFIG = {
 							'-webkit-text-fill-color': '#4E4E4E !important',
 						},
 
-						'& $notchedOutline': {
+						/* 	'& $notchedOutline': {
 							borderColor: 'white',
 							borderWidth: 1,
 						},
@@ -142,15 +140,15 @@ export const APP_CONFIG = {
 						'&$focused $notchedOutline': {
 							borderColor: 'white',
 							borderWidth: 1,
-						},
+						}, */
 					},
 					focused: {
 						borderWidth: '1px',
 						backgroundColor: '#fff',
 					},
-					notchedOutline: {
+					/* notchedOutline: {
 						borderWidth: '1px',
-					},
+					}, */
 					input: {
 						'&::placeholder': {
 							fontFamily: 'BwGradualDEMO-Regular',
@@ -161,8 +159,7 @@ export const APP_CONFIG = {
 							fontSize: '15px',
 						},
 
-						borderRadius: '27px',
-						height: '10px',
+						height: '30px',
 						color: 'black',
 						fontFamily: 'BwGradualDEMO-Regular',
 					},
@@ -179,7 +176,6 @@ export const APP_CONFIG = {
 						'&:not($error) $notchedOutline': {
 							borderColor: '#1B1464',
 
-							// Reset on touch devices, it doesn't add specificity
 							'@media (hover: none)': {
 								borderColor: 'rgba(0, 0, 0, 0.23)',
 							},

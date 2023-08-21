@@ -7,6 +7,8 @@ import {
 	GET_CANDIDATO,
 	GET_ADM_EMPRESA,
 	GET_ADM_DIRETORIA,
+	GET_VAGAS,
+	GET_EMPRESAS,
 } from '../constants/actionsStrings';
 import { applyMiddleware, compose, createStore } from 'redux';
 
@@ -23,6 +25,8 @@ const INITIAL_STATE = {
 	candidato: {},
 	admEmpresa: {},
 	admDiretoria: {},
+	vagas: {},
+	empresas: {},
 };
 
 const enhancer = compose(applyMiddleware(thunk));
@@ -51,6 +55,12 @@ const state = (state = INITIAL_STATE, action) => {
 
 		case GET_ADM_DIRETORIA:
 			return { ...state, admDiretoria: action.payload };
+
+		case GET_VAGAS:
+			return { ...state, vagas: action.payload };
+
+		case GET_EMPRESAS:
+			return { ...state, empresas: action.payload };
 
 		default:
 			return { ...state };

@@ -15,14 +15,12 @@ import {
 	Typography,
 	makeStyles,
 	Paper,
-	Grid,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import {
 	delAdmin,
+	delCandidatoAction,
 	delDocumento,
-	getAdministradorDiretoriaAction,
-	getAdministradorEmpresaAction,
 	getAllContasAction,
 	getAprovarContaAction,
 	getCandidatoAction,
@@ -30,8 +28,8 @@ import {
 	getContasExportAction,
 	getListaAdministradorAction,
 	getReenviarTokenUsuarioAction,
+	getVagasAction,
 	loadDocumentos,
-	postAdministradorDiretoriaAction,
 	postCriarAdminAction,
 	postStatusAction,
 } from '../../actions/actions';
@@ -50,14 +48,14 @@ import { toast } from 'react-toastify';
 import useAuth from '../../hooks/useAuth';
 import useDebounce from '../../hooks/useDebounce';
 import { APP_CONFIG } from '../../constants/config';
+import InputMask from 'react-input-mask';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DoorBackIcon from '@mui/icons-material/DoorBack';
 import CancelIcon from '@mui/icons-material/Cancel';
 import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
-import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-import ReactInputMask from 'react-input-mask';
-import { DropzoneAreaBase } from 'material-ui-dropzone';
+import { toPairs } from 'lodash';
+import CustomCardInfos from '../../components/CustomCardInfos/CustomCardInfos';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -75,97 +73,44 @@ const useStyles = makeStyles((theme) => ({
 		color: APP_CONFIG.mainCollors.black,
 		fontFamily: 'BwGradualDEMO-Regular',
 	},
-	dropzoneAreaBaseClasses: {
-		width: '70%',
-		height: '150px',
-		backgroundColor: APP_CONFIG.mainCollors.backgrounds,
-	},
-	dropzoneContainer: {
-		margin: '6px',
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		padding: '12px',
-		minHeight: '422px',
-		fontSize: '12px',
-	},
-	textoDropzone: {
-		fontSize: '1.2rem',
-		color: APP_CONFIG.mainCollors.primary,
-	},
 }));
 
 const columns = [
-	{ headerText: 'Nome', key: 'name' },
-	{ headerText: 'E-mail', key: 'email' },
-
-	{ headerText: '', key: 'menu' },
+	{ headerText: 'Nome da vaga', key: 'titulo' },
+	{ headerText: 'Status', key: 'status' },
+	{ headerText: 'Mais ações', key: 'menu' },
 ];
 
-const ListaAdministradoresDiretoria = () => {
+const ListaVagas = () => {
 	const [filters, setFilters] = useState({
 		like: '',
 		order: '',
 		mostrar: '',
+		status: ' ',
 	});
 	const debouncedLike = useDebounce(filters.like, 800);
 	const [loading, setLoading] = useState(false);
 	const token = useAuth();
 	const classes = useStyles();
 	const [page, setPage] = useState(1);
-	const [criarAdminModal, setCriarAdminModal] = useState(false);
-	const [errors, setErrors] = useState({});
+
 	const dispatch = useDispatch();
-	const [cadastroAdm, setCadastroAdm] = useState({
-		name: '',
-		email: '',
-	});
-	const admDiretoria = useSelector((state) => state.admDiretoria);
+	const vagas = useSelector((state) => state.vagas);
 	useEffect(() => {
 		dispatch(
-			getAdministradorDiretoriaAction(
+			getVagasAction(
 				token,
 				page,
 				debouncedLike,
 				filters.order,
-				filters.mostrar
+				filters.mostrar,
+				filters.status
 			)
 		);
-	}, [page, debouncedLike, filters.order, filters.mostrar]);
+	}, [page, debouncedLike, filters.order, filters.mostrar, filters.status]);
 
 	const handleChangePage = (e, value) => {
 		setPage(value);
-	};
-
-	const handleCriarAdmin = async () => {
-		setLoading(true);
-		const resCriarAdmin = await dispatch(
-			postAdministradorDiretoriaAction(
-				token,
-				cadastroAdm.name,
-				cadastroAdm.email
-			)
-		);
-		if (resCriarAdmin) {
-			toast.error('Erro ao criar administrador');
-			setLoading(false);
-			setCriarAdminModal(false);
-			setErrors(resCriarAdmin);
-		} else {
-			toast.success('Administrador criado com sucesso!');
-			setLoading(false);
-			setCriarAdminModal(false);
-			setCadastroAdm({ name: '', email: '' });
-			await dispatch(
-				getAdministradorDiretoriaAction(
-					token,
-					page,
-					debouncedLike,
-					filters.order,
-					filters.mostrar
-				)
-			);
-		}
 	};
 
 	const Editar = (row) => {
@@ -181,7 +126,7 @@ const ListaAdministradoresDiretoria = () => {
 
 		return (
 			<Box>
-				{/* <IconButton
+				<IconButton
 					style={{ height: '15px', width: '10px' }}
 					aria-controls="simple-menu"
 					aria-haspopup="true"
@@ -197,14 +142,13 @@ const ListaAdministradoresDiretoria = () => {
 					onClose={handleClose}
 				>
 					<MenuItem
-						onClick={() => handleIniciarSelecao(row)}
+						/* onClick={() => handleExcluirCandidato(row)} */
 						style={{ color: APP_CONFIG.mainCollors.black }}
 					>
-						<CheckCircleIcon style={{ marginRight: '5px' }} />
-						Iniciar Seleção
+						<CancelIcon style={{ marginRight: '5px' }} />
+						Excluir
 					</MenuItem>
-					
-				</Menu> */}
+				</Menu>
 			</Box>
 		);
 	};
@@ -221,9 +165,7 @@ const ListaAdministradoresDiretoria = () => {
 						alignItems: 'center',
 					}}
 				>
-					<Typography className={classes.pageTitle}>
-						ADMINISTRADORES DIRETORIA
-					</Typography>
+					<Typography className={classes.pageTitle}>VAGAS</Typography>
 					<Box style={{ alignSelf: 'flex-end' }}>
 						<IconButton
 							style={{
@@ -236,6 +178,7 @@ const ListaAdministradoresDiretoria = () => {
 						</IconButton>
 					</Box>
 				</Box>
+
 				<Box
 					style={{
 						width: '100%',
@@ -272,31 +215,28 @@ const ListaAdministradoresDiretoria = () => {
 									like: e.target.value,
 								});
 							}}
-						/>
-						<CustomButton
-							color="colorPrimary"
-							onClick={() => setCriarAdminModal(true)}
-						>
-							<Box
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
+						></TextField>
+
+						<Box>
+							{/* <CustomButton
+								onClick={() => {
+									setOpen(true);
 								}}
 							>
-								<CreateNewFolderIcon style={{ marginRight: '5px' }} />
-								<Typography> Cadastrar Admin</Typography>
-							</Box>
-						</CustomButton>
+								<Box display="flex" alignItems="center">
+									Criar Administrador
+								</Box>
+							</CustomButton> */}
+						</Box>
 					</Box>
 				</Box>
 			</Box>
 
 			<Box className={classes.tableContainer}>
-				{admDiretoria.data && admDiretoria.per_page ? (
+				{vagas.data && vagas.per_page ? (
 					<CustomTable
 						columns={columns}
-						data={admDiretoria.data}
+						data={vagas.data}
 						Editar={Editar}
 					/>
 				) : (
@@ -314,104 +254,14 @@ const ListaAdministradoresDiretoria = () => {
 						variant="outlined"
 						color="primary"
 						size="large"
-						count={admDiretoria.last_page}
+						count={vagas.last_page}
 						onChange={handleChangePage}
 						page={page}
 					/>
 				</Box>
 			</Box>
-			<Dialog
-				open={criarAdminModal}
-				onClose={() => setCriarAdminModal(false)}
-			>
-				<Box
-					style={{
-						backgroundColor: APP_CONFIG.mainCollors.backgrounds,
-						width: '500px',
-						padding: '50px',
-					}}
-				>
-					<Typography
-						style={{
-							fontFamily: 'BwGradualDEMO-Bold',
-							color: APP_CONFIG.mainCollors.primaryVariant,
-						}}
-					>
-						Dados pessoais
-					</Typography>
-					<Box style={{ marginTop: '30px' }}>
-						<Grid container spacing={3}>
-							<Grid item sm={6} xs={12}>
-								<Typography
-									style={{
-										fontFamily: 'BwGradualDEMO-Regular',
-										color: APP_CONFIG.mainCollors.primaryVariant,
-										fontSize: 13,
-									}}
-								>
-									Nome
-								</Typography>
-								<TextField
-									InputProps={{ disableUnderline: true }}
-									variant="filled"
-									value={cadastroAdm.name}
-									onChange={(e) =>
-										setCadastroAdm({
-											...cadastroAdm,
-											name: e.target.value,
-										})
-									}
-									autoFocus
-									required
-									fullWidth
-								/>
-							</Grid>
-							<Grid item sm={6} xs={12}>
-								<Typography
-									style={{
-										fontFamily: 'BwGradualDEMO-Regular',
-										color: APP_CONFIG.mainCollors.primaryVariant,
-										fontSize: 13,
-									}}
-								>
-									E-mail
-								</Typography>
-								<TextField
-									InputProps={{ disableUnderline: true }}
-									variant="filled"
-									value={cadastroAdm.email}
-									onChange={(e) =>
-										setCadastroAdm({
-											...cadastroAdm,
-											email: e.target.value,
-										})
-									}
-									autoFocus
-									required
-									fullWidth
-								/>
-							</Grid>
-						</Grid>
-						<Box
-							style={{
-								display: 'flex',
-								marginTop: '30px',
-								alignSelf: 'center',
-								justifyContent: 'center',
-							}}
-						>
-							<CustomButton
-								color="colorPrimary"
-								onClick={() => handleCriarAdmin()}
-							>
-								<Typography>Salvar</Typography>
-							</CustomButton>
-						</Box>
-					</Box>
-				</Box>
-			</Dialog>
 		</Box>
 	);
 };
 
-export default ListaAdministradoresDiretoria;
+export default ListaVagas;

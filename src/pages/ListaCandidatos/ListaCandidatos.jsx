@@ -15,6 +15,8 @@ import {
 	Typography,
 	makeStyles,
 	Paper,
+	Grid,
+	CardMedia,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import {
@@ -53,7 +55,11 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DoorBackIcon from '@mui/icons-material/DoorBack';
 import CancelIcon from '@mui/icons-material/Cancel';
 import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
-import { toPairs } from 'lodash';
+import PersonIcon from '@mui/icons-material/Person';
+import DownloadIcon from '@mui/icons-material/Download';
+import { Link } from 'react-router-dom';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import ReactInputMask from 'react-input-mask';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -90,9 +96,10 @@ const ListaCandidatos = () => {
 	const token = useAuth();
 	const classes = useStyles();
 	const [page, setPage] = useState(1);
-
 	const dispatch = useDispatch();
 	const candidato = useSelector((state) => state.candidato);
+	const [verCandidatoModal, setVerCandidatoModal] = useState(false);
+	const [verCandidato, setVerCandidato] = useState({});
 	useEffect(() => {
 		dispatch(
 			getCandidatoAction(
@@ -109,9 +116,14 @@ const ListaCandidatos = () => {
 		setPage(value);
 	};
 
+	const handleClickRow = (row) => {
+		setVerCandidato(row);
+
+		setVerCandidatoModal(true);
+	};
+
 	const Editar = (row) => {
 		const [anchorEl, setAnchorEl] = useState(null);
-		const [disabled, setDisabled] = useState(false);
 
 		const handleClick = (event) => {
 			setAnchorEl(event.currentTarget);
@@ -172,6 +184,10 @@ const ListaCandidatos = () => {
 		);
 	};
 
+	useEffect(() => {
+		setVerCandidato({});
+	}, []);
+
 	return (
 		<Box className={classes.root}>
 			<LoadingScreen isLoading={loading} />
@@ -213,7 +229,8 @@ const ListaCandidatos = () => {
 						<TextField
 							placeholder="Pesquisar por nome, documento, email..."
 							size="small"
-							variant="outlined"
+							variant="filled"
+							InputProps={{ disableUnderline: true }}
 							style={{
 								backgroundColor: APP_CONFIG.mainCollors.backgrounds,
 								width: '400px',
@@ -255,6 +272,7 @@ const ListaCandidatos = () => {
 						columns={columns}
 						data={candidato.data}
 						Editar={Editar}
+						handleClickRow={handleClickRow}
 					/>
 				) : (
 					<Box>
@@ -277,6 +295,564 @@ const ListaCandidatos = () => {
 					/>
 				</Box>
 			</Box>
+			<Dialog
+				open={verCandidatoModal}
+				onClose={() => {
+					{
+						setVerCandidatoModal(false);
+						setVerCandidato({});
+					}
+				}}
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					overflowY: 'scroll',
+				}}
+				maxWidth="800px"
+				fullWidth
+			>
+				<>
+					<LoadingScreen isLoading={loading} />
+					<Box
+						style={{
+							backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+							width: '800px',
+							padding: '50px',
+						}}
+					>
+						<Box
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								flexDirection: 'column',
+							}}
+						>
+							<Box
+								style={{
+									display: 'flex',
+									borderRadius: 60,
+									alignItems: 'center',
+									justifyContent: 'center',
+									border: '1px solid gray',
+									height: 100,
+									width: 100,
+									backgroundColor: '#fff',
+								}}
+							>
+								{verCandidato?.candidato?.arquivo === '' ? (
+									<>
+										<PersonIcon
+											style={{
+												fontSize: '30px',
+												color: APP_CONFIG.mainCollors.black,
+											}}
+										/>
+									</>
+								) : (
+									<>
+										<PictureAsPdfIcon />
+									</>
+								)}
+							</Box>
+
+							<Box style={{ marginTop: '20px' }}>
+								<CustomButton
+									href={verCandidato?.candidato?.arquivo_url}
+									download
+									color="colorTertiary"
+								>
+									<Box
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+										}}
+									>
+										<DownloadIcon style={{ marginRight: '5px' }} />
+										<Typography>Fazer download</Typography>
+									</Box>
+								</CustomButton>
+							</Box>
+						</Box>
+						<Box style={{ marginTop: '10px' }}>
+							<Typography
+								style={{
+									fontFamily: 'BwGradualDEMO-Bold',
+									color: APP_CONFIG.mainCollors.primaryVariant,
+								}}
+							>
+								Dados do candidato
+							</Typography>
+							<Box style={{ marginTop: '30px' }}>
+								<Grid container spacing={3}>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Nome
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.name}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											E-mail
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.email}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											CPF
+										</Typography>
+										<InputMask
+											mask={'999.999.999-99'}
+											value={verCandidato?.candidato?.cpf}
+											disabled
+										>
+											{() => (
+												<TextField
+													disabled
+													InputProps={{
+														disableUnderline: true,
+													}}
+													variant="filled"
+													InputLabelProps={{ shrink: true }}
+													required
+													fullWidth
+												/>
+											)}
+										</InputMask>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Telefone
+										</Typography>
+										<ReactInputMask
+											disabled
+											mask="(99) 99999-9999"
+											value={verCandidato?.candidato?.telefone}
+										>
+											{() => (
+												<TextField
+													disabled
+													InputProps={{ disableUnderline: true }}
+													variant="filled"
+													InputLabelProps={{ shrink: true }}
+													fullWidth
+													required
+													type="tel"
+												/>
+											)}
+										</ReactInputMask>
+									</Grid>
+
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Data de nascimento
+										</Typography>
+										<TextField
+											disabled
+											fullWidth
+											variant="filled"
+											InputLabelProps={{
+												shrink: true,
+												pattern: 'd {4}- d {2}- d {2} ',
+											}}
+											type="date"
+											value={
+												verCandidato?.candidato?.data_nascimento
+											}
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											RG
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.rg}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Conselho regulador
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.conselho_regulador
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Especialidade
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.especialidade}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Estado civil
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.estado_civil}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Grupo atuante
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.grupo_atuante}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Nacionalidade
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.nacionalidade}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Sexo
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.sexo}
+											required
+											fullWidth
+										/>
+									</Grid>
+								</Grid>
+							</Box>
+						</Box>
+						<Box style={{ marginTop: '60px' }}>
+							<Typography
+								style={{
+									fontFamily: 'BwGradualDEMO-Bold',
+									color: APP_CONFIG.mainCollors.primaryVariant,
+								}}
+							>
+								Endereço
+							</Typography>
+							<Box style={{ marginTop: '30px' }}>
+								<Grid container spacing={3}>
+									<Grid item sm={4} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											CEP
+										</Typography>
+										<InputMask
+											disabled
+											mask={'99999-999'}
+											value={verCandidato?.candidato?.endereco?.cep}
+										>
+											{() => (
+												<TextField
+													disabled
+													InputProps={{
+														disableUnderline: true,
+													}}
+													variant="filled"
+													InputLabelProps={{ shrink: true }}
+													required
+													fullWidth
+												/>
+											)}
+										</InputMask>
+									</Grid>
+									<Grid item sm={8} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Rua
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.endereco?.rua}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={3} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Número
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.endereco?.numero
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={4} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Bairro
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.endereco?.bairro
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={5} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Complemento
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.endereco
+													?.complemento
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={4} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Cidade
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{
+												disableUnderline: true,
+												sx: { borderRadius: 0 },
+											}}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.endereco?.cidade
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={4} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Estado
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.endereco?.estado
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+								</Grid>
+							</Box>
+						</Box>
+						{/* <Box
+									style={{
+										display: 'flex',
+										marginTop: '30px',
+										alignSelf: 'center',
+										justifyContent: 'center',
+									}}
+								>
+									<CustomButton
+										color="colorPrimary"
+										onClick={() => handleCriarAdmin()}
+									>
+										<Typography>Salvar</Typography>
+									</CustomButton>
+								</Box> */}
+					</Box>
+				</>
+			</Dialog>
 		</Box>
 	);
 };

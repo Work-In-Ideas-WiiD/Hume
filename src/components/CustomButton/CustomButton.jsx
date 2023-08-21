@@ -42,6 +42,7 @@ const CustomButton = (props) => {
 					: props.color === 'horizontalGradient'
 					? {
 							background: APP_CONFIG.mainCollors.buttonGradient,
+							color: 'white',
 					  }
 					: props.color === 'colorPrimary'
 					? {
@@ -65,7 +66,13 @@ const CustomButton = (props) => {
 					  })
 			}
 		>
-			<Typography style={{ fontSize: '16px' }}>{props.children}</Typography>
+			<Typography
+				style={{
+					fontSize: '16px',
+				}}
+			>
+				{props.children}
+			</Typography>
 		</Button>
 	);
 };

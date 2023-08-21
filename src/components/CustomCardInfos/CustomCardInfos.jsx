@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const CustomCardDashboardRepresentante = ({
+const CustomCardInfos = ({
 	icon,
 	iconColor,
 	link,
@@ -161,4 +161,4 @@ const CustomCardDashboardRepresentante = ({
 	);
 };
 
-export default CustomCardDashboardRepresentante;
+export default CustomCardInfos;

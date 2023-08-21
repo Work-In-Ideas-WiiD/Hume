@@ -246,3 +246,46 @@ export const postAdministradorEmpresa = (
 		data: bodyFormData,
 	});
 };
+
+export const getVagas = (token, page, like, order, mostrar, status) => {
+	const url = `${process.env.REACT_APP_API_URL}/vaga?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}&status${status}`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const getEmpresas = (token, page, like, order, mostrar, status) => {
+	const url = `${process.env.REACT_APP_API_URL}/empresa?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}&status${status}`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const postVincularaAdmEmpresa = (
+	token,
+	administrador_id,
+	empresa_id
+) => {
+	const url = `${process.env.REACT_APP_API_URL}/administrador/store/empresa/adm`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			administrador_id: administrador_id,
+			empresa_id: empresa_id,
+		},
+	});
+};

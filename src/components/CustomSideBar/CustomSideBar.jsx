@@ -1,4 +1,4 @@
-import { Box, Button, Divider } from '@material-ui/core';
+import { Box, Button, Collapse, Divider } from '@material-ui/core';
 import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -31,8 +31,10 @@ import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import CreateIcon from '@material-ui/icons/Create';
 import PersonIcon from '@material-ui/icons/Person';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import PaidIcon from '@mui/icons-material/Paid';
+import { ExpandLess, ExpandMore } from '@material-ui/icons';
 
-const drawerWidth = 300;
+const drawerWidth = 270;
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -68,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 		padding: theme.spacing(3),
 	},
+	nested: {
+		paddingLeft: theme.spacing(4),
+	},
 }));
 
 function CustomSideBar(props) {
@@ -84,7 +89,9 @@ function CustomSideBar(props) {
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const history = useHistory();
-	const [isSaldoVisible, setIsSaldoVisible] = useState(true);
+	const [openTransferenciaCollapse, setOpenTransferenciaCollapse] =
+		useState(false);
+
 	const [permissoes, setPermissoes] = useState([]);
 	const [collapseAdministradores, setCollapseAdministradores] =
 		useState(false);
@@ -122,6 +129,10 @@ function CustomSideBar(props) {
 					? 4
 					: section === 'processo-de-selecao'
 					? 5
+					: section === 'administradores-empresa'
+					? 6.1
+					: section === 'administradores-diretoria'
+					? 6.2
 					: null
 			)
 		);
@@ -485,14 +496,186 @@ function CustomSideBar(props) {
 						</Typography>
 					</ListItemText>
 				</ListItem>
-				<ListItem
+				<>
+					<ListItem
+						button
+						onClick={() => {
+							setOpenTransferenciaCollapse((open) => !open);
+							dispatch(setSideBar(6));
+						}}
+						component={Link}
+						style={
+							sideBar === 6
+								? {
+										backgroundColor: 'white',
+										borderTopLeftRadius: 32,
+										borderBottomLeftRadius: 32,
+								  }
+								: {
+										borderTopLeftRadius: 32,
+										borderBottomLeftRadius: 32,
+								  }
+						}
+					>
+						<ListItemIcon style={{ width: '60px' }}>
+							<SupervisorAccountIcon
+								fontSize="50px"
+								style={{
+									backgroundColor: getSideBarItemBackgroundColor(6),
+									color: getSideBarItemColor(6),
+									width: '48px',
+									marginRight: '10px',
+									fontSize: '48px',
+									borderRadius: '33px',
+									padding: '5px',
+								}}
+							/>
+						</ListItemIcon>
+						<Typography
+							style={
+								sideBar === 6
+									? {
+											fontWeight: 'bold',
+											fontFamily: 'BwGradualDEMO-Bold',
+											fontSize: '14px',
+											color: APP_CONFIG.mainCollors.primary,
+									  }
+									: {
+											fontFamily: 'BwGradualDEMO-Regular',
+											fontSize: '14px',
+											color: 'white',
+									  }
+							}
+						>
+							Administradores
+						</Typography>
+
+						{openTransferenciaCollapse ? (
+							<ExpandLess
+								style={{
+									fontSize: '32px',
+									color:
+										sideBar === 6
+											? APP_CONFIG.mainCollors.primary
+											: '#fff',
+								}}
+							/>
+						) : (
+							<ExpandMore
+								style={{
+									fontSize: '32px',
+									color:
+										sideBar === 6
+											? APP_CONFIG.mainCollors.primary
+											: '#fff',
+								}}
+							/>
+						)}
+					</ListItem>
+					<Collapse
+						in={openTransferenciaCollapse}
+						timeout="auto"
+						unmountOnExit
+					>
+						<List component="div" disablePadding>
+							<ListItem
+								disabled={props.cadastro ? true : false}
+								component={Link}
+								button
+								className={classes.nested}
+								selected={sideBar === 6.1}
+								onClick={(event) => dispatch(setSideBar(6.1))}
+								to="/dashboard/administradores-empresa"
+								style={
+									sideBar === 6.1
+										? {
+												backgroundColor: 'white',
+												borderTopLeftRadius: 32,
+												borderBottomLeftRadius: 32,
+										  }
+										: {
+												borderTopLeftRadius: 32,
+												borderBottomLeftRadius: 32,
+										  }
+								}
+							>
+								<ListItemText>
+									<Typography
+										style={
+											sideBar === 6.1
+												? {
+														fontWeight: 'bold',
+														fontFamily: 'BwGradualDEMO-Bold',
+														fontSize: '14px',
+														color: APP_CONFIG.mainCollors.primary,
+												  }
+												: {
+														fontFamily: 'BwGradualDEMO-Regular',
+														fontSize: '14px',
+														color: 'white',
+												  }
+										}
+									>
+										Empresa
+									</Typography>
+								</ListItemText>
+							</ListItem>
+
+							<ListItem
+								disabled={props.cadastro ? true : false}
+								component={Link}
+								button
+								className={classes.nested}
+								selected={sideBar === 6.2}
+								onClick={(event) => dispatch(setSideBar(6.2))}
+								to="/dashboard/administradores-diretoria"
+								style={
+									sideBar === 6.2
+										? {
+												backgroundColor: 'white',
+												borderTopLeftRadius: 32,
+												borderBottomLeftRadius: 32,
+										  }
+										: {
+												borderTopLeftRadius: 32,
+												borderBottomLeftRadius: 32,
+										  }
+								}
+							>
+								<ListItemText>
+									<Typography
+										style={
+											sideBar === 6.2
+												? {
+														fontWeight: 'bold',
+														fontFamily: 'BwGradualDEMO-Bold',
+														fontSize: '14px',
+														color: APP_CONFIG.mainCollors.primary,
+												  }
+												: {
+														fontFamily: 'BwGradualDEMO-Regular',
+														fontSize: '14px',
+														color: 'white',
+												  }
+										}
+									>
+										Diretoria
+									</Typography>
+								</ListItemText>
+							</ListItem>
+						</List>
+					</Collapse>
+				</>
+				{/* <ListItem
 					disabled={props.cadastro ? true : false}
 					component={Link}
 					button
 					selected={sideBar === 6}
 					onClick={(event) => {
 						dispatch(setSideBar(6));
-						setCollapseAdministradores(!collapseAdministradores);
+						setCollapseAdministradores(
+							sideBar === 6 ? !collapseAdministradores : false
+						);
 					}}
 					style={
 						sideBar === 6
@@ -624,7 +807,7 @@ function CustomSideBar(props) {
 							</ListItemText>
 						</ListItem>
 					</>
-				) : null}
+				) : null} */}
 			</List>
 
 			{/* {userData && userData.saldo && userData.saldo.valor && (

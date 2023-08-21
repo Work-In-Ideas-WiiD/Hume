@@ -44,6 +44,7 @@ import {
 	GET_CONSULTA_CHAVE,
 	GET_CONTAS_EXPORT,
 	GET_DOCUMENTO_PRE_CONTA,
+	GET_EMPRESAS,
 	GET_ENVIAR_DOCUMENTO_IDWALL,
 	GET_EXPORTACOES_SOLICITADAS,
 	GET_EXPORT_DOWNLOAD,
@@ -93,6 +94,7 @@ import {
 	GET_TRANSACAO_TED,
 	GET_TRANSACAO_TED_ID,
 	GET_TRANSFERENCIA_EXTRATO,
+	GET_VAGAS,
 	LOAD_ALL_CONTAS,
 	LOAD_ASSINATURAS,
 	LOAD_BANCOS,
@@ -212,6 +214,7 @@ import {
 	POST_USER_REPRESENTANTE,
 	POST_VALIDAR_TOKEN,
 	POST_VERIFICAR_CONTATO,
+	POST_VINCULAR_ADM_EMPRESA,
 	POST_VINCULAR_PERFIL_TAXA,
 	PUT_ASSINATURA,
 	PUT_FEES,
@@ -470,6 +473,9 @@ import {
 	postAdministradorEmpresa,
 	postCandidato,
 	delCandidato,
+	getVagas,
+	getEmpresas,
+	postVincularaAdmEmpresa,
 } from '../services/services';
 
 import { toast } from 'react-toastify';
@@ -743,8 +749,6 @@ export const postAdministradorEmpresaAction =
 		estado
 	) =>
 	async (dispatch) => {
-		const imagemObjeto = { ...imagem };
-
 		try {
 			const res = await postAdministradorEmpresa(
 				token,
@@ -752,7 +756,7 @@ export const postAdministradorEmpresaAction =
 				email,
 				cnpj,
 				telefone,
-				imagemObjeto[0],
+				imagem,
 				cep,
 				rua,
 				numero,
@@ -771,6 +775,65 @@ export const postAdministradorEmpresaAction =
 			if (err.response && err.response.status === 422) {
 				return err.response.data.errors;
 			} else {
+				return err;
+			}
+		}
+	};
+
+export const getVagasAction =
+	(token, page, like, order, mostrar, status) => async (dispatch) => {
+		try {
+			const res = await getVagas(token, page, like, order, mostrar, status);
+			dispatch({
+				type: GET_VAGAS,
+				payload: res.data,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+export const getEmpresasAction =
+	(token, page, like, order, mostrar, status) => async (dispatch) => {
+		try {
+			const res = await getEmpresas(
+				token,
+				page,
+				like,
+				order,
+				mostrar,
+				status
+			);
+			dispatch({
+				type: GET_EMPRESAS,
+				payload: res.data,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+export const postVincularaAdmEmpresaAction =
+	(token, administrador_id, empresa_id) => async (dispatch) => {
+		try {
+			const res = await postVincularaAdmEmpresa(
+				token,
+				administrador_id,
+				empresa_id
+			);
+			dispatch({
+				type: POST_VINCULAR_ADM_EMPRESA,
+				payload: res.data,
+			});
+			return false;
+		} catch (err) {
+			console.log(err);
+			if (err.response && err.response.status === 422) {
+				return err.response.data.errors;
+			} else {
+				if (err.response.data.message) {
+					toast.error(err.response.data.message);
+				}
 				return err;
 			}
 		}
