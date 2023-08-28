@@ -1,864 +1,889 @@
 import {
 	Box,
-	Step,
-	StepLabel,
-	Stepper,
-	Typography,
-	useTheme,
-	Grid,
-	TextField,
-	StepContent,
-	StepConnector,
 	Button,
-	Divider,
-	CardMedia,
-	DialogActions,
-	IconButton,
-	CardActionArea,
-	Card,
 	Dialog,
-	DialogTitle,
+	DialogActions,
 	DialogContent,
 	DialogContentText,
+	DialogTitle,
+	IconButton,
+	LinearProgress,
+	Menu,
 	MenuItem,
-	Select,
-	Switch,
+	TablePagination,
+	TextField,
+	Typography,
+	makeStyles,
+	Paper,
+	Grid,
+	CardMedia,
 } from '@material-ui/core';
-import { Link, useHistory, generatePath } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-
-import { makeStyles } from '@material-ui/styles';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from 'react';
+import {
+	delAdmin,
+	delCandidatoAction,
+	delDocumento,
+	getAllContasAction,
+	getAprovarContaAction,
+	getCandidatoAction,
+	getContasAction,
+	getContasExportAction,
+	getListaAdministradorAction,
+	getReenviarTokenUsuarioAction,
+	getStatsAction,
+	loadDocumentos,
+	postCriarAdminAction,
+	postStatusAction,
+} from '../../actions/actions';
+import { generatePath, useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
-import CustomSideBar from '../../components/CustomSideBar/CustomSideBar';
-
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import SearchIcon from '@mui/icons-material/Search';
-import ReactCodeInput from 'react-code-input';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import CustomHeader from '../../components/CustomHeader/CustomHeader';
-import CustomFowardButton from '../../components/CustomFowardButton/CustomFowardButton';
-import { getCep } from '../../services/services';
-import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
-import ReactInputMask from 'react-input-mask';
-import CustomLineChart from '../../components/CustomLineChart/CustomLineChart';
-import CustomCard from '../../components/CustomCard/CustomCard';
-import AddIcon from '@mui/icons-material/Add';
-import ArticleIcon from '@mui/icons-material/Article';
-/* import {
-	loadExtratoFilter,
-	loadUserData,
-	getListaBannerAction,
-	setRedirecionarTransferencia,
-	setRedirecionarValorTransferencia,
-	getTransacaoMesAction,
-} from '../../actions/actions'; */
-import useAuth from '../../hooks/useAuth';
+import CustomSideBar from '../../components/CustomSideBar/CustomSideBar';
 import CustomTable from '../../components/CustomTable/CustomTable';
-import PersonIcon from '@material-ui/icons/Person';
-import CustomRoundedCard from '../../components/CustomRoundedCard/CustomRoundedCard';
-import moment from 'moment';
-import 'moment/locale/pt-br';
-import { Carousel } from 'react-responsive-carousel';
-import ImageGallery from 'react-image-gallery';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import CurrencyInput from 'react-currency-input';
+import CustomTextField from '../../components/CustomTextField/CustomTextField';
+import { Pagination } from '@material-ui/lab';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import SettingsIcon from '@material-ui/icons/Settings';
+import ViewListIcon from '@material-ui/icons/ViewList';
+import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth';
+import useDebounce from '../../hooks/useDebounce';
 import { APP_CONFIG } from '../../constants/config';
-import { width } from '@mui/system';
+import InputMask from 'react-input-mask';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DoorBackIcon from '@mui/icons-material/DoorBack';
+import CancelIcon from '@mui/icons-material/Cancel';
+import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
+import PersonIcon from '@mui/icons-material/Person';
+import DownloadIcon from '@mui/icons-material/Download';
+import { Link } from 'react-router-dom';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import ReactInputMask from 'react-input-mask';
+import CustomCardInfos from '../../components/CustomCardInfos/CustomCardInfos';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
-
-		/* flexGrow: 1, */
-		/* width: '100vw',
-		height: '100vh', */
+		flexDirection: 'column',
+		padding: '50px',
 	},
-	main: {
+	headerContainer: {
 		display: 'flex',
 		flexDirection: 'column',
-		width: '100%',
-		height: '100%',
-		padding: '10px',
-	},
-	header: {
-		display: 'flex',
-		alignContent: 'center',
-		justifyContent: 'space-around',
-		alignItems: 'center',
-		width: '100%',
-	},
-	dadosBox: {
-		display: 'flex',
-		flexDirection: 'row',
-		/* alignItems: 'center', */
-		/* justifyContent: 'center', */
-		marginTop: '20px',
-		marginLeft: '30px',
-	},
-	cardContainer: {
-		display: 'flex',
-		width: '100%',
-		height: '100%',
 		justifyContent: 'space-between',
 	},
-	contadorStyle: {
-		display: 'flex',
-		fontSize: '30px',
-		fontFamily: 'BwGradualDEMO-Bold',
-	},
-	currencyInput: {
-		marginBottom: '6px',
-
-		alignSelf: 'center',
-		textAlign: 'center',
-		height: 45,
-		fontSize: 17,
-		borderWidth: '1px !important',
-		borderRadius: 27,
-		border: 'none',
-		color: APP_CONFIG.mainCollors.primary,
-		backgroundColor: 'transparent',
+	tableContainer: { marginTop: '1px' },
+	pageTitle: {
+		color: APP_CONFIG.mainCollors.black,
 		fontFamily: 'BwGradualDEMO-Regular',
 	},
-	textClick: {
-		fontSize: 12,
-		color: '#ED757D',
-		alignSelf: 'center',
-		'&:hover': {
-			cursor: 'pointer',
-
-			transform: 'scale(1.05)',
-		},
-	},
 }));
-export default function Dashboard({
-	cobrancasFilter,
-	financasFilter,
-	transferenciasFilter,
-	outrosServicosFilter,
-}) {
-	const classes = useStyles();
-	const theme = useTheme();
-	const dispatch = useDispatch();
-	const history = useHistory();
-	const userData = useSelector((state) => state.userData);
-	const extrato = useSelector((state) => state.extrato);
-	const listaBanner = useSelector((state) => state.listaBanner);
-	const transacaoMes = useSelector((state) => state.transacaoMes);
-	const token = useAuth();
+
+const columns = [
+	{ headerText: 'Nome do candidato', key: 'name' },
+	{ headerText: 'Status - Candidato', key: 'type' },
+	{ headerText: '', key: 'menu' },
+];
+
+const Dashboard = () => {
+	const [filters, setFilters] = useState({
+		like: '',
+		order: '',
+		mostrar: '',
+	});
+	const debouncedLike = useDebounce(filters.like, 800);
 	const [loading, setLoading] = useState(false);
-	const [banner, setBanner] = useState([]);
-	const [modalRetirada, setModalRetirada] = useState(false);
-	const [textRetirada, setTextRetirada] = useState(false);
-	const [valorRetirada, setValorRetirada] = useState(null);
-	const [valorTransferencia, setValorTransferencia] = useState(null);
-	const [tipoTransferencia, setTipoTransferencia] = useState('');
-	const [saqueAuto, setSaqueAuto] = useState(false);
+	const token = useAuth();
+	const classes = useStyles();
+	const [page, setPage] = useState(1);
+	const dispatch = useDispatch();
+	const candidato = useSelector((state) => state.candidato);
+	const stats = useSelector((state) => state.stats);
+	const [verCandidatoModal, setVerCandidatoModal] = useState(false);
+	const [verCandidato, setVerCandidato] = useState({});
+	useEffect(() => {
+		dispatch(
+			getCandidatoAction(
+				token,
+				page,
+				debouncedLike,
+				filters.order,
+				filters.mostrar
+			)
+		);
+	}, [page, debouncedLike, filters.order, filters.mostrar]);
 
-	var firstBanner = banner[0];
+	useEffect(() => {
+		dispatch(getStatsAction(token));
+	}, []);
 
-	moment.locale();
+	const handleChangePage = (e, value) => {
+		setPage(value);
+	};
+
+	const handleClickRow = (row) => {
+		setVerCandidato(row);
+
+		setVerCandidatoModal(true);
+	};
+
+	const Editar = (row) => {
+		const [anchorEl, setAnchorEl] = useState(null);
+
+		const handleClick = (event) => {
+			setAnchorEl(event.currentTarget);
+		};
+		const handleClose = () => {
+			setAnchorEl(null);
+		};
+
+		const handleExcluirCandidato = async (row) => {
+			setLoading(true);
+			const resDelCandidato = await dispatch(
+				delCandidatoAction(token, row.row.id)
+			);
+			if (resDelCandidato) {
+				setLoading(false);
+				toast.error('Erro ao deletar candidato');
+			} else {
+				setLoading(false);
+				toast.success('Candidato deletado com sucesso!');
+				await dispatch(
+					getCandidatoAction(
+						token,
+						page,
+						debouncedLike,
+						filters.order,
+						filters.mostrar
+					)
+				);
+			}
+		};
+
+		return (
+			<Box>
+				<IconButton
+					style={{ height: '15px', width: '10px' }}
+					aria-controls="simple-menu"
+					aria-haspopup="true"
+					onClick={handleClick}
+				>
+					<MoreHorizIcon style={{}} />
+				</IconButton>
+				<Menu
+					id="simple-menu"
+					anchorEl={anchorEl}
+					keepMounted
+					open={Boolean(anchorEl)}
+					onClose={handleClose}
+				>
+					<MenuItem
+						onClick={() => handleExcluirCandidato(row)}
+						style={{ color: APP_CONFIG.mainCollors.black }}
+					>
+						<CancelIcon style={{ marginRight: '5px' }} />
+						Excluir
+					</MenuItem>
+					<MenuItem
+						onClick={() => handleClickRow(row.row)}
+						style={{ color: APP_CONFIG.mainCollors.black }}
+					>
+						<VisibilityIcon style={{ marginRight: '5px' }} />
+						Ver mais
+					</MenuItem>
+				</Menu>
+			</Box>
+		);
+	};
+
+	useEffect(() => {
+		setVerCandidato({});
+	}, []);
 
 	return (
 		<Box className={classes.root}>
 			<LoadingScreen isLoading={loading} />
+			<Box className={classes.headerContainer}>
+				<Box
+					style={{
+						marginBottom: '20px',
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+					}}
+				>
+					<Typography className={classes.pageTitle}>DASHBOARD</Typography>
+					<Box style={{ alignSelf: 'flex-end' }}>
+						<IconButton
+							style={{
+								backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+								color: APP_CONFIG.mainCollors.primaryVariant,
+							}}
+							onClick={() => window.location.reload(false)}
+						>
+							<RefreshIcon></RefreshIcon>
+						</IconButton>
+					</Box>
+				</Box>
+				<Grid container spacing={2}>
+					<Grid item sm={3} xs={12}>
+						<CustomCardInfos
+							text="EMPRESAS CADASTRADAS"
+							subtext={stats?.empresas ? stats.empresas.total : null}
+							icon="paper"
+						/>
+					</Grid>
+					<Grid item sm={3} xs={12}>
+						<CustomCardInfos
+							text="CANDIDATOS EM SELEÇÃO"
+							subtext={
+								stats?.candidatos ? stats.candidatos.selecao : null
+							}
+							icon="pen"
+						/>
+					</Grid>
+					<Grid item sm={3} xs={12}>
+						<CustomCardInfos
+							text="VAGAS TOTAIS"
+							subtext={stats?.vagas ? stats.vagas.total : null}
+							icon="paper"
+						/>
+					</Grid>
+					<Grid item sm={3} xs={12}>
+						<CustomCardInfos
+							text="CANDIDATOS APROVADOS"
+							subtext={
+								stats?.candidatos ? stats.candidatos.aprovados : null
+							}
+							icon="paper"
+						/>
+					</Grid>
+				</Grid>
 
-			<Box className={classes.main}>
-				<Box className={classes.dadosBox}>
+				<Box
+					style={{
+						width: '100%',
+						backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+						marginTop: '30px',
+					}}
+				>
+					<Box
+						display="flex"
+						justifyContent="space-between"
+						alignContent="center"
+						alignItems="center"
+						style={{ margin: 30 }}
+					>
+						<Typography className={classes.pageTitle}>
+							CANDIDATOS
+						</Typography>
+
+						<Box>
+							<CustomButton
+								color="colorPrimary"
+								component={Link}
+								to="/dashboard/candidatos"
+							>
+								<Box display="flex" alignItems="center">
+									VER TUDO
+								</Box>
+							</CustomButton>
+						</Box>
+					</Box>
+				</Box>
+			</Box>
+
+			<Box className={classes.tableContainer}>
+				{candidato.data && candidato.per_page ? (
+					<CustomTable
+						columns={columns}
+						data={candidato.data}
+						Editar={Editar}
+					/>
+				) : (
+					<Box>
+						<LinearProgress color="secondary" />
+					</Box>
+				)}
+				<Box
+					display="flex"
+					alignSelf="flex-end"
+					marginTop="8px"
+					justifyContent="space-between"
+				>
+					<Pagination
+						variant="outlined"
+						color="primary"
+						size="large"
+						count={candidato.last_page}
+						onChange={handleChangePage}
+						page={page}
+					/>
+				</Box>
+			</Box>
+			<Dialog
+				open={verCandidatoModal}
+				onClose={() => {
+					{
+						setVerCandidatoModal(false);
+						setVerCandidato({});
+					}
+				}}
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					overflowY: 'scroll',
+				}}
+				maxWidth="800px"
+				fullWidth
+			>
+				<>
+					<LoadingScreen isLoading={loading} />
 					<Box
 						style={{
-							width: '100%',
-							display: 'flex',
-							flexDirection: 'column',
+							backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+							width: '800px',
+							padding: '50px',
 						}}
 					>
 						<Box
 							style={{
 								display: 'flex',
-								backgroundColor: APP_CONFIG.mainCollors.backgrounds,
-								/* height: '100px', */
-								borderRadius: '17px',
-								marginRight: '30px',
 								alignItems: 'center',
-								justifyContent: 'space-around',
+								justifyContent: 'center',
+								flexDirection: 'column',
 							}}
 						>
 							<Box
 								style={{
 									display: 'flex',
-									flexDirection: 'column',
+									borderRadius: 60,
 									alignItems: 'center',
-									marginTop: '30px',
-									marginBottom: '30px',
+									justifyContent: 'center',
+									border: '1px solid gray',
+									height: 100,
+									width: 100,
+									backgroundColor: '#fff',
 								}}
 							>
-								<Typography
-									style={{
-										fontFamily: 'BwGradualDEMO-Regular',
-										fontSize: '16px',
-										color: APP_CONFIG.mainCollors.primary,
-									}}
-								>
-									Transacionado no mês
-								</Typography>
-								<Box
-									style={{
-										width: '80%',
-										height: '1px',
-										backgroundColor: APP_CONFIG.mainCollors.primary,
-									}}
-								/>
-
-								{/* <CurrencyInput
-									placeHolder="R$0,00"
-									style={{
-										alignSelf: 'center',
-										textAlign: 'center',
-										height: 45,
-										fontSize: '20px',
-										borderWidth: '1px !important',
-										borderRadius: 27,
-										border: 'none',
-										color: APP_CONFIG.mainCollors.primary,
-										backgroundColor: 'transparent',
-										fontFamily: 'BwGradualDEMO-Regular',
-									}}
-									decimalSeparator=","
-									thousandSeparator="."
-									prefix="R$ "
-									value={textRetirada ? '' : valorRetirada}
-									onChangeEvent={(event, maskedvalue, floatvalue) => {
-										setValorRetirada(floatvalue);
-									}}
-								/> */}
-								{transacaoMes && transacaoMes.transacionado && (
-									<Typography style={{ fontSize: '20px' }}>
-										R$ {transacaoMes.transacionado}
-									</Typography>
+								{verCandidato?.candidato?.arquivo === '' ? (
+									<>
+										<PersonIcon
+											style={{
+												fontSize: '30px',
+												color: APP_CONFIG.mainCollors.black,
+											}}
+										/>
+									</>
+								) : (
+									<>
+										<PictureAsPdfIcon />
+									</>
 								)}
 							</Box>
-							<Box
-								style={{
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									marginTop: '30px',
-									marginBottom: '30px',
-								}}
-							>
-								<Typography
-									style={{
-										fontFamily: 'BwGradualDEMO-Regular',
-										fontSize: '16px',
-										color: APP_CONFIG.mainCollors.primary,
-									}}
-								>
-									Transações aprovadas
-								</Typography>
-								<Box
-									style={{
-										width: '80%',
-										height: '1px',
-										backgroundColor: APP_CONFIG.mainCollors.primary,
-									}}
-								/>
 
-								{transacaoMes && transacaoMes.aprovado && (
-									<Typography style={{ fontSize: '20px' }}>
-										R$ {transacaoMes.aprovado}
-									</Typography>
-								)}
-							</Box>
-							<Box
-								style={{
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									marginTop: '30px',
-									marginBottom: '30px',
-								}}
-							>
-								<Typography
-									style={{
-										fontFamily: 'BwGradualDEMO-Regular',
-										fontSize: '16px',
-										color: APP_CONFIG.mainCollors.primary,
-									}}
+							<Box style={{ marginTop: '20px' }}>
+								<CustomButton
+									href={verCandidato?.candidato?.arquivo_url}
+									download
+									color="colorTertiary"
 								>
-									Transações negadas
-								</Typography>
-								<Box
-									style={{
-										width: '80%',
-										height: '1px',
-										backgroundColor: APP_CONFIG.mainCollors.primary,
-									}}
-								/>
-
-								{transacaoMes && transacaoMes.recusado && (
-									<Typography style={{ fontSize: '20px' }}>
-										R$ {transacaoMes.recusado}
-									</Typography>
-								)}
-							</Box>
-							<Box
-								style={{
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									marginTop: '30px',
-									marginBottom: '30px',
-								}}
-							>
-								<Typography
-									style={{
-										fontFamily: 'BwGradualDEMO-Regular',
-										fontSize: '16px',
-										color: APP_CONFIG.mainCollors.primary,
-									}}
-								>
-									Taxa de conversão
-								</Typography>
-								<Box
-									style={{
-										width: '80%',
-										height: '1px',
-										backgroundColor: APP_CONFIG.mainCollors.primary,
-									}}
-								/>
-
-								{transacaoMes && transacaoMes.conversao && (
-									<Typography style={{ fontSize: '20px' }}>
-										% {transacaoMes.conversao}
-									</Typography>
-								)}
+									<Box
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+										}}
+									>
+										<DownloadIcon style={{ marginRight: '5px' }} />
+										<Typography>Fazer download</Typography>
+									</Box>
+								</CustomButton>
 							</Box>
 						</Box>
-
-						<Box style={{ display: 'flex' }}>
-							{cobrancasFilter ? (
-								<Grid
-									container
-									spacing={0}
-									style={{ marginTop: '20px', width: '60%' }}
-								>
-									<Grid container spacing={5}>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/maquina-virtual-cartao'
-													)
-												}
-											>
-												<CustomCard
-													icon="card"
-													title="Máquina virtual / Cartão"
-												/>
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/boleto'
-													)
-												}
-											>
-												<CustomCard icon="boletos" title="Boleto" />
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/carne'
-													)
-												}
-											>
-												<CustomCard icon="card" title="Carnê" />
-											</Box>
-										</Grid>
-									</Grid>
-									<Grid
-										container
-										spacing={5}
-										style={{ marginTop: '5px' }}
-									>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/cobranca-recorrente'
-													)
-												}
-											>
-												<CustomCard
-													icon="loop"
-													title="Cobrança recorrente"
-												/>
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/link-de-pagamento'
-													)
-												}
-											>
-												<CustomCard
-													icon="link"
-													title="Link de pagamento"
-												/>
-											</Box>
-										</Grid>
-									</Grid>
-								</Grid>
-							) : financasFilter ? (
-								<Grid
-									container
-									spacing={0}
-									style={{ marginTop: '20px', width: '60%' }}
-								>
-									<Grid container spacing={5}>
-										<Grid item sm={4} xs={12}>
-											<Box onClick={() => history.push('extrato')}>
-												<CustomCard
-													icon="extrato"
-													title="Extrato"
-												/>
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/historico-de-transacoes'
-													)
-												}
-											>
-												<CustomCard
-													icon="historico"
-													title="Histórico de transações"
-												/>
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/lancamentos-futuros'
-													)
-												}
-											>
-												<CustomCard
-													icon="time"
-													title="Lançamentos futuros"
-												/>
-											</Box>
-										</Grid>
-									</Grid>
-									<Grid
-										container
-										spacing={5}
-										style={{ marginTop: '5px' }}
-									>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/tarifas'
-													)
-												}
-											>
-												<CustomCard icon="fare" title="Tarifas" />
-											</Box>
-										</Grid>
-									</Grid>
-								</Grid>
-							) : transferenciasFilter ? (
-								<Grid
-									container
-									spacing={0}
-									style={{ marginTop: '20px', width: '60%' }}
-								>
-									<Grid container spacing={5}>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push('lista-pagamentos')
-												}
-											>
-												<CustomCard
-													icon="transferencias"
-													title="Histórico de transferências"
-												/>
-											</Box>
-										</Grid>
-									</Grid>
-								</Grid>
-							) : outrosServicosFilter ? (
-								<Grid
-									container
-									spacing={0}
-									style={{ marginTop: '20px', width: '60%' }}
-								>
-									<Grid container spacing={5}>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/pagadores'
-													)
-												}
-											>
-												<CustomCard
-													icon="person"
-													title="Pagadores"
-												/>
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/terminais-pos'
-													)
-												}
-											>
-												<CustomCard
-													icon="terminal"
-													title="Terminal - POS"
-												/>
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/exportacoes-solicitadas'
-													)
-												}
-											>
-												<CustomCard
-													icon="inventory"
-													title="Exportações solicitadas"
-												/>
-											</Box>
-										</Grid>
-									</Grid>
-									<Grid
-										container
-										spacing={5}
-										style={{ marginTop: '5px' }}
-									>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/tarifas'
-													)
-												}
-											>
-												<CustomCard icon="fare" title="Tarifas" />
-											</Box>
-										</Grid>
-									</Grid>
-								</Grid>
-							) : (
-								<Grid
-									container
-									spacing={0}
-									style={{ marginTop: '20px', width: '60%' }}
-								>
-									<Grid container spacing={5}>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/maquina-virtual-cartao'
-													)
-												}
-											>
-												<CustomCard
-													icon="card"
-													title="Máquina virtual / Cartão"
-												/>
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/boleto'
-													)
-												}
-											>
-												<CustomCard icon="boletos" title="Boleto" />
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/carne'
-													)
-												}
-											>
-												<CustomCard icon="card" title="Carnê" />
-											</Box>
-										</Grid>
-									</Grid>
-									<Grid
-										container
-										spacing={5}
-										style={{ marginTop: '5px' }}
-									>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/link-de-pagamento'
-													)
-												}
-											>
-												<CustomCard
-													icon="link"
-													title="Link de pagamento"
-												/>
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/lancamentos-futuros'
-													)
-												}
-											>
-												<CustomCard
-													icon="time"
-													title="Lançamentos futuros"
-												/>
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box onClick={() => history.push('extrato')}>
-												<CustomCard
-													icon="extrato"
-													title="Extrato"
-												/>
-											</Box>
-										</Grid>
-									</Grid>
-
-									<Grid
-										container
-										spacing={5}
-										style={{ marginTop: '5px' }}
-									>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/cobranca-recorrente'
-													)
-												}
-											>
-												<CustomCard
-													icon="loop"
-													title="Cobrança recorrente"
-												/>
-											</Box>
-										</Grid>
-
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/historico-de-transacoes'
-													)
-												}
-											>
-												<CustomCard
-													icon="historico"
-													title="Histórico de transações"
-												/>
-											</Box>
-										</Grid>
-										<Grid item sm={4} xs={12}>
-											<Box
-												onClick={() =>
-													history.push(
-														'/dashboard/adquirencia/acao/tarifas'
-													)
-												}
-											>
-												<CustomCard icon="fare" title="Tarifas" />
-											</Box>
-										</Grid>
-
-										{/* <Box style={{ height: '150px', width: '1px' }}></Box> */}
-									</Grid>
-								</Grid>
-							)}
-
-							<Box
+						<Box style={{ marginTop: '10px' }}>
+							<Typography
 								style={{
-									display: 'flex',
-									flexDirection: 'column',
-									marginLeft: '30px',
-									marginTop: '20px',
+									fontFamily: 'BwGradualDEMO-Bold',
+									color: APP_CONFIG.mainCollors.primaryVariant,
 								}}
 							>
-								<Box
-									style={{
-										display: 'flex',
-										backgroundColor:
-											APP_CONFIG.mainCollors.backgrounds,
-
-										borderRadius: '17px',
-										flexDirection: 'column',
-										width: '550px',
-										alignItems: 'center',
-									}}
-								>
-									<Typography
-										style={{
-											fontFamily: 'BwGradualDEMO-Regular',
-											fontSize: '16px',
-											color: APP_CONFIG.mainCollors.primary,
-											marginTop: '30px',
-										}}
-									>
-										Saldo disponível
-									</Typography>
-									<Box
-										style={{
-											width: '80%',
-											height: '1px',
-											backgroundColor:
-												APP_CONFIG.mainCollors.primary,
-										}}
-									/>
-									{userData &&
-										userData.saldo &&
-										userData.saldo.valor && (
-											<Typography
-												style={{
-													fontFamily: 'BwGradualDEMO-Regular',
-													fontSize: '20px',
-													color: APP_CONFIG.mainCollors.primary,
-													marginTop: '35px',
-												}}
-											>
-												R$
-												{parseFloat(
-													userData.saldo.valor
-												).toLocaleString('pt-br', {
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
-												})}
-											</Typography>
-										)}
-
-									<Box
-										style={{
-											marginTop: '30px',
-											marginBottom: '25px',
-										}}
-										onClick={() => {
-											history.push('extrato');
-										}}
-									>
-										<Typography className={classes.textClick}>
-											Ver extrato
-										</Typography>
-									</Box>
-								</Box>
-								<Box
-									style={{
-										display: 'flex',
-										backgroundColor:
-											APP_CONFIG.mainCollors.backgrounds,
-
-										borderRadius: '17px',
-										flexDirection: 'column',
-										width: '550px',
-										alignItems: 'center',
-										marginTop: '20px',
-									}}
-								>
-									<Typography
-										style={{
-											fontFamily: 'BwGradualDEMO-Regular',
-											fontSize: '16px',
-											color: APP_CONFIG.mainCollors.primary,
-											marginTop: '30px',
-										}}
-									>
-										Saldo futuro
-									</Typography>
-									<Box
-										style={{
-											width: '80%',
-											height: '1px',
-											backgroundColor:
-												APP_CONFIG.mainCollors.primary,
-										}}
-									/>
-									{userData &&
-										userData.saldo &&
-										userData.saldo.valor && (
-											<Typography
-												style={{
-													fontFamily: 'BwGradualDEMO-Regular',
-													fontSize: '20px',
-													color: APP_CONFIG.mainCollors.primary,
-													marginTop: '35px',
-												}}
-											>
-												R$
-												{parseFloat(
-													userData.saldo.valor_futuro
-												).toLocaleString('pt-br', {
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
-												})}
-											</Typography>
-										)}
-
-									<Box
-										style={{
-											marginTop: '30px',
-											marginBottom: '25px',
-										}}
-									>
+								Dados do candidato
+							</Typography>
+							<Box style={{ marginTop: '30px' }}>
+								<Grid container spacing={3}>
+									<Grid item sm={6} xs={12}>
 										<Typography
-											onClick={() => {}}
-											className={classes.textClick}
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
 										>
-											Ver mais
+											Nome
 										</Typography>
-									</Box>
-								</Box>
-								<Box
-									style={{
-										display: 'flex',
-										flexDirection: 'column',
-										alignItems: 'center',
-										marginTop: '30px',
-									}}
-								></Box>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.name}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											E-mail
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.email}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											CPF
+										</Typography>
+										<InputMask
+											mask={'999.999.999-99'}
+											value={verCandidato?.candidato?.cpf}
+											disabled
+										>
+											{() => (
+												<TextField
+													disabled
+													InputProps={{
+														disableUnderline: true,
+													}}
+													variant="filled"
+													InputLabelProps={{ shrink: true }}
+													required
+													fullWidth
+												/>
+											)}
+										</InputMask>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Telefone
+										</Typography>
+										<ReactInputMask
+											disabled
+											mask="(99) 99999-9999"
+											value={verCandidato?.candidato?.telefone}
+										>
+											{() => (
+												<TextField
+													disabled
+													InputProps={{ disableUnderline: true }}
+													variant="filled"
+													InputLabelProps={{ shrink: true }}
+													fullWidth
+													required
+													type="tel"
+												/>
+											)}
+										</ReactInputMask>
+									</Grid>
+
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Data de nascimento
+										</Typography>
+										<TextField
+											disabled
+											fullWidth
+											variant="filled"
+											InputLabelProps={{
+												shrink: true,
+												pattern: 'd {4}- d {2}- d {2} ',
+											}}
+											type="date"
+											value={
+												verCandidato?.candidato?.data_nascimento
+											}
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											RG
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.rg}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Conselho regulador
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.conselho_regulador
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Especialidade
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.especialidade}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Estado civil
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.estado_civil}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Grupo atuante
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.grupo_atuante}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Nacionalidade
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.nacionalidade}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={6} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Sexo
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.sexo}
+											required
+											fullWidth
+										/>
+									</Grid>
+								</Grid>
 							</Box>
 						</Box>
+						<Box style={{ marginTop: '60px' }}>
+							<Typography
+								style={{
+									fontFamily: 'BwGradualDEMO-Bold',
+									color: APP_CONFIG.mainCollors.primaryVariant,
+								}}
+							>
+								Endereço
+							</Typography>
+							<Box style={{ marginTop: '30px' }}>
+								<Grid container spacing={3}>
+									<Grid item sm={4} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											CEP
+										</Typography>
+										<InputMask
+											disabled
+											mask={'99999-999'}
+											value={verCandidato?.candidato?.endereco?.cep}
+										>
+											{() => (
+												<TextField
+													disabled
+													InputProps={{
+														disableUnderline: true,
+													}}
+													variant="filled"
+													InputLabelProps={{ shrink: true }}
+													required
+													fullWidth
+												/>
+											)}
+										</InputMask>
+									</Grid>
+									<Grid item sm={8} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Rua
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={verCandidato?.candidato?.endereco?.rua}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={3} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Número
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.endereco?.numero
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={4} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Bairro
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.endereco?.bairro
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={5} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Complemento
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.endereco
+													?.complemento
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={4} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Cidade
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{
+												disableUnderline: true,
+												sx: { borderRadius: 0 },
+											}}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.endereco?.cidade
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+									<Grid item sm={4} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Estado
+										</Typography>
+										<TextField
+											disabled
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={
+												verCandidato?.candidato?.endereco?.estado
+											}
+											required
+											fullWidth
+										/>
+									</Grid>
+								</Grid>
+							</Box>
+						</Box>
+						{/* <Box
+									style={{
+										display: 'flex',
+										marginTop: '30px',
+										alignSelf: 'center',
+										justifyContent: 'center',
+									}}
+								>
+									<CustomButton
+										color="colorPrimary"
+										onClick={() => handleCriarAdmin()}
+									>
+										<Typography>Salvar</Typography>
+									</CustomButton>
+								</Box> */}
 					</Box>
-				</Box>
-			</Box>
+				</>
+			</Dialog>
 		</Box>
 	);
-}
+};
+
+export default Dashboard;

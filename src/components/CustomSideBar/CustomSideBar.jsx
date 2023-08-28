@@ -33,6 +33,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import PaidIcon from '@mui/icons-material/Paid';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import { toast } from 'react-toastify';
 
 const drawerWidth = 270;
 
@@ -293,8 +294,9 @@ function CustomSideBar(props) {
 					component={Link}
 					button
 					selected={sideBar === 2}
-					onClick={(event) => dispatch(setSideBar(2))}
-					to="/dashboard/empresas"
+					onClick={() => toast.warning('Em desenvolvimento')}
+					/* onClick={(event) => dispatch(setSideBar(2))}
+					to="/dashboard/empresas" */
 					style={
 						sideBar === 2
 							? {
@@ -397,8 +399,9 @@ function CustomSideBar(props) {
 					component={Link}
 					button
 					selected={sideBar === 4}
-					onClick={(event) => dispatch(setSideBar(4))}
-					to="/dashboard/categorias"
+					onClick={() => toast.warning('Em desenvolvimento')}
+					/* onClick={(event) => dispatch(setSideBar(4))}
+					to="/dashboard/categorias" */
 					style={
 						sideBar === 4
 							? {

@@ -60,6 +60,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { Link } from 'react-router-dom';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import ReactInputMask from 'react-input-mask';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -179,6 +180,13 @@ const ListaCandidatos = () => {
 						<CancelIcon style={{ marginRight: '5px' }} />
 						Excluir
 					</MenuItem>
+					<MenuItem
+						onClick={() => handleClickRow(row.row)}
+						style={{ color: APP_CONFIG.mainCollors.black }}
+					>
+						<VisibilityIcon style={{ marginRight: '5px' }} />
+						Ver mais
+					</MenuItem>
 				</Menu>
 			</Box>
 		);
@@ -272,7 +280,6 @@ const ListaCandidatos = () => {
 						columns={columns}
 						data={candidato.data}
 						Editar={Editar}
-						handleClickRow={handleClickRow}
 					/>
 				) : (
 					<Box>

@@ -9,6 +9,8 @@ import {
 	GET_ADM_DIRETORIA,
 	GET_VAGAS,
 	GET_EMPRESAS,
+	GET_STATS,
+	GET_CATEGORIA,
 } from '../constants/actionsStrings';
 import { applyMiddleware, compose, createStore } from 'redux';
 
@@ -27,6 +29,8 @@ const INITIAL_STATE = {
 	admDiretoria: {},
 	vagas: {},
 	empresas: {},
+	categoria: {},
+	stats: {},
 };
 
 const enhancer = compose(applyMiddleware(thunk));
@@ -61,6 +65,12 @@ const state = (state = INITIAL_STATE, action) => {
 
 		case GET_EMPRESAS:
 			return { ...state, empresas: action.payload };
+
+		case GET_CATEGORIA:
+			return { ...state, categoria: action.payload };
+
+		case GET_STATS:
+			return { ...state, stats: action.payload };
 
 		default:
 			return { ...state };

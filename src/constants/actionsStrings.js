@@ -15,4 +15,7 @@ export const POST_ADM_EMPRESA = 'POST_ADM_EMPRESA';
 export const DEL_CANDIDATO = 'DEL_CANDIDATO';
 export const GET_VAGAS = 'GET_VAGAS';
 export const GET_EMPRESAS = 'GET_EMPRESAS';
+export const GET_CATEGORIA = 'GET_CATEGORIA';
 export const POST_VINCULAR_ADM_EMPRESA = 'POST_VINCULAR_ADM_EMPRESA';
+export const GET_STATS = 'GET_STATS';
+export const POST_VAGA = 'POST_VAGA';

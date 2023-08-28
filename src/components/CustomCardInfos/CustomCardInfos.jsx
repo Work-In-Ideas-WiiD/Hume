@@ -8,6 +8,8 @@ import {
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ArticleIcon from '@mui/icons-material/Article';
+import EditIcon from '@mui/icons-material/Edit';
 import PersonIcon from '@material-ui/icons/Person';
 import { APP_CONFIG } from '../../constants/config';
 
@@ -16,10 +18,10 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-
+		borderRadius: 32,
 		padding: '12px',
 		width: '100%',
-		height: '100px',
+		height: '80px',
 		backgroundColor: APP_CONFIG.mainCollors.backgrounds,
 		color: '#35322f',
 		transition: `${theme.transitions.create(
@@ -50,29 +52,18 @@ const useStyles = makeStyles((theme) => ({
 
 	textImageContainer: {
 		width: '100%',
-
+		marginLeft: '10px',
 		fontFamily: 'BwGradualDEMO-Regular',
-		color: APP_CONFIG.mainCollors.primary,
-		fontSize: '0.7rem',
-		fontWeight: '400',
-		[theme.breakpoints.up('md')]: {
-			fontSize: '1rem',
-			fontWeight: '500',
-		},
+		color: APP_CONFIG.mainCollors.black,
+		fontSize: '12px',
 	},
 
 	textContainer: {
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		fontFamily: 'BwGradualDEMO-Regular',
-		color: APP_CONFIG.mainCollors.primary,
-		fontSize: '0.7rem',
-		fontWeight: '400',
-		[theme.breakpoints.up('md')]: {
-			fontSize: '1rem',
-			fontWeight: '500',
-		},
+		width: '100%',
+		marginLeft: '10px',
+		fontFamily: 'BwGradualDEMO-Bold',
+		color: APP_CONFIG.mainCollors.black,
+		fontSize: '17px',
 	},
 }));
 
@@ -96,7 +87,7 @@ const CustomCardInfos = ({
 		<Box>
 			<Box
 				className={classes.iconContainer}
-				style={{ borderRadius: 27 }}
+				style={{ borderRadius: 65 }}
 				onClick={
 					link === null
 						? () =>
@@ -111,25 +102,64 @@ const CustomCardInfos = ({
 					<Box
 						style={{
 							display: 'flex',
-							borderRadius: 36,
-							width: '100px',
-							height: '70px',
+							borderRadius: 65,
+							width: '60px',
+							height: '50px',
 							backgroundColor: 'white',
 							alignItems: 'center',
 							alignContent: 'center',
 							justifyContent: 'center',
 						}}
 					>
-						<PersonIcon
-							color={'primary'}
-							style={{
-								alignSelf: 'center',
-								fontSize: 30,
-								color:
-									iconColor ??
-									(aprovada ? 'green' : rejeitada ? 'red' : null),
-							}}
-						/>
+						{icon === 'paper' ? (
+							<ArticleIcon
+								color={'primary'}
+								style={{
+									alignSelf: 'center',
+									fontSize: 30,
+									color: APP_CONFIG.mainCollors.primary,
+									/* color:
+										iconColor ??
+										(aprovada ? 'green' : rejeitada ? 'red' : null), */
+								}}
+							/>
+						) : icon === 'pen' ? (
+							<EditIcon
+								color={'primary'}
+								style={{
+									alignSelf: 'center',
+									fontSize: 30,
+									color: APP_CONFIG.mainCollors.primary,
+									/* color:
+										iconColor ??
+										(aprovada ? 'green' : rejeitada ? 'red' : null), */
+								}}
+							/>
+						) : icon === 'person' ? (
+							<PersonIcon
+								color={'primary'}
+								style={{
+									alignSelf: 'center',
+									fontSize: 30,
+									color: APP_CONFIG.mainCollors.primary,
+									/* color:
+										iconColor ??
+										(aprovada ? 'green' : rejeitada ? 'red' : null), */
+								}}
+							/>
+						) : (
+							<PersonIcon
+								color={'primary'}
+								style={{
+									alignSelf: 'center',
+									fontSize: 30,
+									color: APP_CONFIG.mainCollors.primary,
+									/* color:
+										iconColor ??
+										(aprovada ? 'green' : rejeitada ? 'red' : null), */
+								}}
+							/>
+						)}
 					</Box>
 				)}
 
@@ -140,21 +170,20 @@ const CustomCardInfos = ({
 						width: '100%',
 					}}
 				>
-					<Typography
-						variant="h6"
-						align="center"
-						className={classes.textImageContainer}
-					>
+					<Typography align="start" className={classes.textImageContainer}>
 						{text}
 					</Typography>
 					<Typography
-						variant="subtitle2"
-						align="center"
+						align="start"
 						className={classes.textContainer}
+						style={{ marginTop: '10px' }}
 					>
-						{children}
 						{subtext}
 					</Typography>
+					{/* <Typography align="start" className={classes.textContainer}>
+						{children}
+						{subtext}
+					</Typography> */}
 				</Box>
 			</Box>
 		</Box>

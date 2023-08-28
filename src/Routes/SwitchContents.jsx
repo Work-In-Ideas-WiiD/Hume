@@ -12,6 +12,7 @@ import ListaCandidatos from '../pages/ListaCandidatos/ListaCandidatos';
 import ListaAdministradoresEmpresa from '../pages/ListaAdministradoresEmpresa/ListaAdministradoresEmpresa';
 import ListaAdministradoresDiretoria from '../pages/ListaAdministradoresDiretoria/ListaAdministradoresDiretoria';
 import ListaVagas from '../pages/ListaVagas/ListaVagas';
+import ListaProcessoSelecao from '../pages/ListaProcessoSelecao/ListaProcessoSelecao';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -51,7 +52,7 @@ const SwitchContents = () => {
 	const gerenciarPermissao = useSelector((state) => state.gerenciarPermissao);
 	const [permissoes, setPermissoes] = useState([]);
 
-	if (token) {
+	/* 	if (token) {
 		window.$crisp = [];
 		window.CRISP_WEBSITE_ID = APP_CONFIG.crispId;
 		(function () {
@@ -61,7 +62,7 @@ const SwitchContents = () => {
 			s.async = 1;
 			d.getElementsByTagName('head')[0].appendChild(s);
 		})();
-	}
+	} */
 
 	let content = null;
 
@@ -76,6 +77,10 @@ const SwitchContents = () => {
 
 		case 'vagas':
 			content = <ListaVagas />;
+			break;
+
+		case 'processo-de-selecao':
+			content = <ListaProcessoSelecao />;
 			break;
 
 		case 'administradores-empresa':

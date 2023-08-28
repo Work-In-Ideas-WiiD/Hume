@@ -271,6 +271,18 @@ export const getEmpresas = (token, page, like, order, mostrar, status) => {
 	});
 };
 
+export const getCategoria = (token, page, like, order, mostrar, status) => {
+	const url = `${process.env.REACT_APP_API_URL}/categoria?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}&status${status}`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
 export const postVincularaAdmEmpresa = (
 	token,
 	administrador_id,
@@ -286,6 +298,53 @@ export const postVincularaAdmEmpresa = (
 		data: {
 			administrador_id: administrador_id,
 			empresa_id: empresa_id,
+		},
+	});
+};
+
+export const getStats = (token) => {
+	const url = `${process.env.REACT_APP_API_URL}/stats`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const postVaga = (
+	token,
+	empresa_id,
+	categoria_id,
+	titulo,
+	formacao,
+	faixa_salarial,
+	modalidade,
+	tempo_minimo,
+	diferenciais,
+	experiencia,
+	descricao
+) => {
+	const url = `${process.env.REACT_APP_API_URL}/vaga`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			empresa_id: empresa_id,
+			categoria_id: categoria_id,
+			titulo: titulo,
+			formacao: formacao,
+			faixa_salarial: faixa_salarial,
+			modalidade: modalidade,
+			tempo_minimo: tempo_minimo,
+			diferenciais: diferenciais,
+			experiencia: experiencia,
+			descricao: descricao,
 		},
 	});
 };
