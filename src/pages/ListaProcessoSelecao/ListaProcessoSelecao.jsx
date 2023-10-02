@@ -318,6 +318,30 @@ const ListaProcessoSelecao = () => {
 			}
 		};
 
+		const handleReiniciar = async (row) => {
+			setLoading(true);
+			const resIniciarSelecao = await dispatch(
+				postStatusAction(token, 'ativa', row.row.id)
+			);
+			if (resIniciarSelecao) {
+				toast.error('Falha ao iniciar seleção');
+				setLoading(false);
+				await dispatch(
+					getVagasAction(
+						token,
+						page,
+						debouncedLike,
+						filters.order,
+						filters.mostrar,
+						'publish'
+					)
+				);
+			} else {
+				toast.success('Seleção iniciada com sucesso!');
+				setLoading(false);
+			}
+		};
+
 		return (
 			<Box>
 				<IconButton
@@ -366,13 +390,23 @@ const ListaProcessoSelecao = () => {
 						<EditIcon style={{ marginRight: '5px' }} />
 						Editar
 					</MenuItem>
-					<MenuItem
-						onClick={() => handlePausar(row)}
-						style={{ color: APP_CONFIG.mainCollors.black }}
-					>
-						<PauseCircleIcon style={{ marginRight: '5px' }} />
-						Pausar
-					</MenuItem>
+					{row.row.status === 'inativa' ? (
+						<MenuItem
+							onClick={() => handleReiniciar(row)}
+							style={{ color: APP_CONFIG.mainCollors.black }}
+						>
+							<PauseCircleIcon style={{ marginRight: '5px' }} />
+							Reinicar
+						</MenuItem>
+					) : (
+						<MenuItem
+							onClick={() => handlePausar(row)}
+							style={{ color: APP_CONFIG.mainCollors.black }}
+						>
+							<PauseCircleIcon style={{ marginRight: '5px' }} />
+							Pausar
+						</MenuItem>
+					)}
 
 					<MenuItem
 						onClick={() => toast.warning('Em desenvolvimento')}

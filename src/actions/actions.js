@@ -19,6 +19,7 @@ import {
 	POST_VINCULAR_ADM_EMPRESA,
 	SET_SIDE_BAR,
 	GET_CATEGORIA,
+	POST_CATEGORIA,
 } from '../constants/actionsStrings';
 import {
 	getUserData,
@@ -40,6 +41,8 @@ import {
 	postVaga,
 	getCategoria,
 	postStatus,
+	postEmpresa,
+	postCategoria,
 } from '../services/services';
 
 import { toast } from 'react-toastify';
@@ -485,6 +488,78 @@ export const postVagaAction =
 			} else {
 				if (err.response.data.message) {
 					toast.error(err.response.data.message);
+				}
+				return err;
+			}
+		}
+	};
+
+export const postEmpresaAction =
+	(
+		token,
+		name,
+		razao_social,
+		email,
+		cnpj,
+		telefone,
+		imagem,
+		cep,
+		rua,
+		numero,
+		bairro,
+		complemento,
+		cidade,
+		estado
+	) =>
+	async (dispatch) => {
+		try {
+			const res = await postEmpresa(
+				token,
+				name,
+				email,
+				razao_social,
+				cnpj,
+				telefone,
+				imagem,
+				cep,
+				rua,
+				numero,
+				bairro,
+				complemento,
+				cidade,
+				estado
+			);
+			dispatch({
+				type: POST_ADM_EMPRESA,
+				payload: res.data,
+			});
+			return false;
+		} catch (err) {
+			console.log(err);
+			if (err.response && err.response.status === 422) {
+				return err.response.data.errors;
+			} else {
+				return err;
+			}
+		}
+	};
+
+export const postCategoriaAction =
+	(token, nome, decricao) => async (dispatch) => {
+		try {
+			const res = await postCategoria(token, nome, decricao);
+			dispatch({
+				type: POST_CATEGORIA,
+				payload: res.data,
+			});
+			return false;
+		} catch (err) {
+			console.log(err);
+			if (err.response && err.response.status === 422) {
+				return err.response.data.errors;
+			} else {
+				if (err.response.data.result) {
+					toast.error(err.response.data.result.Message);
 				}
 				return err;
 			}

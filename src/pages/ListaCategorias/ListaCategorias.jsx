@@ -26,12 +26,14 @@ import {
 	getAllContasAction,
 	getAprovarContaAction,
 	getCandidatoAction,
+	getCategoriaAction,
 	getContasAction,
 	getContasExportAction,
 	getListaAdministradorAction,
 	getReenviarTokenUsuarioAction,
 	loadDocumentos,
 	postAdministradorDiretoriaAction,
+	postCategoriaAction,
 	postCriarAdminAction,
 	postStatusAction,
 } from '../../actions/actions';
@@ -96,13 +98,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = [
-	{ headerText: 'Nome', key: 'name' },
-	{ headerText: 'E-mail', key: 'email' },
-
-	{ headerText: '', key: 'menu' },
+	{ headerText: 'Nome', key: 'nome' },
+	{ headerText: 'Descrição', key: 'descricao' },
 ];
 
-const ListaAdministradoresDiretoria = () => {
+const ListaCategorias = () => {
 	const [filters, setFilters] = useState({
 		like: '',
 		order: '',
@@ -116,14 +116,14 @@ const ListaAdministradoresDiretoria = () => {
 	const [criarAdminModal, setCriarAdminModal] = useState(false);
 	const [errors, setErrors] = useState({});
 	const dispatch = useDispatch();
-	const [cadastroAdm, setCadastroAdm] = useState({
+	const [criarCategoria, setCriarCategoria] = useState({
 		name: '',
-		email: '',
+		descricao: '',
 	});
-	const admDiretoria = useSelector((state) => state.admDiretoria);
+	const categoria = useSelector((state) => state.categoria);
 	useEffect(() => {
 		dispatch(
-			getAdministradorDiretoriaAction(
+			getCategoriaAction(
 				token,
 				page,
 				debouncedLike,
@@ -140,24 +140,24 @@ const ListaAdministradoresDiretoria = () => {
 	const handleCriarAdmin = async () => {
 		setLoading(true);
 		const resCriarAdmin = await dispatch(
-			postAdministradorDiretoriaAction(
+			postCategoriaAction(
 				token,
-				cadastroAdm.name,
-				cadastroAdm.email
+				criarCategoria.name,
+				criarCategoria.descricao
 			)
 		);
 		if (resCriarAdmin) {
-			toast.error('Erro ao criar administrador');
+			toast.error('Erro ao criar categoria');
 			setLoading(false);
 			setCriarAdminModal(false);
 			setErrors(resCriarAdmin);
 		} else {
-			toast.success('Administrador criado com sucesso!');
+			toast.success('Categoria criada com sucesso!');
 			setLoading(false);
 			setCriarAdminModal(false);
-			setCadastroAdm({ name: '', email: '' });
+			setCriarCategoria({ name: '', email: '' });
 			await dispatch(
-				getAdministradorDiretoriaAction(
+				getCategoriaAction(
 					token,
 					page,
 					debouncedLike,
@@ -194,9 +194,7 @@ const ListaAdministradoresDiretoria = () => {
 						alignItems: 'center',
 					}}
 				>
-					<Typography className={classes.pageTitle}>
-						ADMINISTRADORES DIRETORIA
-					</Typography>
+					<Typography className={classes.pageTitle}>CATEGORIAS</Typography>
 					<Box style={{ alignSelf: 'flex-end' }}>
 						<IconButton
 							style={{
@@ -258,7 +256,7 @@ const ListaAdministradoresDiretoria = () => {
 								}}
 							>
 								<CreateNewFolderIcon style={{ marginRight: '5px' }} />
-								<Typography> Cadastrar Admin</Typography>
+								<Typography> Nova Categoria</Typography>
 							</Box>
 						</CustomButton>
 					</Box>
@@ -266,10 +264,10 @@ const ListaAdministradoresDiretoria = () => {
 			</Box>
 
 			<Box className={classes.tableContainer}>
-				{admDiretoria.data && admDiretoria.per_page ? (
+				{categoria.data && categoria.per_page ? (
 					<CustomTable
 						columns={columns}
-						data={admDiretoria.data}
+						data={categoria.data}
 						Editar={Editar}
 					/>
 				) : (
@@ -287,7 +285,7 @@ const ListaAdministradoresDiretoria = () => {
 						variant="outlined"
 						color="primary"
 						size="large"
-						count={admDiretoria.last_page}
+						count={categoria.last_page}
 						onChange={handleChangePage}
 						page={page}
 					/>
@@ -310,7 +308,7 @@ const ListaAdministradoresDiretoria = () => {
 							color: APP_CONFIG.mainCollors.primaryVariant,
 						}}
 					>
-						Dados pessoais
+						Dados da categoria
 					</Typography>
 					<Box style={{ marginTop: '30px' }}>
 						<Grid container spacing={3}>
@@ -327,10 +325,10 @@ const ListaAdministradoresDiretoria = () => {
 								<TextField
 									InputProps={{ disableUnderline: true }}
 									variant="filled"
-									value={cadastroAdm.name}
+									value={criarCategoria.name}
 									onChange={(e) =>
-										setCadastroAdm({
-											...cadastroAdm,
+										setCriarCategoria({
+											...criarCategoria,
 											name: e.target.value,
 										})
 									}
@@ -347,16 +345,16 @@ const ListaAdministradoresDiretoria = () => {
 										fontSize: 13,
 									}}
 								>
-									E-mail
+									Descrição
 								</Typography>
 								<TextField
 									InputProps={{ disableUnderline: true }}
 									variant="filled"
-									value={cadastroAdm.email}
+									value={criarCategoria.descricao}
 									onChange={(e) =>
-										setCadastroAdm({
-											...cadastroAdm,
-											email: e.target.value,
+										setCriarCategoria({
+											...criarCategoria,
+											descricao: e.target.value,
 										})
 									}
 									autoFocus
@@ -377,7 +375,7 @@ const ListaAdministradoresDiretoria = () => {
 								color="colorPrimary"
 								onClick={() => handleCriarAdmin()}
 							>
-								<Typography>Salvar</Typography>
+								<Typography>Criar</Typography>
 							</CustomButton>
 						</Box>
 					</Box>
@@ -387,4 +385,4 @@ const ListaAdministradoresDiretoria = () => {
 	);
 };
 
-export default ListaAdministradoresDiretoria;
+export default ListaCategorias;

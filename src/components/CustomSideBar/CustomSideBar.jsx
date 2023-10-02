@@ -294,9 +294,8 @@ function CustomSideBar(props) {
 					component={Link}
 					button
 					selected={sideBar === 2}
-					onClick={() => toast.warning('Em desenvolvimento')}
-					/* onClick={(event) => dispatch(setSideBar(2))}
-					to="/dashboard/empresas" */
+					onClick={(event) => dispatch(setSideBar(2))}
+					to="/dashboard/empresas"
 					style={
 						sideBar === 2
 							? {
@@ -399,9 +398,8 @@ function CustomSideBar(props) {
 					component={Link}
 					button
 					selected={sideBar === 4}
-					onClick={() => toast.warning('Em desenvolvimento')}
-					/* onClick={(event) => dispatch(setSideBar(4))}
-					to="/dashboard/categorias" */
+					onClick={(event) => dispatch(setSideBar(4))}
+					to="/dashboard/categorias"
 					style={
 						sideBar === 4
 							? {
@@ -506,7 +504,6 @@ function CustomSideBar(props) {
 							setOpenTransferenciaCollapse((open) => !open);
 							dispatch(setSideBar(6));
 						}}
-						component={Link}
 						style={
 							sideBar === 6
 								? {

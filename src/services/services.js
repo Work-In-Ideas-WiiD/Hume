@@ -348,3 +348,60 @@ export const postVaga = (
 		},
 	});
 };
+
+export const postEmpresa = (
+	token,
+	nome,
+	email,
+	razao_social,
+	cnpj,
+	telefone,
+	imagem,
+	cep,
+	rua,
+	numero,
+	bairro,
+	complemento,
+	cidade,
+	estado
+) => {
+	const url = `${process.env.REACT_APP_API_URL}/empresa`;
+
+	var bodyFormData = new FormData();
+	bodyFormData.append('nome', nome);
+	bodyFormData.append('email', email);
+	bodyFormData.append('razao_social', razao_social);
+	bodyFormData.append('cnpj', cnpj);
+	bodyFormData.append('telefone', telefone);
+	bodyFormData.append('imagem', imagem);
+	bodyFormData.append('endereco[cep]', cep);
+	bodyFormData.append('endereco[rua]', rua);
+	bodyFormData.append('endereco[numero]', numero);
+	bodyFormData.append('endereco[bairro]', bairro);
+	bodyFormData.append('endereco[complemento]', complemento);
+	bodyFormData.append('endereco[cidade]', cidade);
+	bodyFormData.append('endereco[estado]', estado);
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: bodyFormData,
+	});
+};
+
+export const postCategoria = (token, nome, descricao) => {
+	const url = `${process.env.REACT_APP_API_URL}/categoria`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			nome: nome,
+			descricao: descricao,
+		},
+	});
+};

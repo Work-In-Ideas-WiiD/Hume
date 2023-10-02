@@ -13,6 +13,8 @@ import ListaAdministradoresEmpresa from '../pages/ListaAdministradoresEmpresa/Li
 import ListaAdministradoresDiretoria from '../pages/ListaAdministradoresDiretoria/ListaAdministradoresDiretoria';
 import ListaVagas from '../pages/ListaVagas/ListaVagas';
 import ListaProcessoSelecao from '../pages/ListaProcessoSelecao/ListaProcessoSelecao';
+import ListaEmpresas from '../pages/ListaEmpresas/ListaEmpresas';
+import ListaCategorias from '../pages/ListaCategorias/ListaCategorias';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -73,6 +75,14 @@ const SwitchContents = () => {
 
 		case 'candidatos':
 			content = <ListaCandidatos />;
+			break;
+
+		case 'empresas':
+			content = <ListaEmpresas />;
+			break;
+
+		case 'categorias':
+			content = <ListaCategorias />;
 			break;
 
 		case 'vagas':
