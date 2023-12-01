@@ -31,6 +31,7 @@ import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import CreateIcon from '@material-ui/icons/Create';
 import PersonIcon from '@material-ui/icons/Person';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import SettingsIcon from '@mui/icons-material/Settings';
 import PaidIcon from '@mui/icons-material/Paid';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import { toast } from 'react-toastify';
@@ -90,8 +91,9 @@ function CustomSideBar(props) {
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const history = useHistory();
-	const [openTransferenciaCollapse, setOpenTransferenciaCollapse] =
+	const [openAdministradoresCollapse, setOpenAdministradoresCollapse] =
 		useState(false);
+	const [openGerenciarCollapse, setOpenGerenciarCollapse] = useState(false);
 
 	const [permissoes, setPermissoes] = useState([]);
 	const [collapseAdministradores, setCollapseAdministradores] =
@@ -134,6 +136,12 @@ function CustomSideBar(props) {
 					? 6.1
 					: section === 'administradores-diretoria'
 					? 6.2
+					: section === 'conselho-regulador'
+					? 7.1
+					: section === 'grupo-atuante'
+					? 7.2
+					: section === 'especialidade'
+					? 7.3
 					: null
 			)
 		);
@@ -497,11 +505,12 @@ function CustomSideBar(props) {
 						</Typography>
 					</ListItemText>
 				</ListItem>
+
 				<>
 					<ListItem
 						button
 						onClick={() => {
-							setOpenTransferenciaCollapse((open) => !open);
+							setOpenAdministradoresCollapse((open) => !open);
 							dispatch(setSideBar(6));
 						}}
 						style={
@@ -550,7 +559,7 @@ function CustomSideBar(props) {
 							Administradores
 						</Typography>
 
-						{openTransferenciaCollapse ? (
+						{openAdministradoresCollapse ? (
 							<ExpandLess
 								style={{
 									fontSize: '32px',
@@ -573,7 +582,7 @@ function CustomSideBar(props) {
 						)}
 					</ListItem>
 					<Collapse
-						in={openTransferenciaCollapse}
+						in={openAdministradoresCollapse}
 						timeout="auto"
 						unmountOnExit
 					>
@@ -660,6 +669,217 @@ function CustomSideBar(props) {
 										}
 									>
 										Diretoria
+									</Typography>
+								</ListItemText>
+							</ListItem>
+						</List>
+					</Collapse>
+				</>
+				<>
+					<ListItem
+						button
+						onClick={() => {
+							setOpenGerenciarCollapse((open) => !open);
+							dispatch(setSideBar(7));
+						}}
+						style={
+							sideBar === 7
+								? {
+										backgroundColor: 'white',
+										borderTopLeftRadius: 32,
+										borderBottomLeftRadius: 32,
+								  }
+								: {
+										borderTopLeftRadius: 32,
+										borderBottomLeftRadius: 32,
+								  }
+						}
+					>
+						<ListItemIcon style={{ width: '60px' }}>
+							<SettingsIcon
+								fontSize="50px"
+								style={{
+									backgroundColor: getSideBarItemBackgroundColor(7),
+									color: getSideBarItemColor(7),
+									width: '48px',
+									marginRight: '10px',
+									fontSize: '48px',
+									borderRadius: '33px',
+									padding: '5px',
+								}}
+							/>
+						</ListItemIcon>
+						<Typography
+							style={
+								sideBar === 7
+									? {
+											fontWeight: 'bold',
+											fontFamily: 'BwGradualDEMO-Bold',
+											fontSize: '14px',
+											color: APP_CONFIG.mainCollors.primary,
+									  }
+									: {
+											fontFamily: 'BwGradualDEMO-Regular',
+											fontSize: '14px',
+											color: 'white',
+									  }
+							}
+						>
+							Gerenciar
+						</Typography>
+
+						{openGerenciarCollapse ? (
+							<ExpandLess
+								style={{
+									fontSize: '32px',
+									color:
+										sideBar === 7
+											? APP_CONFIG.mainCollors.primary
+											: '#fff',
+								}}
+							/>
+						) : (
+							<ExpandMore
+								style={{
+									fontSize: '32px',
+									color:
+										sideBar === 7
+											? APP_CONFIG.mainCollors.primary
+											: '#fff',
+								}}
+							/>
+						)}
+					</ListItem>
+					<Collapse
+						in={openGerenciarCollapse}
+						timeout="auto"
+						unmountOnExit
+					>
+						<List component="div" disablePadding>
+							<ListItem
+								disabled={props.cadastro ? true : false}
+								component={Link}
+								button
+								className={classes.nested}
+								selected={sideBar === 7.1}
+								onClick={(event) => dispatch(setSideBar(7.1))}
+								to="/dashboard/conselho-regulador"
+								style={
+									sideBar === 7.1
+										? {
+												backgroundColor: 'white',
+												borderTopLeftRadius: 32,
+												borderBottomLeftRadius: 32,
+										  }
+										: {
+												borderTopLeftRadius: 32,
+												borderBottomLeftRadius: 32,
+										  }
+								}
+							>
+								<ListItemText>
+									<Typography
+										style={
+											sideBar === 7.1
+												? {
+														fontWeight: 'bold',
+														fontFamily: 'BwGradualDEMO-Bold',
+														fontSize: '14px',
+														color: APP_CONFIG.mainCollors.primary,
+												  }
+												: {
+														fontFamily: 'BwGradualDEMO-Regular',
+														fontSize: '14px',
+														color: 'white',
+												  }
+										}
+									>
+										Conselho regulador
+									</Typography>
+								</ListItemText>
+							</ListItem>
+
+							<ListItem
+								disabled={props.cadastro ? true : false}
+								component={Link}
+								button
+								className={classes.nested}
+								selected={sideBar === 7.2}
+								onClick={(event) => dispatch(setSideBar(7.2))}
+								to="/dashboard/grupo-atuante"
+								style={
+									sideBar === 7.2
+										? {
+												backgroundColor: 'white',
+												borderTopLeftRadius: 32,
+												borderBottomLeftRadius: 32,
+										  }
+										: {
+												borderTopLeftRadius: 32,
+												borderBottomLeftRadius: 32,
+										  }
+								}
+							>
+								<ListItemText>
+									<Typography
+										style={
+											sideBar === 7.2
+												? {
+														fontWeight: 'bold',
+														fontFamily: 'BwGradualDEMO-Bold',
+														fontSize: '14px',
+														color: APP_CONFIG.mainCollors.primary,
+												  }
+												: {
+														fontFamily: 'BwGradualDEMO-Regular',
+														fontSize: '14px',
+														color: 'white',
+												  }
+										}
+									>
+										Grupo atuante
+									</Typography>
+								</ListItemText>
+							</ListItem>
+							<ListItem
+								disabled={props.cadastro ? true : false}
+								component={Link}
+								button
+								className={classes.nested}
+								selected={sideBar === 7.3}
+								onClick={(event) => dispatch(setSideBar(7.3))}
+								to="/dashboard/especialidade"
+								style={
+									sideBar === 7.3
+										? {
+												backgroundColor: 'white',
+												borderTopLeftRadius: 32,
+												borderBottomLeftRadius: 32,
+										  }
+										: {
+												borderTopLeftRadius: 32,
+												borderBottomLeftRadius: 32,
+										  }
+								}
+							>
+								<ListItemText>
+									<Typography
+										style={
+											sideBar === 7.3
+												? {
+														fontWeight: 'bold',
+														fontFamily: 'BwGradualDEMO-Bold',
+														fontSize: '14px',
+														color: APP_CONFIG.mainCollors.primary,
+												  }
+												: {
+														fontFamily: 'BwGradualDEMO-Regular',
+														fontSize: '14px',
+														color: 'white',
+												  }
+										}
+									>
+										Especialidade
 									</Typography>
 								</ListItemText>
 							</ListItem>

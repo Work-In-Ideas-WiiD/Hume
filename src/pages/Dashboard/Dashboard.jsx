@@ -233,16 +233,46 @@ const Dashboard = () => {
 						<CustomCardInfos
 							text="EMPRESAS CADASTRADAS"
 							subtext={stats?.empresas ? stats.empresas.total : null}
-							icon="paper"
+							icon="pen"
 						/>
 					</Grid>
+
 					<Grid item sm={3} xs={12}>
 						<CustomCardInfos
 							text="CANDIDATOS EM SELEÇÃO"
 							subtext={
 								stats?.candidatos ? stats.candidatos.selecao : null
 							}
-							icon="pen"
+							icon="person"
+						/>
+					</Grid>
+					<Grid item sm={3} xs={12}>
+						<CustomCardInfos
+							text="CANDIDATOS CADASTRADOS"
+							subtext={stats?.candidatos ? stats.candidatos.total : null}
+							icon="person"
+						/>
+					</Grid>
+					<Grid item sm={3} xs={12}>
+						<CustomCardInfos
+							text="CANDIDATOS APROVADOS"
+							subtext={
+								stats?.candidatos ? stats.candidatos.aprovados : null
+							}
+							icon="person"
+						/>
+					</Grid>
+				</Grid>
+				<Grid container spacing={2} style={{ marginTop: '10px' }}>
+					<Grid item sm={3} xs={12}>
+						<CustomCardInfos
+							text="TEMPO MÉDIO DE CONTRATAÇÃO"
+							subtext={
+								stats?.vagas
+									? stats.vagas.tempo_medio_contratacao + ' dias'
+									: null
+							}
+							icon="clock"
 						/>
 					</Grid>
 					<Grid item sm={3} xs={12}>
@@ -252,12 +282,25 @@ const Dashboard = () => {
 							icon="paper"
 						/>
 					</Grid>
+
 					<Grid item sm={3} xs={12}>
 						<CustomCardInfos
-							text="CANDIDATOS APROVADOS"
-							subtext={
-								stats?.candidatos ? stats.candidatos.aprovados : null
-							}
+							text="VAGAS EM ABERTO"
+							subtext={stats?.vagas ? stats.vagas.ativa : null}
+							icon="paper"
+						/>
+					</Grid>
+					<Grid item sm={3} xs={12}>
+						<CustomCardInfos
+							text="VAGAS FINALIZADAS"
+							subtext={stats?.vagas ? stats.vagas.finalizada : null}
+							icon="paper"
+						/>
+					</Grid>
+					<Grid item sm={3} xs={12}>
+						<CustomCardInfos
+							text="VAGAS CANCELADAS"
+							subtext={stats?.vagas ? stats.vagas.cancelada : null}
 							icon="paper"
 						/>
 					</Grid>

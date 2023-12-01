@@ -15,6 +15,9 @@ import ListaVagas from '../pages/ListaVagas/ListaVagas';
 import ListaProcessoSelecao from '../pages/ListaProcessoSelecao/ListaProcessoSelecao';
 import ListaEmpresas from '../pages/ListaEmpresas/ListaEmpresas';
 import ListaCategorias from '../pages/ListaCategorias/ListaCategorias';
+import ListaConselhoRegulador from '../pages/ListaConselhoRegulador/ListaConselhoRegulador';
+import ListaGrupoAtuante from '../pages/ListaGrupoAtuante/ListaGrupoAtuante';
+import ListaEspecialidade from '../pages/ListaEspecialidade/ListaEspecialidade';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -99,6 +102,18 @@ const SwitchContents = () => {
 
 		case 'administradores-diretoria':
 			content = <ListaAdministradoresDiretoria />;
+			break;
+
+		case 'conselho-regulador':
+			content = <ListaConselhoRegulador />;
+			break;
+
+		case 'grupo-atuante':
+			content = <ListaGrupoAtuante />;
+			break;
+
+		case 'especialidade':
+			content = <ListaEspecialidade />;
 			break;
 
 		default:

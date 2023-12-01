@@ -158,7 +158,7 @@ export const APP_CONFIG = {
 							/* fontWeight: '600', */
 							fontSize: '15px',
 						},
-
+						padding: '10px 0px 0px 0px !important',
 						height: '30px',
 						color: 'black',
 						fontFamily: 'BwGradualDEMO-Regular',

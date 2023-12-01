@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import ArticleIcon from '@mui/icons-material/Article';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonIcon from '@material-ui/icons/Person';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import { APP_CONFIG } from '../../constants/config';
 
 const useStyles = makeStyles((theme) => ({
@@ -137,6 +138,18 @@ const CustomCardInfos = ({
 							/>
 						) : icon === 'person' ? (
 							<PersonIcon
+								color={'primary'}
+								style={{
+									alignSelf: 'center',
+									fontSize: 30,
+									color: APP_CONFIG.mainCollors.primary,
+									/* color:
+										iconColor ??
+										(aprovada ? 'green' : rejeitada ? 'red' : null), */
+								}}
+							/>
+						) : icon === 'clock' ? (
+							<ScheduleIcon
 								color={'primary'}
 								style={{
 									alignSelf: 'center',

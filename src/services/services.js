@@ -103,7 +103,7 @@ export const postCandidato = (
 	password,
 	password_confirmation
 ) => {
-	const url = `${process.env.REACT_APP_API_URL}/empresa-administrador`;
+	const url = `${process.env.REACT_APP_API_URL}/candidato`;
 
 	var bodyFormData = new FormData();
 	bodyFormData.append('name', name);
@@ -120,11 +120,11 @@ export const postCandidato = (
 	bodyFormData.append('endereco[estado]', estado);
 	bodyFormData.append('endereco[estado]', estado);
 	bodyFormData.append('rg', rg);
-	bodyFormData.append('conselho_regulador', conselho_regulador);
+	bodyFormData.append('conselho_regulador_id', conselho_regulador);
 	bodyFormData.append('data_nascimento', data_nascimento);
-	bodyFormData.append('especialidade', especialidade);
+	bodyFormData.append('especialidade_id', especialidade);
 	bodyFormData.append('estado_civil', estado_civil);
-	bodyFormData.append('grupo_atuante', grupo_atuante);
+	bodyFormData.append('grupo_atuante_id', grupo_atuante);
 	bodyFormData.append('nacionalidade', nacionalidade);
 	bodyFormData.append('sexo', sexo);
 	bodyFormData.append('password', password);
@@ -249,6 +249,18 @@ export const postAdministradorEmpresa = (
 
 export const getVagas = (token, page, like, order, mostrar, status) => {
 	const url = `${process.env.REACT_APP_API_URL}/vaga?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}&status${status}`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const getVagaShow = (token, id) => {
+	const url = `${process.env.REACT_APP_API_URL}/vaga/${id}`;
 
 	return axios({
 		method: 'get',
@@ -402,6 +414,199 @@ export const postCategoria = (token, nome, descricao) => {
 		data: {
 			nome: nome,
 			descricao: descricao,
+		},
+	});
+};
+
+export const getConselhoRegulador = (
+	token,
+	page,
+	like,
+	order,
+	mostrar,
+	status
+) => {
+	const url = `${process.env.REACT_APP_API_URL}/conselho-regulador?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}&status${status}`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const postConselhoRegulador = (token, nome) => {
+	const url = `${process.env.REACT_APP_API_URL}/conselho-regulador`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			nome: nome,
+		},
+	});
+};
+
+export const putConselhoRegulador = (token, nome, id) => {
+	const url = `${process.env.REACT_APP_API_URL}/conselho-regulador/${id}`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			_method: 'PUT',
+			nome: nome,
+		},
+	});
+};
+
+export const delConselhoRegulador = (token, id) => {
+	const url = `${process.env.REACT_APP_API_URL}/conselho-regulador/${id}`;
+	return axios({
+		method: 'delete',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const getGrupoAtuante = (token, page, like, order, mostrar, status) => {
+	const url = `${process.env.REACT_APP_API_URL}/grupo-atuante?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}&status${status}`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const postGrupoAtuante = (token, nome) => {
+	const url = `${process.env.REACT_APP_API_URL}/grupo-atuante`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			nome: nome,
+		},
+	});
+};
+
+export const putGrupoAtuante = (token, nome, id) => {
+	const url = `${process.env.REACT_APP_API_URL}/grupo-atuante/${id}`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			_method: 'PUT',
+			nome: nome,
+		},
+	});
+};
+
+export const delGrupoAtuante = (token, id) => {
+	const url = `${process.env.REACT_APP_API_URL}/grupo-atuante/${id}`;
+	return axios({
+		method: 'delete',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const getEspecialidade = (token, page, like, order, mostrar, status) => {
+	const url = `${process.env.REACT_APP_API_URL}/especialidade?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}&status${status}`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const postEspecialidade = (token, nome) => {
+	const url = `${process.env.REACT_APP_API_URL}/especialidade`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			nome: nome,
+		},
+	});
+};
+
+export const putEspecialidade = (token, nome, id) => {
+	const url = `${process.env.REACT_APP_API_URL}/especialidade/${id}`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			_method: 'PUT',
+			nome: nome,
+		},
+	});
+};
+
+export const delEspecialidade = (token, id) => {
+	const url = `${process.env.REACT_APP_API_URL}/especialidade/${id}`;
+	return axios({
+		method: 'delete',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
+
+export const postSendMail = (token, id, titulo, conteudo) => {
+	const url = `${process.env.REACT_APP_API_URL}/sendmail/vaga/${id}`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			titulo: titulo,
+			conteudo: conteudo,
+		},
+	});
+};
+
+export const postEnviarTriagem = (token, id, aprovados, reprovados) => {
+	const url = `${process.env.REACT_APP_API_URL}/triagem/vaga/${id}`;
+	return axios({
+		method: 'post',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		data: {
+			aprovados: aprovados,
+			reprovados: reprovados,
 		},
 	});
 };

@@ -149,6 +149,7 @@ const ListaEmpresas = () => {
 		{ headerText: 'Nome', key: 'nome' },
 		{ headerText: 'CNPJ', key: 'cnpj' },
 		{ headerText: 'E-mail', key: 'email' },
+		{ headerText: 'Vagas ofertadas', key: 'quantidade_vagas' },
 	];
 
 	useEffect(() => {

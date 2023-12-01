@@ -34,11 +34,17 @@ import ReactInputMask from 'react-input-mask';
 import { APP_CONFIG } from '../../constants/config';
 import { DropzoneAreaBase } from 'material-ui-dropzone';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { getCep } from '../../services/services';
+import { getCep, getNacionalidade } from '../../services/services';
 import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
-import { postCandidatoAction } from '../../actions/actions';
+import {
+	getConselhoReguladorAction,
+	getEspecialidadeAction,
+	getGrupoAtuanteAction,
+	postCandidatoAction,
+} from '../../actions/actions';
 import ClearIcon from '@material-ui/icons/Clear';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import { map } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -149,6 +155,10 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 	const [activeStep, setActiveStep] = useState(0);
 	const [errors, setErrors] = useState({});
 	const [filePreview, setFilePreview] = useState('');
+	const [nacionalidades, setNacionalidades] = useState([]);
+	const conselhoRegulador = useSelector((state) => state.conselhoRegulador);
+	const grupoAtuante = useSelector((state) => state.grupoAtuante);
+	const especialidade = useSelector((state) => state.especialidade);
 	const [cadastro, setCadastro] = useState({
 		name: '',
 		email: '',
@@ -165,12 +175,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 			estado: '',
 		},
 		rg: '',
-		conselho_regulador: '',
+		conselho_regulador: ' ',
 		data_nascimento: '',
-		especialidade: '',
-		estado_civil: '',
-		grupo_atuante: '',
-		nacionalidade: '',
+		especialidade: ' ',
+		estado_civil: ' ',
+		grupo_atuante: ' ',
+		nacionalidade: ' ',
 		sexo: ' ',
 		password: '',
 		password_confirmation: '',
@@ -235,6 +245,7 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 		} else {
 			toast.success('Cadastro criado com sucesso!');
 			setLoading(false);
+			history.push('/login');
 		}
 	};
 
@@ -278,8 +289,18 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 	};
 
 	useEffect(() => {
-		console.log(cadastro);
-	}, [cadastro]);
+		dispatch(getConselhoReguladorAction());
+	}, []);
+	useEffect(() => {
+		dispatch(getGrupoAtuanteAction());
+	}, []);
+	useEffect(() => {
+		dispatch(getEspecialidadeAction());
+	}, []);
+
+	useEffect(() => {
+		console.log(conselhoRegulador);
+	}, [conselhoRegulador]);
 
 	return (
 		<Box className={classes.root}>
@@ -520,7 +541,7 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 														color: APP_CONFIG.mainCollors.black,
 													}}
 												>
-													Digite aqui...
+													Selecione aqui...
 												</Typography>
 											</MenuItem>
 											<MenuItem
@@ -538,6 +559,22 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 												}}
 											>
 												Feminino
+											</MenuItem>
+											<MenuItem
+												value={'outro'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Outro
+											</MenuItem>
+											<MenuItem
+												value={'nao-informar'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Não quero informar
 											</MenuItem>
 										</Select>
 									</Grid>
@@ -714,7 +751,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 										>
 											Conselho regulador
 										</Typography>
-										<TextField
+
+										<Select
+											style={{
+												color: APP_CONFIG.mainCollors.secondary,
+											}}
+											fullWidth
 											variant="outlined"
 											value={cadastro.conselho_regulador}
 											onChange={(e) =>
@@ -729,11 +771,46 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													? errors?.conselho_regulador?.join(' ')
 													: null
 											}
-											placeholder="Digite aqui..."
-											autoFocus
-											required
-											fullWidth
-										/>
+										>
+											<MenuItem
+												value={' '}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												<Typography
+													style={{
+														fontFamily: 'BwGradualDEMO-Regular',
+														color: APP_CONFIG.mainCollors.black,
+													}}
+												>
+													Selecione aqui...
+												</Typography>
+											</MenuItem>
+											{conselhoRegulador?.data &&
+												conselhoRegulador.data.map((item) => {
+													return (
+														<MenuItem
+															value={item.id}
+															style={{
+																color: APP_CONFIG.mainCollors
+																	.secondary,
+															}}
+														>
+															<Typography
+																style={{
+																	fontFamily:
+																		'BwGradualDEMO-Regular',
+																	color: APP_CONFIG.mainCollors
+																		.black,
+																}}
+															>
+																{item.nome}
+															</Typography>
+														</MenuItem>
+													);
+												})}
+										</Select>
 									</Grid>
 									<Grid item sm={6} xs={12}>
 										<Typography
@@ -746,7 +823,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 										>
 											Especialidade
 										</Typography>
-										<TextField
+
+										<Select
+											style={{
+												color: APP_CONFIG.mainCollors.secondary,
+											}}
+											fullWidth
 											variant="outlined"
 											value={cadastro.especialidade}
 											onChange={(e) =>
@@ -761,11 +843,46 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													? errors?.especialidade?.join(' ')
 													: null
 											}
-											placeholder="Digite aqui..."
-											autoFocus
-											required
-											fullWidth
-										/>
+										>
+											<MenuItem
+												value={' '}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												<Typography
+													style={{
+														fontFamily: 'BwGradualDEMO-Regular',
+														color: APP_CONFIG.mainCollors.black,
+													}}
+												>
+													Selecione aqui...
+												</Typography>
+											</MenuItem>
+											{especialidade?.data &&
+												especialidade.data.map((item) => {
+													return (
+														<MenuItem
+															value={item.id}
+															style={{
+																color: APP_CONFIG.mainCollors
+																	.secondary,
+															}}
+														>
+															<Typography
+																style={{
+																	fontFamily:
+																		'BwGradualDEMO-Regular',
+																	color: APP_CONFIG.mainCollors
+																		.black,
+																}}
+															>
+																{item.nome}
+															</Typography>
+														</MenuItem>
+													);
+												})}
+										</Select>
 									</Grid>
 									<Grid item sm={6} xs={12}>
 										<Typography
@@ -778,7 +895,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 										>
 											Grupo atuante
 										</Typography>
-										<TextField
+
+										<Select
+											style={{
+												color: APP_CONFIG.mainCollors.secondary,
+											}}
+											fullWidth
 											variant="outlined"
 											value={cadastro.grupo_atuante}
 											onChange={(e) =>
@@ -793,11 +915,46 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													? errors?.grupo_atuante?.join(' ')
 													: null
 											}
-											placeholder="Digite aqui..."
-											autoFocus
-											required
-											fullWidth
-										/>
+										>
+											<MenuItem
+												value={' '}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												<Typography
+													style={{
+														fontFamily: 'BwGradualDEMO-Regular',
+														color: APP_CONFIG.mainCollors.black,
+													}}
+												>
+													Selecione aqui...
+												</Typography>
+											</MenuItem>
+											{grupoAtuante?.data &&
+												grupoAtuante.data.map((item) => {
+													return (
+														<MenuItem
+															value={item.id}
+															style={{
+																color: APP_CONFIG.mainCollors
+																	.secondary,
+															}}
+														>
+															<Typography
+																style={{
+																	fontFamily:
+																		'BwGradualDEMO-Regular',
+																	color: APP_CONFIG.mainCollors
+																		.black,
+																}}
+															>
+																{item.nome}
+															</Typography>
+														</MenuItem>
+													);
+												})}
+										</Select>
 									</Grid>
 									<Grid item sm={6} xs={12}>
 										<Typography
@@ -842,7 +999,12 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 										>
 											Estado civil
 										</Typography>
-										<TextField
+
+										<Select
+											style={{
+												color: APP_CONFIG.mainCollors.secondary,
+											}}
+											fullWidth
 											variant="outlined"
 											value={cadastro.estado_civil}
 											onChange={(e) =>
@@ -857,11 +1019,63 @@ export default function Cadastro({ getNextEtapa, errorsEtapa1 }) {
 													? errors?.estado_civil?.join(' ')
 													: null
 											}
-											placeholder="Digite aqui..."
-											autoFocus
-											required
-											fullWidth
-										/>
+										>
+											<MenuItem
+												value={' '}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												<Typography
+													style={{
+														fontFamily: 'BwGradualDEMO-Regular',
+														color: APP_CONFIG.mainCollors.black,
+													}}
+												>
+													Selecione aqui...
+												</Typography>
+											</MenuItem>
+											<MenuItem
+												value={'solteiro'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Solteiro
+											</MenuItem>
+											<MenuItem
+												value={'casado'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Casado
+											</MenuItem>
+											<MenuItem
+												value={'separado'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Separado
+											</MenuItem>
+											<MenuItem
+												value={'divorciado'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Divorciado
+											</MenuItem>
+											<MenuItem
+												value={'viuvo'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Viúvo
+											</MenuItem>
+										</Select>
 									</Grid>
 								</Grid>
 								<Box

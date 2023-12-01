@@ -20,6 +20,21 @@ import {
 	SET_SIDE_BAR,
 	GET_CATEGORIA,
 	POST_CATEGORIA,
+	GET_CONSELHO_REGULADOR,
+	POST_CONSELHO_REGULADOR,
+	PUT_CONSELHO_REGULADOR,
+	DEL_CONSELHO_REGULADOR,
+	GET_GRUPO_ATUANTE,
+	POST_GRUPO_ATUANTE,
+	PUT_GRUPO_ATUANTE,
+	DEL_GRUPO_ATUANTE,
+	GET_ESPECIALIDADE,
+	POST_ESPECIALIDADE,
+	PUT_ESPECIALIDADE,
+	DEL_ESPECIALIDADE,
+	POST_SEND_MAIL,
+	GET_VAGA_SHOW,
+	POST_ENVIAR_TRIAGEM,
 } from '../constants/actionsStrings';
 import {
 	getUserData,
@@ -43,6 +58,21 @@ import {
 	postStatus,
 	postEmpresa,
 	postCategoria,
+	getConselhoRegulador,
+	postConselhoRegulador,
+	putConselhoRegulador,
+	delConselhoRegulador,
+	getGrupoAtuante,
+	postGrupoAtuante,
+	putGrupoAtuante,
+	delGrupoAtuante,
+	getEspecialidade,
+	postEspecialidade,
+	putEspecialidade,
+	delEspecialidade,
+	postSendMail,
+	getVagaShow,
+	postEnviarTriagem,
 } from '../services/services';
 
 import { toast } from 'react-toastify';
@@ -369,6 +399,18 @@ export const getVagasAction =
 		}
 	};
 
+export const getVagaShowAction = (token, id) => async (dispatch) => {
+	try {
+		const res = await getVagaShow(token, id);
+		dispatch({
+			type: GET_VAGA_SHOW,
+			payload: res.data,
+		});
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 export const getEmpresasAction =
 	(token, page, like, order, mostrar, status) => async (dispatch) => {
 		try {
@@ -550,6 +592,298 @@ export const postCategoriaAction =
 			const res = await postCategoria(token, nome, decricao);
 			dispatch({
 				type: POST_CATEGORIA,
+				payload: res.data,
+			});
+			return false;
+		} catch (err) {
+			console.log(err);
+			if (err.response && err.response.status === 422) {
+				return err.response.data.errors;
+			} else {
+				if (err.response.data.result) {
+					toast.error(err.response.data.result.Message);
+				}
+				return err;
+			}
+		}
+	};
+
+export const getConselhoReguladorAction =
+	(token, page = '', like = '', order = '', mostrar = '', status = '') =>
+	async (dispatch) => {
+		try {
+			const res = await getConselhoRegulador(
+				token,
+				page,
+				like,
+				order,
+				mostrar,
+				status
+			);
+			dispatch({
+				type: GET_CONSELHO_REGULADOR,
+				payload: res.data,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+export const postConselhoReguladorAction =
+	(token, nome) => async (dispatch) => {
+		try {
+			const res = await postConselhoRegulador(token, nome);
+			dispatch({
+				type: POST_CONSELHO_REGULADOR,
+				payload: res.data,
+			});
+			return false;
+		} catch (err) {
+			console.log(err);
+			if (err.response && err.response.status === 422) {
+				return err.response.data.errors;
+			} else {
+				if (err.response.data.result) {
+					toast.error(err.response.data.result.Message);
+				}
+				return err;
+			}
+		}
+	};
+
+export const putConselhoReguladorAction =
+	(token, nome, id) => async (dispatch) => {
+		try {
+			const res = await putConselhoRegulador(token, nome, id);
+			dispatch({
+				type: PUT_CONSELHO_REGULADOR,
+				payload: res.data,
+			});
+			return false;
+		} catch (err) {
+			console.log(err);
+			if (err.response && err.response.status === 422) {
+				return err.response.data.errors;
+			} else {
+				if (err.response.data.result) {
+					toast.error(err.response.data.result.Message);
+				}
+				return err;
+			}
+		}
+	};
+
+export const delConselhoReguladorAction = (token, id) => async (dispatch) => {
+	try {
+		const res = await delConselhoRegulador(token, id);
+		dispatch({
+			type: DEL_CONSELHO_REGULADOR,
+			payload: res.data,
+		});
+		return false;
+	} catch (err) {
+		console.log(err);
+		if (err.response.status === 422) {
+			return err.response.data.errors;
+		} else {
+			toast.error('Erro');
+			return err;
+		}
+	}
+};
+
+export const getGrupoAtuanteAction =
+	(token, page = '', like = '', order = '', mostrar = '', status = '') =>
+	async (dispatch) => {
+		try {
+			const res = await getGrupoAtuante(
+				token,
+				page,
+				like,
+				order,
+				mostrar,
+				status
+			);
+			dispatch({
+				type: GET_GRUPO_ATUANTE,
+				payload: res.data,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+export const postGrupoAtuanteAction = (token, nome) => async (dispatch) => {
+	try {
+		const res = await postGrupoAtuante(token, nome);
+		dispatch({
+			type: POST_GRUPO_ATUANTE,
+			payload: res.data,
+		});
+		return false;
+	} catch (err) {
+		console.log(err);
+		if (err.response && err.response.status === 422) {
+			return err.response.data.errors;
+		} else {
+			if (err.response.data.result) {
+				toast.error(err.response.data.result.Message);
+			}
+			return err;
+		}
+	}
+};
+
+export const putGrupoAtuanteAction = (token, nome, id) => async (dispatch) => {
+	try {
+		const res = await putGrupoAtuante(token, nome, id);
+		dispatch({
+			type: PUT_GRUPO_ATUANTE,
+			payload: res.data,
+		});
+		return false;
+	} catch (err) {
+		console.log(err);
+		if (err.response && err.response.status === 422) {
+			return err.response.data.errors;
+		} else {
+			if (err.response.data.result) {
+				toast.error(err.response.data.result.Message);
+			}
+			return err;
+		}
+	}
+};
+
+export const delGrupoAtuanteAction = (token, id) => async (dispatch) => {
+	try {
+		const res = await delGrupoAtuante(token, id);
+		dispatch({
+			type: DEL_GRUPO_ATUANTE,
+			payload: res.data,
+		});
+		return false;
+	} catch (err) {
+		console.log(err);
+		if (err.response.status === 422) {
+			return err.response.data.errors;
+		} else {
+			toast.error('Erro');
+			return err;
+		}
+	}
+};
+
+export const getEspecialidadeAction =
+	(token = '', page = '', like = '', order = '', mostrar = '', status = '') =>
+	async (dispatch) => {
+		try {
+			const res = await getEspecialidade(
+				token,
+				page,
+				like,
+				order,
+				mostrar,
+				status
+			);
+			dispatch({
+				type: GET_ESPECIALIDADE,
+				payload: res.data,
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+export const postEspecialidadeAction = (token, nome) => async (dispatch) => {
+	try {
+		const res = await postEspecialidade(token, nome);
+		dispatch({
+			type: POST_ESPECIALIDADE,
+			payload: res.data,
+		});
+		return false;
+	} catch (err) {
+		console.log(err);
+		if (err.response && err.response.status === 422) {
+			return err.response.data.errors;
+		} else {
+			if (err.response.data.result) {
+				toast.error(err.response.data.result.Message);
+			}
+			return err;
+		}
+	}
+};
+
+export const putEspecialidadeAction = (token, nome, id) => async (dispatch) => {
+	try {
+		const res = await putEspecialidade(token, nome, id);
+		dispatch({
+			type: PUT_ESPECIALIDADE,
+			payload: res.data,
+		});
+		return false;
+	} catch (err) {
+		console.log(err);
+		if (err.response && err.response.status === 422) {
+			return err.response.data.errors;
+		} else {
+			if (err.response.data.result) {
+				toast.error(err.response.data.result.Message);
+			}
+			return err;
+		}
+	}
+};
+
+export const delEspecialidadeAction = (token, id) => async (dispatch) => {
+	try {
+		const res = await delEspecialidade(token, id);
+		dispatch({
+			type: DEL_ESPECIALIDADE,
+			payload: res.data,
+		});
+		return false;
+	} catch (err) {
+		console.log(err);
+		if (err.response.status === 422) {
+			return err.response.data.errors;
+		} else {
+			toast.error('Erro');
+			return err;
+		}
+	}
+};
+
+export const postSendMailAction =
+	(token, id, titulo, conteudo) => async (dispatch) => {
+		try {
+			const res = await postSendMail(token, id, titulo, conteudo);
+			dispatch({
+				type: POST_SEND_MAIL,
+				payload: res.data,
+			});
+			return false;
+		} catch (err) {
+			console.log(err);
+			if (err.response && err.response.status === 422) {
+				return err.response.data.errors;
+			} else {
+				if (err.response.data.result) {
+					toast.error(err.response.data.result.Message);
+				}
+				return err;
+			}
+		}
+	};
+
+export const postEnviarTriagemAction =
+	(token, id, aprovados, reprovados) => async (dispatch) => {
+		try {
+			const res = await postEnviarTriagem(token, id, aprovados, reprovados);
+			dispatch({
+				type: POST_ENVIAR_TRIAGEM,
 				payload: res.data,
 			});
 			return false;

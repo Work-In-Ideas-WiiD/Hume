@@ -11,6 +11,10 @@ import {
 	GET_EMPRESAS,
 	GET_STATS,
 	GET_CATEGORIA,
+	GET_CONSELHO_REGULADOR,
+	GET_GRUPO_ATUANTE,
+	GET_ESPECIALIDADE,
+	GET_VAGA_SHOW,
 } from '../constants/actionsStrings';
 import { applyMiddleware, compose, createStore } from 'redux';
 
@@ -28,9 +32,13 @@ const INITIAL_STATE = {
 	admEmpresa: {},
 	admDiretoria: {},
 	vagas: {},
+	vagaShow: {},
 	empresas: {},
 	categoria: {},
 	stats: {},
+	conselhoRegulador: {},
+	grupoAtuante: {},
+	especialidade: {},
 };
 
 const enhancer = compose(applyMiddleware(thunk));
@@ -63,6 +71,9 @@ const state = (state = INITIAL_STATE, action) => {
 		case GET_VAGAS:
 			return { ...state, vagas: action.payload };
 
+		case GET_VAGA_SHOW:
+			return { ...state, vagaShow: action.payload };
+
 		case GET_EMPRESAS:
 			return { ...state, empresas: action.payload };
 
@@ -71,6 +82,15 @@ const state = (state = INITIAL_STATE, action) => {
 
 		case GET_STATS:
 			return { ...state, stats: action.payload };
+
+		case GET_CONSELHO_REGULADOR:
+			return { ...state, conselhoRegulador: action.payload };
+
+		case GET_GRUPO_ATUANTE:
+			return { ...state, grupoAtuante: action.payload };
+
+		case GET_ESPECIALIDADE:
+			return { ...state, especialidade: action.payload };
 
 		default:
 			return { ...state };

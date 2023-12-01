@@ -18,6 +18,9 @@ import {
 	Grid,
 	Select,
 	FormHelperText,
+	TableContainer,
+	useMediaQuery,
+	Checkbox,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import {
@@ -35,8 +38,11 @@ import {
 	getReenviarTokenUsuarioAction,
 	getStatsAction,
 	getVagasAction,
+	getVagaShowAction,
 	loadDocumentos,
 	postCriarAdminAction,
+	postEnviarTriagemAction,
+	postSendMailAction,
 	postStatusAction,
 	postVagaAction,
 } from '../../actions/actions';
@@ -66,6 +72,12 @@ import CustomCardInfos from '../../components/CustomCardInfos/CustomCardInfos';
 import CurrencyInput from 'react-currency-input';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import EditIcon from '@mui/icons-material/Edit';
+import EmailIcon from '@mui/icons-material/Email';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import { stateToHTML } from 'draft-js-export-html';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -93,6 +105,10 @@ const useStyles = makeStyles((theme) => ({
 		borderWidth: '1px !important',
 		border: 'solid',
 		fontFamily: 'BwGradualDEMO-Regular',
+	},
+	textoEmail: {
+		height: '40px',
+		rows: 5,
 	},
 }));
 
@@ -280,13 +296,26 @@ const ListaVagas = () => {
 	const token = useAuth();
 	const classes = useStyles();
 	const [page, setPage] = useState(1);
+	const [registrosAprovados, setRegistrosAprovados] = useState([]);
+	const [registrosReprovados, setRegistrosReprovados] = useState([]);
 	const [criarVagaModal, setCriarVagaModal] = useState(false);
+	const [emailModal, setEmailModal] = useState(false);
+	const [triagemModal, setTriagemModal] = useState(false);
+	const [triagemId, setTriagemId] = useState('');
+
+	const [dadosEmail, setDadosEmail] = useState({
+		titulo: '',
+		conteudo: '',
+		id: '',
+	});
 	const [errors, setErrors] = useState({});
 	const dispatch = useDispatch();
 	const vagas = useSelector((state) => state.vagas);
+	const vagaShow = useSelector((state) => state.vagaShow);
 	const stats = useSelector((state) => state.stats);
 	const empresas = useSelector((state) => state.empresas);
 	const categoria = useSelector((state) => state.categoria);
+	const matches = useMediaQuery('(max-width:1120px)');
 	const [editarButton, setEditarButton] = useState(false);
 	const [dadosVaga, setDadosVaga] = useState({
 		empresa_id: ' ',
@@ -301,6 +330,96 @@ const ListaVagas = () => {
 		descricao: '',
 	});
 
+	const columnsCandidatos = [
+		{
+			headerText: 'Aprovar',
+			key: 'candidato_id',
+			CustomValue: (id) => {
+				return (
+					<>
+						<Box
+							style={{
+								display: 'flex',
+								alignSelf: 'center',
+								marginRight: '0px',
+								justifyContent: 'space-around',
+							}}
+						>
+							<Checkbox
+								color="primary"
+								checked={registrosAprovados.includes(id)}
+								onChange={() => {
+									if (registrosAprovados.includes(id)) {
+										setRegistrosAprovados(
+											registrosAprovados.filter(
+												(item) => item !== id
+											)
+										);
+									} else {
+										setRegistrosAprovados([
+											...registrosAprovados,
+											id,
+										]);
+										setRegistrosReprovados(
+											registrosReprovados.filter(
+												(item) => item !== id
+											)
+										);
+									}
+								}}
+							/>
+						</Box>
+					</>
+				);
+			},
+		},
+		{
+			headerText: 'Reprovar',
+			key: 'candidato_id',
+			CustomValue: (id) => {
+				return (
+					<>
+						<Box
+							style={{
+								display: 'flex',
+								alignSelf: 'center',
+								marginRight: '0px',
+								justifyContent: 'space-around',
+							}}
+						>
+							<Checkbox
+								color="primary"
+								checked={registrosReprovados.includes(id)}
+								onChange={() => {
+									if (registrosReprovados.includes(id)) {
+										setRegistrosReprovados(
+											registrosReprovados.filter(
+												(item) => item !== id
+											)
+										);
+									} else {
+										setRegistrosReprovados([
+											...registrosReprovados,
+											id,
+										]);
+										setRegistrosAprovados(
+											registrosAprovados.filter(
+												(item) => item !== id
+											)
+										);
+									}
+								}}
+							/>
+						</Box>
+					</>
+				);
+			},
+		},
+
+		{ headerText: 'Experiência', key: 'candidato.sexo' },
+		{ headerText: 'Idade', key: 'candidato.cpf' },
+		{ headerText: 'Gênero', key: 'candidato_id' },
+	];
 	useEffect(() => {
 		dispatch(
 			getVagasAction(
@@ -428,6 +547,100 @@ const ListaVagas = () => {
 			});
 		}
 	}; */
+	/* 
+	const enviarEmail = async (row) => {
+		setLoading(true);
+		getEmailContent();
+		const resEnviar = await dispatch(
+			postSendMailAction(
+				token,
+				dadosEmail.id,
+				dadosEmail.titulo,
+				dadosEmail.conteudo
+			)
+		);
+		if (resEnviar) {
+			toast.error('Falha ao enviar e-mail');
+			setLoading(false);
+		} else {
+			toast.success('E-mail enviado com sucesso!');
+			setLoading(false);
+		}
+	}; */
+
+	const handleEnviarEmail = (row) => {
+		setDadosEmail({ ...dadosEmail, id: row.row.id });
+		setEmailModal(true);
+	};
+
+	const [editorState, setEditorState] = useState(() =>
+		EditorState.createEmpty()
+	);
+
+	const handleEditorChange = (state) => {
+		setEditorState(state);
+	};
+
+	const getEmailContent = async () => {
+		const contentState = editorState.getCurrentContent();
+		const rawContent = convertToRaw(contentState);
+
+		// Convert raw content to HTML
+		const html = stateToHTML(convertFromRaw(rawContent));
+
+		// You can now use 'html' as needed (e.g., display it in a preview)
+
+		if (html) {
+			setLoading(true);
+
+			const resEnviar = await dispatch(
+				postSendMailAction(token, dadosEmail.id, dadosEmail.titulo, html)
+			);
+			if (resEnviar) {
+				toast.error('Falha ao enviar e-mail');
+				setLoading(false);
+			} else {
+				toast.success('E-mail enviado com sucesso!');
+				setLoading(false);
+			}
+		}
+	};
+
+	const handleTriagem = async (row) => {
+		setLoading(true);
+		const resTriagem = await dispatch(getVagaShowAction(token, row.row.id));
+		if (resTriagem) {
+			toast.error('Falha ao carregar vaga');
+			setLoading(false);
+		} else {
+			setTriagemId(row.row.id);
+			setTriagemModal(true);
+			setLoading(false);
+		}
+	};
+
+	const handleEnviarTriagem = async () => {
+		setLoading(true);
+		const resTriagem = await dispatch(
+			postEnviarTriagemAction(
+				token,
+				triagemId,
+				registrosAprovados,
+				registrosReprovados
+			)
+		);
+		if (resTriagem) {
+			toast.error('Falha ao enviar triagem');
+			setLoading(false);
+		} else {
+			toast.success('Triagem enviada com sucesso!');
+			setTriagemModal(false);
+			setTriagemId('');
+			setRegistrosAprovados([]);
+			setRegistrosReprovados([]);
+			setLoading(false);
+		}
+	};
 
 	const Editar = (row) => {
 		const [anchorEl, setAnchorEl] = useState(null);
@@ -488,24 +701,25 @@ const ListaVagas = () => {
 		};
 
 		return (
-			<Box>
-				<IconButton
-					style={{ height: '15px', width: '10px' }}
-					aria-controls="simple-menu"
-					aria-haspopup="true"
-					onClick={handleClick}
-				>
-					<MoreHorizIcon style={{}} />
-				</IconButton>
-				<Menu
-					id="simple-menu"
-					anchorEl={anchorEl}
-					keepMounted
-					open={Boolean(anchorEl)}
-					onClose={handleClose}
-				>
-					<MenuItem
-						/* onClick={() => {
+			<>
+				<Box>
+					<IconButton
+						style={{ height: '15px', width: '10px' }}
+						aria-controls="simple-menu"
+						aria-haspopup="true"
+						onClick={handleClick}
+					>
+						<MoreHorizIcon style={{}} />
+					</IconButton>
+					<Menu
+						id="simple-menu"
+						anchorEl={anchorEl}
+						keepMounted
+						open={Boolean(anchorEl)}
+						onClose={handleClose}
+					>
+						<MenuItem
+							/* onClick={() => {
 							setDadosVaga({
 								...dadosVaga,
 								empresa_id: row.empresa_id,
@@ -522,28 +736,43 @@ const ListaVagas = () => {
 							setCriarVagaModal(true);
 							setEditarButton(true);
 						}} */
-						onClick={() => toast.warning('Em desenvolvimento')}
-						style={{ color: APP_CONFIG.mainCollors.black }}
-					>
-						<EditIcon style={{ marginRight: '5px' }} />
-						Editar
-					</MenuItem>
-					<MenuItem
-						onClick={() => handleIniciarSelecao(row)}
-						style={{ color: APP_CONFIG.mainCollors.black }}
-					>
-						<CheckCircleIcon style={{ marginRight: '5px' }} />
-						Iniciar seleção
-					</MenuItem>
-					<MenuItem
-						onClick={() => handleCancelar(row)}
-						style={{ color: APP_CONFIG.mainCollors.black }}
-					>
-						<CancelIcon style={{ marginRight: '5px' }} />
-						Cancelar
-					</MenuItem>
-				</Menu>
-			</Box>
+							onClick={() => toast.warning('Em desenvolvimento')}
+							style={{ color: APP_CONFIG.mainCollors.black }}
+						>
+							<EditIcon style={{ marginRight: '5px' }} />
+							Editar
+						</MenuItem>
+						<MenuItem
+							onClick={() => handleIniciarSelecao(row)}
+							style={{ color: APP_CONFIG.mainCollors.black }}
+						>
+							<CheckCircleIcon style={{ marginRight: '5px' }} />
+							Iniciar seleção
+						</MenuItem>
+						<MenuItem
+							onClick={() => handleCancelar(row)}
+							style={{ color: APP_CONFIG.mainCollors.black }}
+						>
+							<CancelIcon style={{ marginRight: '5px' }} />
+							Cancelar
+						</MenuItem>
+						<MenuItem
+							onClick={() => handleEnviarEmail(row)}
+							style={{ color: APP_CONFIG.mainCollors.black }}
+						>
+							<EmailIcon style={{ marginRight: '5px' }} />
+							Enviar e-mail
+						</MenuItem>
+						<MenuItem
+							onClick={() => handleTriagem(row)}
+							style={{ color: APP_CONFIG.mainCollors.black }}
+						>
+							<HowToRegIcon style={{ marginRight: '5px' }} />
+							Triagem
+						</MenuItem>
+					</Menu>
+				</Box>
+			</>
 		);
 	};
 
@@ -559,7 +788,14 @@ const ListaVagas = () => {
 						alignItems: 'center',
 					}}
 				>
-					<Typography className={classes.pageTitle}>VAGAS</Typography>
+					<Typography
+						onClick={() => {
+							setEmailModal(true);
+						}}
+						className={classes.pageTitle}
+					>
+						VAGAS
+					</Typography>
 
 					<Box style={{ alignSelf: 'flex-end' }}>
 						<IconButton
@@ -643,13 +879,6 @@ const ListaVagas = () => {
 								backgroundColor: APP_CONFIG.mainCollors.backgrounds,
 								width: '400px',
 							}}
-							/* onChange={(e) =>
-							
-							setFilters({
-								...filters,
-								like: e.target.value,
-							})
-						} */
 							onChange={(e) => {
 								setPage(1);
 								setFilters({
@@ -1100,6 +1329,251 @@ const ListaVagas = () => {
 							>
 								<Typography>Criar vaga</Typography>
 							</CustomButton>
+						</Box>
+					</Box>
+				</>
+			</Dialog>
+			<Dialog
+				open={triagemModal}
+				onClose={() => {
+					setTriagemModal(false);
+					setErrors({});
+				}}
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					overflowY: 'scroll',
+				}}
+				maxWidth="800px"
+				fullWidth
+			>
+				<>
+					<Box
+						style={{
+							backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+							width: '800px',
+							padding: '50px',
+						}}
+					>
+						<Box
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								flexDirection: 'column',
+							}}
+						></Box>
+						<Box style={{ marginTop: '10px' }}>
+							<Typography
+								style={{
+									fontFamily: 'BwGradualDEMO-Bold',
+									color: APP_CONFIG.mainCollors.primaryVariant,
+								}}
+							>
+								Triagem
+							</Typography>
+							<Box
+								style={{
+									marginTop: '30px',
+									marginBottom: '30px',
+									width: '100%',
+									maxWidth: 900,
+									padding: '10px',
+								}}
+							>
+								<>
+									{vagaShow?.candidatos ? (
+										<>
+											<Box minWidth={!matches ? '500px' : null}>
+												<TableContainer
+													style={{
+														overflowX: 'auto',
+														overflowY: 'hidden',
+													}}
+												>
+													<CustomTable
+														checkBoxAprovacoes
+														data={vagaShow?.candidatos}
+														columns={columnsCandidatos}
+														Editar={Editar}
+													/>
+												</TableContainer>
+											</Box>
+											<Box
+												alignSelf="flex-end"
+												marginTop="8px"
+												style={{
+													display: 'flex',
+													justifyContent: 'space-between',
+												}}
+											>
+												{/* 	<Pagination
+													variant="outlined"
+													color="secondary"
+													size="large"
+													count={vagaShow?.candidatos.last_page}
+													onChange={handleChangePage}
+													page={page}
+												/>
+												//nao tem last_page */}
+												<Button
+													style={{
+														minWidth: '5px',
+														height: '40px',
+														borderRadius: '27px',
+														border: 'solid',
+														borderWidth: '1px',
+														borderColor: 'grey',
+													}}
+													onClick={() => window.location.reload()}
+												>
+													<RefreshIcon
+														style={{
+															fontSize: 25,
+															color: 'grey',
+														}}
+													/>
+												</Button>
+											</Box>
+										</>
+									) : (
+										<LinearProgress />
+									)}
+								</>
+							</Box>
+							<Box
+								style={{
+									display: 'flex',
+									marginTop: '30px',
+									alignSelf: 'center',
+									justifyContent: 'center',
+								}}
+							>
+								<CustomButton
+									color="colorPrimary"
+									onClick={() => handleEnviarTriagem()}
+								>
+									<Typography>Triar</Typography>
+								</CustomButton>
+							</Box>
+						</Box>
+					</Box>
+				</>
+			</Dialog>
+			<Dialog
+				open={emailModal}
+				onClose={() => {
+					setEmailModal(false);
+					setErrors({});
+				}}
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					overflowY: 'scroll',
+				}}
+				maxWidth="800px"
+				fullWidth
+			>
+				<>
+					<Box
+						style={{
+							backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+							width: '800px',
+							padding: '50px',
+						}}
+					>
+						<Box
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								flexDirection: 'column',
+							}}
+						></Box>
+						<Box style={{ marginTop: '10px' }}>
+							<Typography
+								style={{
+									fontFamily: 'BwGradualDEMO-Bold',
+									color: APP_CONFIG.mainCollors.primaryVariant,
+								}}
+							>
+								Enviar e-mail para candidatos da vaga
+							</Typography>
+							<Box style={{ marginTop: '30px' }}>
+								<Grid container spacing={3}>
+									<Grid item sm={12} xs={12}>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Regular',
+												color: APP_CONFIG.mainCollors
+													.primaryVariant,
+												fontSize: 13,
+											}}
+										>
+											Título
+										</Typography>
+										<TextField
+											InputProps={{
+												disableUnderline: true,
+											}}
+											variant="filled"
+											value={dadosEmail.titulo}
+											onChange={(e) =>
+												setDadosEmail({
+													...dadosEmail,
+													titulo: e.target.value,
+												})
+											}
+											/* error={errors?.name}
+											helperText={
+												errors?.name
+													? errors?.name?.join(' ')
+													: null
+											} */
+
+											required
+											fullWidth
+										/>
+									</Grid>
+								</Grid>
+								<Box style={{ marginTop: '10px' }}>
+									<Typography
+										style={{
+											fontFamily: 'BwGradualDEMO-Regular',
+											color: APP_CONFIG.mainCollors.primaryVariant,
+											fontSize: 13,
+										}}
+									>
+										Conteúdo
+									</Typography>
+
+									<Box style={{ backgroundColor: 'white' }}>
+										<Editor
+											editorState={editorState}
+											onEditorStateChange={handleEditorChange}
+											wrapperClassName="email-editor-wrapper"
+											editorClassName="email-editor"
+										/>
+									</Box>
+								</Box>
+							</Box>
+							<Box
+								style={{
+									display: 'flex',
+									marginTop: '30px',
+									alignSelf: 'center',
+									justifyContent: 'center',
+								}}
+							>
+								<CustomButton
+									color="colorPrimary"
+									onClick={() => getEmailContent()}
+								>
+									<Typography>Enviar</Typography>
+								</CustomButton>
+							</Box>
 						</Box>
 					</Box>
 				</>
