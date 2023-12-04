@@ -35,6 +35,7 @@ import {
 	POST_SEND_MAIL,
 	GET_VAGA_SHOW,
 	POST_ENVIAR_TRIAGEM,
+	GET_TRIAGEM,
 } from '../constants/actionsStrings';
 import {
 	getUserData,
@@ -73,6 +74,7 @@ import {
 	postSendMail,
 	getVagaShow,
 	postEnviarTriagem,
+	getTriagem,
 } from '../services/services';
 
 import { toast } from 'react-toastify';
@@ -897,5 +899,26 @@ export const postEnviarTriagemAction =
 				}
 				return err;
 			}
+		}
+	};
+
+export const getTriagemAction =
+	(token, id, page, idade = '', experiencia = '', sexo = '') =>
+	async (dispatch) => {
+		try {
+			const res = await getTriagem(
+				token,
+				id,
+				page,
+				idade,
+				experiencia,
+				sexo
+			);
+			dispatch({
+				type: GET_TRIAGEM,
+				payload: res.data,
+			});
+		} catch (err) {
+			console.log(err);
 		}
 	};

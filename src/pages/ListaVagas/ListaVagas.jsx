@@ -37,6 +37,7 @@ import {
 	getListaAdministradorAction,
 	getReenviarTokenUsuarioAction,
 	getStatsAction,
+	getTriagemAction,
 	getVagasAction,
 	getVagaShowAction,
 	loadDocumentos,
@@ -290,12 +291,16 @@ const ListaVagas = () => {
 		order: '',
 		mostrar: '',
 		status: ' ',
+		idade: '',
+		sexo: ' ',
+		experiencia: '',
 	});
 	const debouncedLike = useDebounce(filters.like, 800);
 	const [loading, setLoading] = useState(false);
 	const token = useAuth();
 	const classes = useStyles();
 	const [page, setPage] = useState(1);
+	const [pageTriagem, setPageTriagem] = useState(1);
 	const [registrosAprovados, setRegistrosAprovados] = useState([]);
 	const [registrosReprovados, setRegistrosReprovados] = useState([]);
 	const [criarVagaModal, setCriarVagaModal] = useState(false);
@@ -311,7 +316,8 @@ const ListaVagas = () => {
 	const [errors, setErrors] = useState({});
 	const dispatch = useDispatch();
 	const vagas = useSelector((state) => state.vagas);
-	const vagaShow = useSelector((state) => state.vagaShow);
+	const triagem = useSelector((state) => state.triagem);
+
 	const stats = useSelector((state) => state.stats);
 	const empresas = useSelector((state) => state.empresas);
 	const categoria = useSelector((state) => state.categoria);
@@ -415,10 +421,11 @@ const ListaVagas = () => {
 				);
 			},
 		},
+		{ headerText: 'Nome', key: 'candidato.user.name' },
 
-		{ headerText: 'Experiência', key: 'candidato.sexo' },
-		{ headerText: 'Idade', key: 'candidato.cpf' },
-		{ headerText: 'Gênero', key: 'candidato_id' },
+		{ headerText: 'Experiência', key: 'candidato.experiencia' },
+		{ headerText: 'Idade', key: 'candidato.idade' },
+		{ headerText: 'Sexo', key: 'candidato.sexo' },
 	];
 	useEffect(() => {
 		dispatch(
@@ -432,6 +439,25 @@ const ListaVagas = () => {
 			)
 		);
 	}, [page, debouncedLike, filters.order, filters.mostrar, filters.status]);
+
+	useEffect(() => {
+		dispatch(
+			getTriagemAction(
+				token,
+				triagemId,
+				pageTriagem,
+				filters.idade,
+				filters.experiencia,
+				filters.sexo
+			)
+		);
+	}, [
+		triagemId,
+		pageTriagem,
+		filters.idade,
+		filters.experiencia,
+		filters.sexo,
+	]);
 
 	useEffect(() => {
 		dispatch(getStatsAction(token));
@@ -608,7 +634,7 @@ const ListaVagas = () => {
 
 	const handleTriagem = async (row) => {
 		setLoading(true);
-		const resTriagem = await dispatch(getVagaShowAction(token, row.row.id));
+		const resTriagem = await dispatch(getTriagemAction(token, row.row.id));
 		if (resTriagem) {
 			toast.error('Falha ao carregar vaga');
 			setLoading(false);
@@ -617,6 +643,9 @@ const ListaVagas = () => {
 			setTriagemModal(true);
 			setLoading(false);
 		}
+		setTriagemId(row.row.id);
+		setTriagemModal(true);
+		setLoading(false);
 	};
 
 	const handleEnviarTriagem = async () => {
@@ -1375,6 +1404,168 @@ const ListaVagas = () => {
 							</Typography>
 							<Box
 								style={{
+									width: '100%',
+									backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+									marginTop: '30px',
+								}}
+							>
+								<Box
+									display="flex"
+									alignContent="center"
+									alignItems="center"
+									style={{ margin: 30 }}
+								>
+									<Box
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+										}}
+									>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Bold',
+												fontSize: 14,
+												color: APP_CONFIG.mainCollors.black,
+											}}
+										>
+											Experiência
+										</Typography>
+										<TextField
+											type="number"
+											placeholder="Digite aqui..."
+											variant="filled"
+											InputProps={{ disableUnderline: true }}
+											style={{
+												backgroundColor:
+													APP_CONFIG.mainCollors.backgrounds,
+												width: '100px',
+											}}
+											onChange={(e) => {
+												setFilters({
+													...filters,
+													experiencia: e.target.value,
+												});
+											}}
+										/>
+									</Box>
+									<Box
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+											marginLeft: '10px',
+										}}
+									>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Bold',
+												fontSize: 14,
+												color: APP_CONFIG.mainCollors.black,
+											}}
+										>
+											Idade
+										</Typography>
+										<TextField
+											type="number"
+											placeholder="Digite aqui..."
+											variant="filled"
+											InputProps={{ disableUnderline: true }}
+											style={{
+												backgroundColor:
+													APP_CONFIG.mainCollors.backgrounds,
+												width: '100px',
+											}}
+											onChange={(e) => {
+												setFilters({
+													...filters,
+													idade: e.target.value,
+												});
+											}}
+										/>
+									</Box>
+									<Box
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+											marginLeft: '10px',
+										}}
+									>
+										<Typography
+											style={{
+												fontFamily: 'BwGradualDEMO-Bold',
+												fontSize: 14,
+												color: APP_CONFIG.mainCollors.black,
+											}}
+										>
+											Sexo
+										</Typography>
+										<Select
+											style={{
+												color: APP_CONFIG.mainCollors.secondary,
+												width: '140px',
+											}}
+											InputProps={{ disableUnderline: true }}
+											variant="filled"
+											value={filters.sexo}
+											onChange={(e) =>
+												setFilters({
+													...filters,
+													sexo: e.target.value,
+												})
+											}
+										>
+											<MenuItem
+												value={' '}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												<Typography
+													style={{
+														fontFamily: 'BwGradualDEMO-Regular',
+														color: APP_CONFIG.mainCollors.black,
+													}}
+												>
+													Selecione aqui...
+												</Typography>
+											</MenuItem>
+											<MenuItem
+												value={'masculino'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Masculino
+											</MenuItem>
+											<MenuItem
+												value={'feminino'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Feminino
+											</MenuItem>
+											<MenuItem
+												value={'outro'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Outro
+											</MenuItem>
+											<MenuItem
+												value={'nao-informar'}
+												style={{
+													color: APP_CONFIG.mainCollors.secondary,
+												}}
+											>
+												Não quero informar
+											</MenuItem>
+										</Select>
+									</Box>
+								</Box>
+							</Box>
+							<Box
+								style={{
 									marginTop: '30px',
 									marginBottom: '30px',
 									width: '100%',
@@ -1383,7 +1574,7 @@ const ListaVagas = () => {
 								}}
 							>
 								<>
-									{vagaShow?.candidatos ? (
+									{triagem.data && triagem.per_page ? (
 										<>
 											<Box minWidth={!matches ? '500px' : null}>
 												<TableContainer
@@ -1394,7 +1585,7 @@ const ListaVagas = () => {
 												>
 													<CustomTable
 														checkBoxAprovacoes
-														data={vagaShow?.candidatos}
+														data={triagem?.data}
 														columns={columnsCandidatos}
 														Editar={Editar}
 													/>
@@ -1408,16 +1599,18 @@ const ListaVagas = () => {
 													justifyContent: 'space-between',
 												}}
 											>
-												{/* 	<Pagination
+												<Pagination
 													variant="outlined"
 													color="secondary"
 													size="large"
-													count={vagaShow?.candidatos.last_page}
-													onChange={handleChangePage}
+													count={triagem?.last_page}
+													onChange={(e, value) =>
+														setTriagemId(value)
+													}
 													page={page}
 												/>
-												//nao tem last_page */}
-												<Button
+
+												{/* <Button
 													style={{
 														minWidth: '5px',
 														height: '40px',
@@ -1434,7 +1627,7 @@ const ListaVagas = () => {
 															color: 'grey',
 														}}
 													/>
-												</Button>
+												</Button> */}
 											</Box>
 										</>
 									) : (

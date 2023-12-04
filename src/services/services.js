@@ -610,3 +610,15 @@ export const postEnviarTriagem = (token, id, aprovados, reprovados) => {
 		},
 	});
 };
+
+export const getTriagem = (token, id, page, idade, experiencia, sexo) => {
+	const url = `${process.env.REACT_APP_API_URL}/vaga_triagem/${id}?page${page}&idade=${idade}&experiencia=${experiencia}&sexo=${sexo}&page${page}`;
+
+	return axios({
+		method: 'get',
+		url,
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};

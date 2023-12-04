@@ -15,6 +15,7 @@ import {
 	GET_GRUPO_ATUANTE,
 	GET_ESPECIALIDADE,
 	GET_VAGA_SHOW,
+	GET_TRIAGEM,
 } from '../constants/actionsStrings';
 import { applyMiddleware, compose, createStore } from 'redux';
 
@@ -39,6 +40,7 @@ const INITIAL_STATE = {
 	conselhoRegulador: {},
 	grupoAtuante: {},
 	especialidade: {},
+	triagem: {},
 };
 
 const enhancer = compose(applyMiddleware(thunk));
@@ -91,6 +93,9 @@ const state = (state = INITIAL_STATE, action) => {
 
 		case GET_ESPECIALIDADE:
 			return { ...state, especialidade: action.payload };
+
+		case GET_TRIAGEM:
+			return { ...state, triagem: action.payload };
 
 		default:
 			return { ...state };
