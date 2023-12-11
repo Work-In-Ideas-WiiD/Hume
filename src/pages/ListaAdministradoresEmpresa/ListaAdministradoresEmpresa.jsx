@@ -127,6 +127,10 @@ const ListaAdministradoresEmpresa = () => {
 	const admEmpresa = useSelector((state) => state.admEmpresa);
 	const empresas = useSelector((state) => state.empresas);
 	const [administrador_id, setAdministrador_id] = useState('');
+	const [empresasModalId, setEmpresasModalId] = useState({
+		modal: false,
+		id: '',
+	});
 	const [cadastroAdm, setCadastroAdm] = useState({
 		name: '',
 		email: '',
@@ -329,10 +333,21 @@ const ListaAdministradoresEmpresa = () => {
 			setAnchorEl(null);
 		};
 
-		const handleVincular = (row) => {
-			setEmpresasModal(true);
+		/* const handleVincular = (row) => {
 			setAdministrador_id(row.row.empresa_administrador.id);
+			setEmpresasModal(true);
+		}; */
+		const handleVincular = (row) => {
+			setEmpresasModalId({
+				...empresasModalId,
+				modal: true,
+				id: row.row.empresa_administrador.id,
+			});
 		};
+
+		useEffect(() => {
+			console.log(empresasModalId.id);
+		}, [empresasModalId.id]);
 
 		return (
 			<Box>
@@ -359,91 +374,95 @@ const ListaAdministradoresEmpresa = () => {
 						Vincular a uma empresa
 					</MenuItem>
 				</Menu>
-				<Dialog
-					open={empresasModal}
-					onClose={() => {
-						{
-							setEmpresasModal(false);
+				{empresasModalId.modal && (
+					<Dialog
+						open={empresasModalId.modal}
+						onClose={() =>
+							setEmpresasModalId({
+								...empresasModalId,
+								modal: false,
+								id: '',
+							})
 						}
-					}}
-					style={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						overflowY: 'scroll',
-					}}
-					maxWidth="800px"
-					fullWidth
-				>
-					<Box
 						style={{
-							padding: '30px',
-							backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							overflowY: 'scroll',
 						}}
+						maxWidth="800px"
+						fullWidth
 					>
-						<LoadingScreen isLoading={loading} />
 						<Box
 							style={{
-								width: '100%',
+								padding: '30px',
 								backgroundColor: APP_CONFIG.mainCollors.backgrounds,
 							}}
 						>
+							<LoadingScreen isLoading={loading} />
 							<Box
-								display="flex"
-								justifyContent="space-between"
-								alignContent="center"
-								alignItems="center"
-								style={{ margin: 30 }}
+								style={{
+									width: '100%',
+									backgroundColor: APP_CONFIG.mainCollors.backgrounds,
+								}}
 							>
-								<TextField
-									placeholder="Pesquisar por nome, documento, email..."
-									variant="filled"
-									InputProps={{ disableUnderline: true }}
-									style={{
-										backgroundColor:
-											APP_CONFIG.mainCollors.backgrounds,
-										width: '400px',
-									}}
-									onChange={(e) => {
-										setPageEmpresa(1);
-										setFiltersEmpresa({
-											...filters,
-											like: e.target.value,
-										});
-									}}
-								/>
-							</Box>
-						</Box>
-						<Box className={classes.tableContainer}>
-							{empresas.data && empresas.per_page ? (
-								<CustomTable
-									columns={columnsEmpresas}
-									data={empresas.data}
-									Editar={Editar}
-								/>
-							) : (
-								<Box>
-									<LinearProgress color="secondary" />
+								<Box
+									display="flex"
+									justifyContent="space-between"
+									alignContent="center"
+									alignItems="center"
+									style={{ margin: 30 }}
+								>
+									<TextField
+										placeholder="Pesquisar por nome, documento, email..."
+										variant="filled"
+										InputProps={{ disableUnderline: true }}
+										style={{
+											backgroundColor:
+												APP_CONFIG.mainCollors.backgrounds,
+											width: '400px',
+										}}
+										onChange={(e) => {
+											setPageEmpresa(1);
+											setFiltersEmpresa({
+												...filters,
+												like: e.target.value,
+											});
+										}}
+									/>
 								</Box>
-							)}
-							<Box
-								display="flex"
-								alignSelf="flex-end"
-								marginTop="8px"
-								justifyContent="space-between"
-							>
-								<Pagination
-									variant="outlined"
-									color="primary"
-									size="large"
-									count={empresas.last_page}
-									onChange={handleChangePage}
-									page={page}
-								/>
+							</Box>
+							<Box className={classes.tableContainer}>
+								{empresas.data && empresas.per_page ? (
+									<CustomTable
+										columns={columnsEmpresas}
+										data={empresas.data}
+										Editar={Editar}
+									/>
+								) : (
+									<Box>
+										<LinearProgress color="secondary" />
+									</Box>
+								)}
+								<Box
+									display="flex"
+									alignSelf="flex-end"
+									marginTop="8px"
+									justifyContent="space-between"
+								>
+									<Pagination
+										variant="outlined"
+										color="primary"
+										size="large"
+										count={empresas.last_page}
+										onChange={handleChangePage}
+										page={page}
+									/>
+								</Box>
 							</Box>
 						</Box>
-					</Box>
-				</Dialog>
+					</Dialog>
+				)}
 			</Box>
 		);
 	};

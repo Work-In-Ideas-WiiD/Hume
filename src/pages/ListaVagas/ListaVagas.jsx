@@ -690,6 +690,8 @@ const ListaVagas = () => {
 			if (resIniciarSelecao) {
 				toast.error('Falha ao iniciar seleção');
 				setLoading(false);
+			} else {
+				toast.success('Seleção iniciada com sucesso!');
 				await dispatch(
 					getVagasAction(
 						token,
@@ -700,8 +702,6 @@ const ListaVagas = () => {
 						'publish'
 					)
 				);
-			} else {
-				toast.success('Seleção iniciada com sucesso!');
 				setLoading(false);
 			}
 		};

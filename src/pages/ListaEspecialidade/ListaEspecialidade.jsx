@@ -155,7 +155,6 @@ const ListaEspecialidade = () => {
 			},
 		},
 		{ headerText: 'Nome', key: 'nome' },
-		{ headerText: 'ID', key: 'id' },
 		{ headerText: '', key: 'menu' },
 	];
 

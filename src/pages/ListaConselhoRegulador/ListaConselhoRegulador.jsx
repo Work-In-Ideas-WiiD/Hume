@@ -151,7 +151,6 @@ const ListaConselhoRegulador = () => {
 			},
 		},
 		{ headerText: 'Nome', key: 'nome' },
-		{ headerText: 'ID', key: 'id' },
 		{ headerText: '', key: 'menu' },
 	];
 
