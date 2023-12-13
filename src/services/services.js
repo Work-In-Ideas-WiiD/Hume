@@ -247,8 +247,17 @@ export const postAdministradorEmpresa = (
 	});
 };
 
-export const getVagas = (token, page, like, order, mostrar, status) => {
-	const url = `${process.env.REACT_APP_API_URL}/vaga?like=${like}&page=${page}&order=${order}&mostrar=${mostrar}&status${status}`;
+export const getVagas = (
+	token,
+	page,
+	like,
+	status,
+	experiencia,
+	modalidade,
+	categoria_id,
+	empresa_id
+) => {
+	const url = `${process.env.REACT_APP_API_URL}/vaga?page=${page}&status=${status}&like=${like}&experiencia=${experiencia}&modalidade=${modalidade}&categoria_id=${categoria_id}&empresa_id=${empresa_id}`;
 
 	return axios({
 		method: 'get',

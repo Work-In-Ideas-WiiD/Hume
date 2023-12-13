@@ -433,9 +433,11 @@ const ListaVagas = () => {
 				token,
 				page,
 				debouncedLike,
-				filters.order,
-				filters.mostrar,
-				'publish'
+				filters.status,
+				filters.experiencia,
+				filters.modalidade,
+				filters.categoria_id,
+				filters.empresa_id
 			)
 		);
 	}, [page, debouncedLike, filters.order, filters.mostrar, filters.status]);

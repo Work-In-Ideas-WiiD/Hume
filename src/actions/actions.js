@@ -389,9 +389,28 @@ export const postAdministradorEmpresaAction =
 	};
 
 export const getVagasAction =
-	(token, page, like, order, mostrar, status) => async (dispatch) => {
+	(
+		token,
+		page = '',
+		like = '',
+		status = '',
+		experiencia = '',
+		modalidade = '',
+		categoria_id = '',
+		empresa_id = ''
+	) =>
+	async (dispatch) => {
 		try {
-			const res = await getVagas(token, page, like, order, mostrar, status);
+			const res = await getVagas(
+				token,
+				page,
+				like,
+				status,
+				experiencia,
+				modalidade,
+				categoria_id,
+				empresa_id
+			);
 			dispatch({
 				type: GET_VAGAS,
 				payload: res.data,
@@ -434,7 +453,8 @@ export const getEmpresasAction =
 	};
 
 export const getCategoriaAction =
-	(token, page, like, order, mostrar, status) => async (dispatch) => {
+	(token, page = '', like = '', order = '', mostrar = '', status = '') =>
+	async (dispatch) => {
 		try {
 			const res = await getCategoria(
 				token,
